@@ -14,6 +14,7 @@ from src.download_ine import download_ine_from_manifest, read_ine_microdata
 from src.embeddings import EmbeddingCache, OllamaEmbeddingClient, embed_texts
 from src.ine_metadata import build_occupation_table, parse_occupation_mapping_from_excel
 from src.model import predict_occupation_exposure, train_exposure_model
+from src.translation import OllamaTranslationClient, TranslationCache, translate_texts_to_english
 from src.utils import clean_occupation_title, file_sha256
 
 
@@ -22,6 +23,7 @@ def parse_args() -> argparse.Namespace:
         description="Build Spanish industry-quarter AI exposure from Anthropic exposure data and INE EPA microdata."
     )
     parser.add_argument("--embedding-model", default=None, help="Ollama embedding model name.")
+    parser.add_argument("--translation-model", default=None, help="Ollama model used to translate Spanish occupation titles to English.")
     parser.add_argument("--ollama-host", default=None, help="Ollama host URL.")
     parser.add_argument("--ine-manifest", type=Path, default=None, help="CSV manifest with quarter,microdata_url,metadata_url.")
     parser.add_argument("--metadata-xlsx", type=Path, default=None, help="INE record/value metadata workbook for OCUP1 labels.")
@@ -37,6 +39,7 @@ def _config_from_args(args: argparse.Namespace) -> PipelineConfig:
     return PipelineConfig(
         ollama_host=args.ollama_host or base.ollama_host,
         embedding_model=args.embedding_model or base.embedding_model,
+        translation_model=args.translation_model or base.translation_model,
     )
 
 
@@ -101,8 +104,22 @@ def main() -> None:
         mapping = parse_occupation_mapping_from_excel(metadata_path)
 
     occupations = build_occupation_table(ine, mapping, allow_code_labels=args.allow_code_labels)
-    occupations["embedding_text"] = occupations["occupation_title"].map(clean_occupation_title)
-    print(f"Embedding {occupations['embedding_text'].nunique()} Spanish occupation titles...")
+    occupations["occupation_title_clean"] = occupations["occupation_title"].map(clean_occupation_title)
+    translation_cache = TranslationCache(config.cache_dir / "translations.sqlite")
+    translation_client = OllamaTranslationClient(config.ollama_host, config.translation_model)
+    print(
+        f"Translating {occupations['occupation_title_clean'].nunique()} Spanish occupation titles "
+        f"to English with {config.translation_model}..."
+    )
+    translations = translate_texts_to_english(
+        occupations["occupation_title_clean"].dropna().unique(),
+        translation_cache,
+        translation_client,
+        progress=lambda idx, source, target: print(f"  translated Spain #{idx}: {source} -> {target}"),
+    )
+    occupations["occupation_title_en"] = occupations["occupation_title_clean"].map(translations)
+    occupations["embedding_text"] = occupations["occupation_title_en"].map(clean_occupation_title)
+    print(f"Embedding {occupations['embedding_text'].nunique()} translated Spanish occupation titles...")
     spanish_embeddings = embed_texts(
         occupations["embedding_text"].dropna().unique(),
         cache,
@@ -114,8 +131,8 @@ def main() -> None:
     panel = aggregate_industry_quarter_exposure(ine, predictions)
 
     conn = connect(config.db_path)
-    upsert_occupation_exposure(conn, predictions, config.embedding_model, model_sha)
-    upsert_industry_quarter_exposure(conn, panel, config.embedding_model, model_sha)
+    upsert_occupation_exposure(conn, predictions, config.embedding_model, config.translation_model, model_sha)
+    upsert_industry_quarter_exposure(conn, panel, config.embedding_model, config.translation_model, model_sha)
 
     occupation_out = config.processed_dir / "spanish_occupation_exposure.csv"
     panel_out = config.processed_dir / "spanish_industry_quarter_exposure.csv"
@@ -124,6 +141,7 @@ def main() -> None:
 
     run_meta = {
         "embedding_model": config.embedding_model,
+        "translation_model": config.translation_model,
         "ollama_host": config.ollama_host,
         "model_path": str(model_path),
         "model_sha256": model_sha,

@@ -2,7 +2,7 @@
 
 This project builds a Spanish labor-market version of Anthropic's occupation AI exposure analysis.
 
-It downloads Anthropic's `job_exposure.csv`, embeds Anthropic occupation titles with a local Ollama embedding model, trains a Random Forest model to predict `observed_exposure`, embeds Spanish occupation labels from INE EPA metadata, predicts Spanish occupation exposure, stores occupation-level predictions in SQLite, and aggregates them to industry-quarter exposure using EPA occupation frequencies within each `ACT1` industry cell.
+It downloads Anthropic's `job_exposure.csv`, embeds Anthropic occupation titles with a local Ollama embedding model, trains a Random Forest model to predict `observed_exposure`, translates Spanish occupation labels from INE EPA metadata into English, embeds the English translations, predicts Spanish occupation exposure, stores occupation-level predictions in SQLite, and aggregates them to industry-quarter exposure using EPA occupation frequencies within each `ACT1` industry cell.
 
 ## Data Sources
 
@@ -24,11 +24,12 @@ Raw INE microdata, embedding cache, model files, and generated outputs are exclu
 4. Train a `RandomForestRegressor` with `observed_exposure` as the target and embedding dimensions as predictors.
 5. Download INE EPA microdata from a local manifest.
 6. Parse Spanish `OCUP1` occupation labels from INE metadata.
-7. Clean Spanish occupation labels before embedding. This removes non-semantic annotations such as `(codigos CNO-2011)` or `(códigos CNO-2011)`.
-8. Embed Spanish occupation titles with the same Ollama model.
-9. Predict `observed_exposure` for each Spanish occupation.
-10. Store predictions in SQLite.
-11. Aggregate to `ACT1` industry by quarter:
+7. Clean Spanish occupation labels before translation. This removes non-semantic annotations such as `(codigos CNO-2011)` or `(códigos CNO-2011)`.
+8. Translate cleaned Spanish occupation labels to English using an Ollama text-generation model.
+9. Embed the English translations with the same Ollama embedding model used for Anthropic titles.
+10. Predict `observed_exposure` for each Spanish occupation.
+11. Store predictions in SQLite.
+12. Aggregate to `ACT1` industry by quarter:
 
 ```text
 observed_exposure_cnae =
@@ -53,6 +54,8 @@ ollama pull nomic-embed-text
 ```
 
 The default embedding model is `nomic-embed-text`. Override it with `--embedding-model` or `OLLAMA_EMBED_MODEL`.
+
+The default translation model is `gpt-oss:120b-cloud`. Override it with `--translation-model` or `OLLAMA_TRANSLATION_MODEL`.
 
 ## INE Manifest
 
@@ -94,6 +97,7 @@ Full run:
 ```powershell
 py -3 main.py `
   --embedding-model nomic-embed-text `
+  --translation-model gpt-oss:120b-cloud `
   --ine-manifest ine_manifest.csv `
   --metadata-xlsx path\to\diseno_registro_y_valores_validos.xlsx
 ```
@@ -103,6 +107,7 @@ Useful options:
 - `--refresh`: re-download source files
 - `--max-quarters 1`: process only first manifest row for a quick check
 - `--ollama-host http://127.0.0.1:11434`: override Ollama host
+- `--translation-model gpt-oss:120b-cloud`: override the Ollama model used for Spanish-to-English translation
 - `--allow-code-labels`: allow fallback labels like `OCUP1 1` if metadata labels are missing. This is not recommended for final analysis.
 
 ## Outputs
@@ -111,6 +116,7 @@ Generated files:
 
 ```text
 data/cache/embeddings.sqlite
+data/cache/translations.sqlite
 models/random_forest_<embedding-model>.joblib
 models/random_forest_<embedding-model>_metrics.json
 data/processed/spanish_ai_exposure.sqlite
@@ -125,7 +131,9 @@ SQLite tables:
 
 - `ocup1`: Spanish occupation code from `OCUP1`
 - `occupation_title`: cleaned Spanish occupation label
+- `occupation_title_en`: English translation used for embedding
 - `embedding_model`: Ollama embedding model
+- `translation_model`: Ollama translation model
 - `model_sha256`: hash of trained Random Forest artifact
 - `observed_exposure`: predicted occupation exposure
 - `generated_at`: write timestamp
@@ -140,19 +148,22 @@ SQLite tables:
 - `coverage_share`: `covered_weight / total_weight`
 - `occupation_count`: distinct `OCUP1` count in cell
 - `embedding_model`: Ollama embedding model
+- `translation_model`: Ollama translation model
 - `model_sha256`: hash of trained Random Forest artifact
 - `generated_at`: write timestamp
 
-## Embedding Cache
+## Translation And Embedding Cache
 
 The cache is SQLite-backed at `data/cache/embeddings.sqlite`.
+
+Translations are SQLite-backed at `data/cache/translations.sqlite`.
 
 Cache keys include:
 
 - embedding model name
 - cleaned/normalized text
 
-Spanish labels are cleaned before cache lookup and embedding. Parentheticals containing terms such as `codigo`, `códigos`, `CNO`, or `CNAE` are removed. Example:
+Spanish labels are cleaned before translation, cache lookup, and embedding. Parentheticals containing terms such as `codigo`, `códigos`, `CNO`, or `CNAE` are removed. Example:
 
 ```text
 Directores comerciales (códigos CNO-2011)
@@ -164,7 +175,7 @@ becomes:
 Directores comerciales
 ```
 
-Changing the Ollama model creates separate cache entries.
+becomes an English translation before embedding. Changing the Ollama embedding or translation model creates separate cache entries.
 
 ## Tests
 
@@ -183,6 +194,7 @@ The tests use fixtures/mocks and do not require network or Ollama.
 - INE file formats and metadata workbooks can vary by period; update the manifest/parser if INE changes file layout.
 - The Random Forest baseline is predictive, not causal.
 - Final results depend on the chosen embedding model.
+- Final results also depend on the chosen translation model and its translation choices.
 
 ## Repository Hygiene
 

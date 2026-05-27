@@ -48,3 +48,22 @@ class ModelTests(TestCase):
         pred = predict_occupation_exposure(occupations, embeddings, model)
         self.assertEqual(len(pred), 1)
         self.assertTrue(np.isfinite(pred.loc[0, "observed_exposure"]))
+
+    def test_prediction_uses_embedding_text_when_present(self):
+        class DummyModel:
+            def predict(self, x):
+                return np.array([0.5])
+
+        occupations = pd.DataFrame(
+            {
+                "OCUP1": ["1"],
+                "occupation_title": ["Directores y gerentes"],
+                "embedding_text": ["Managers and executives"],
+            }
+        )
+        pred = predict_occupation_exposure(
+            occupations,
+            {"Managers and executives": [1.0, 2.0]},
+            DummyModel(),
+        )
+        self.assertAlmostEqual(pred.loc[0, "observed_exposure"], 0.5)

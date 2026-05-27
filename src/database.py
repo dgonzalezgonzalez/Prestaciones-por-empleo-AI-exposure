@@ -10,7 +10,9 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS occupation_exposure (
     ocup1 TEXT NOT NULL,
     occupation_title TEXT NOT NULL,
+    occupation_title_en TEXT,
     embedding_model TEXT NOT NULL,
+    translation_model TEXT,
     model_sha256 TEXT NOT NULL,
     observed_exposure REAL NOT NULL,
     generated_at TEXT DEFAULT CURRENT_TIMESTAMP,
@@ -26,6 +28,7 @@ CREATE TABLE IF NOT EXISTS industry_quarter_exposure (
     coverage_share REAL NOT NULL,
     occupation_count INTEGER NOT NULL,
     embedding_model TEXT NOT NULL,
+    translation_model TEXT,
     model_sha256 TEXT NOT NULL,
     generated_at TEXT DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (cnae, quarter, embedding_model, model_sha256)
@@ -37,6 +40,14 @@ def connect(db_path: Path) -> sqlite3.Connection:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.executescript(SCHEMA)
+    columns = {row[1] for row in conn.execute("PRAGMA table_info(occupation_exposure)").fetchall()}
+    if "occupation_title_en" not in columns:
+        conn.execute("ALTER TABLE occupation_exposure ADD COLUMN occupation_title_en TEXT")
+    if "translation_model" not in columns:
+        conn.execute("ALTER TABLE occupation_exposure ADD COLUMN translation_model TEXT")
+    panel_columns = {row[1] for row in conn.execute("PRAGMA table_info(industry_quarter_exposure)").fetchall()}
+    if "translation_model" not in panel_columns:
+        conn.execute("ALTER TABLE industry_quarter_exposure ADD COLUMN translation_model TEXT")
     conn.commit()
     return conn
 
@@ -45,13 +56,16 @@ def upsert_occupation_exposure(
     conn: sqlite3.Connection,
     predictions: pd.DataFrame,
     embedding_model: str,
+    translation_model: str,
     model_sha256: str,
 ) -> None:
     rows = [
         (
             str(row["OCUP1"]),
             str(row["occupation_title"]),
+            str(row.get("occupation_title_en", "")),
             embedding_model,
+            translation_model,
             model_sha256,
             float(row["observed_exposure"]),
         )
@@ -60,8 +74,8 @@ def upsert_occupation_exposure(
     conn.executemany(
         """
         INSERT OR REPLACE INTO occupation_exposure
-        (ocup1, occupation_title, embedding_model, model_sha256, observed_exposure)
-        VALUES (?, ?, ?, ?, ?)
+        (ocup1, occupation_title, occupation_title_en, embedding_model, translation_model, model_sha256, observed_exposure)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         """,
         rows,
     )
@@ -72,6 +86,7 @@ def upsert_industry_quarter_exposure(
     conn: sqlite3.Connection,
     panel: pd.DataFrame,
     embedding_model: str,
+    translation_model: str,
     model_sha256: str,
 ) -> None:
     rows = [
@@ -84,6 +99,7 @@ def upsert_industry_quarter_exposure(
             float(row["coverage_share"]),
             int(row["occupation_count"]),
             embedding_model,
+            translation_model,
             model_sha256,
         )
         for _, row in panel.iterrows()
@@ -92,8 +108,8 @@ def upsert_industry_quarter_exposure(
         """
         INSERT OR REPLACE INTO industry_quarter_exposure
         (cnae, quarter, observed_exposure_cnae, total_weight, covered_weight,
-         coverage_share, occupation_count, embedding_model, model_sha256)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+         coverage_share, occupation_count, embedding_model, translation_model, model_sha256)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         rows,
     )

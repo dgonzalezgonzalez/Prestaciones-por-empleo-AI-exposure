@@ -90,7 +90,8 @@ def predict_occupation_exposure(
     vectors = []
     rows = []
     for _, row in occupation_df.iterrows():
-        title = clean_occupation_title(row["occupation_title"])
+        title_source = row["embedding_text"] if "embedding_text" in occupation_df.columns else row["occupation_title"]
+        title = clean_occupation_title(title_source)
         vector = embedding_lookup.get(title)
         if vector is None:
             raise ValueError(f"Missing embedding for Spanish occupation title: {title}")
