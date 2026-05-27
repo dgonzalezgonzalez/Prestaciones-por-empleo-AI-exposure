@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.tmp_tests/
+test_artifacts/
+
+data/raw/
+data/interim/
+data/processed/
+data/cache/
+models/
+*.sqlite
+*.sqlite3
+*.db
+
+!.gitkeep
