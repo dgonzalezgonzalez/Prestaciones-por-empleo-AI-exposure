@@ -55,7 +55,7 @@ ollama pull nomic-embed-text
 
 The default embedding model is `nomic-embed-text`. Override it with `--embedding-model` or `OLLAMA_EMBED_MODEL`.
 
-The default translation model is `gpt-oss:120b-cloud`. Override it with `--translation-model` or `OLLAMA_TRANSLATION_MODEL`.
+The default translation provider is `auto`. It uses DeepL if `DEEPL_API_KEY` is set, Google Cloud if `GOOGLE_TRANSLATE_API_KEY` is set, and otherwise falls back to the no-key Google Translate web endpoint. Ollama translation remains available only when explicitly requested with `--translation-provider ollama`.
 
 ## INE Manifest
 
@@ -97,7 +97,7 @@ Full run:
 ```powershell
 py -3 main.py `
   --embedding-model nomic-embed-text `
-  --translation-model gpt-oss:120b-cloud `
+  --translation-provider auto `
   --ine-manifest ine_manifest.csv `
   --metadata-xlsx path\to\diseno_registro_y_valores_validos.xlsx
 ```
@@ -107,7 +107,10 @@ Useful options:
 - `--refresh`: re-download source files
 - `--max-quarters 1`: process only first manifest row for a quick check
 - `--ollama-host http://127.0.0.1:11434`: override Ollama host
-- `--translation-model gpt-oss:120b-cloud`: override the Ollama model used for Spanish-to-English translation
+- `--translation-provider deepl`: use DeepL API; requires `DEEPL_API_KEY`
+- `--translation-provider google_cloud`: use official Google Cloud Translation; requires `GOOGLE_TRANSLATE_API_KEY`
+- `--translation-provider google_unofficial`: use the no-key Google Translate web endpoint
+- `--translation-provider ollama --translation-model gpt-oss:120b-cloud`: use the previous local LLM translator fallback
 - `--allow-code-labels`: allow fallback labels like `OCUP1 1` if metadata labels are missing. This is not recommended for final analysis.
 
 ## Outputs
@@ -133,7 +136,7 @@ SQLite tables:
 - `occupation_title`: cleaned Spanish occupation label
 - `occupation_title_en`: English translation used for embedding
 - `embedding_model`: Ollama embedding model
-- `translation_model`: Ollama translation model
+- `translation_model`: translation provider identifier
 - `model_sha256`: hash of trained Random Forest artifact
 - `observed_exposure`: predicted occupation exposure
 - `generated_at`: write timestamp
@@ -148,7 +151,7 @@ SQLite tables:
 - `coverage_share`: `covered_weight / total_weight`
 - `occupation_count`: distinct `OCUP1` count in cell
 - `embedding_model`: Ollama embedding model
-- `translation_model`: Ollama translation model
+- `translation_model`: translation provider identifier
 - `model_sha256`: hash of trained Random Forest artifact
 - `generated_at`: write timestamp
 
@@ -175,7 +178,7 @@ becomes:
 Directores comerciales
 ```
 
-becomes an English translation before embedding. Changing the Ollama embedding or translation model creates separate cache entries.
+becomes an English translation before embedding. Changing the embedding model or translation provider creates separate cache entries.
 
 ## Tests
 
@@ -194,7 +197,7 @@ The tests use fixtures/mocks and do not require network or Ollama.
 - INE file formats and metadata workbooks can vary by period; update the manifest/parser if INE changes file layout.
 - The Random Forest baseline is predictive, not causal.
 - Final results depend on the chosen embedding model.
-- Final results also depend on the chosen translation model and its translation choices.
+- Final results also depend on the chosen machine-translation provider and its translation choices.
 
 ## Repository Hygiene
 

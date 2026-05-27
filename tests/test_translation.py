@@ -2,7 +2,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import Mock
 
-from src.translation import TranslationCache, translate_texts_to_english
+from src.translation import TranslationCache, TranslationClient, translate_texts_to_english
 
 
 class TranslationTests(TestCase):
@@ -16,8 +16,8 @@ class TranslationTests(TestCase):
 
     def test_translation_cache_reuses_cleaned_source_text(self):
         cache = TranslationCache(self._tmp_path("translations.sqlite"))
-        client = Mock()
-        client.model = "translation-model"
+        client = Mock(spec=TranslationClient)
+        client.provider_id = "translation-provider"
         client.translate_to_english.return_value = "Managers and executives"
 
         first = translate_texts_to_english(["Directores y gerentes (códigos CNO-2011)"], cache, client)

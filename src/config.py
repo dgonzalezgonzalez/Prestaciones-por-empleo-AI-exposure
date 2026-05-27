@@ -20,7 +20,8 @@ class PipelineConfig:
     db_path: Path = PROJECT_ROOT / "data" / "processed" / "spanish_ai_exposure.sqlite"
     ollama_host: str = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
     embedding_model: str = os.environ.get("OLLAMA_EMBED_MODEL", "nomic-embed-text")
-    translation_model: str = os.environ.get("OLLAMA_TRANSLATION_MODEL", "gpt-oss:120b-cloud")
+    translation_provider: str = os.environ.get("TRANSLATION_PROVIDER", "auto")
+    translation_model: str = os.environ.get("OLLAMA_TRANSLATION_MODEL", "")
     random_seed: int = int(os.environ.get("AI_EXPOSURE_RANDOM_SEED", "20260527"))
     n_estimators: int = int(os.environ.get("AI_EXPOSURE_RF_TREES", "500"))
 
