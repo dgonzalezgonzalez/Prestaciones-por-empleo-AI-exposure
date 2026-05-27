@@ -7,11 +7,15 @@ test_artifacts/
 
 data/raw/
 data/interim/
-data/processed/
 data/cache/
 models/
 *.sqlite
 *.sqlite3
 *.db
+!data/processed/
+!data/processed/**
+!data/processed/*.sqlite
+!data/processed/*.sqlite3
+!data/processed/*.db
 
 !.gitkeep
