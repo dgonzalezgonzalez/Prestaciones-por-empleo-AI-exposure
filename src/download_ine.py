@@ -180,6 +180,9 @@ def read_ine_microdata(
     source_spec: IneSourceSpec = EPA_SOURCE,
 ) -> pd.DataFrame:
     tabular = find_first_tabular_file(path)
+    if source_spec.source == "census":
+        return _read_census_microdata(tabular, period, source_spec)
+
     read_kwargs = {"dtype": "string", "encoding_errors": "replace"}
     try:
         df = pd.read_csv(tabular, sep=None, engine="python", **read_kwargs)
@@ -224,6 +227,48 @@ def read_ine_microdata(
     if weight_column:
         keep_columns.append(weight_column)
     return df[keep_columns].copy()
+
+
+def _read_census_microdata(tabular: Path, period: str, source_spec: IneSourceSpec) -> pd.DataFrame:
+    occupation_column = source_spec.occupation_column
+    industry_column = source_spec.industry_column
+    df = None
+    for sep in ["\t", ";", ","]:
+        try:
+            df = pd.read_csv(
+                tabular,
+                sep=sep,
+                dtype="string",
+                encoding_errors="replace",
+                usecols=[occupation_column, industry_column],
+            )
+            df.columns = [str(col).strip().upper().strip('"') for col in df.columns]
+            break
+        except Exception:
+            continue
+    if df is None:
+        df = pd.read_fwf(
+            tabular,
+            colspecs=[(101, 103), (103, 105)],
+            names=[occupation_column, industry_column],
+            dtype="string",
+            encoding_errors="replace",
+        )
+
+    for col in [occupation_column, industry_column]:
+        df[col] = df[col].astype("string").str.strip()
+    keep = (
+        df[occupation_column].notna()
+        & df[industry_column].notna()
+        & df[occupation_column].str.fullmatch(source_spec.valid_code_pattern)
+        & df[industry_column].str.fullmatch(source_spec.valid_code_pattern)
+    )
+    df = df[keep].copy()
+    df["period"] = period
+    df["quarter"] = period
+    df["OCUP1"] = df[occupation_column]
+    df["ACT1"] = df[industry_column]
+    return df[["period", "quarter", "OCUP1", "ACT1"]].copy()
 
 
 def detect_weight_column(df: pd.DataFrame) -> str | None:

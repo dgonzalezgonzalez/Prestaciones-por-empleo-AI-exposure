@@ -48,11 +48,15 @@ def parse_args() -> argparse.Namespace:
 
 def _config_from_args(args: argparse.Namespace) -> PipelineConfig:
     base = PipelineConfig()
+    db_path = base.db_path
+    if args.source != "epa":
+        db_path = base.processed_dir / f"spanish_{args.source}_ai_exposure.sqlite"
     return PipelineConfig(
         ollama_host=args.ollama_host or base.ollama_host,
         embedding_model=args.embedding_model or base.embedding_model,
         translation_provider=args.translation_provider or base.translation_provider,
         translation_model=args.translation_model or base.translation_model,
+        db_path=db_path,
     )
 
 

@@ -143,6 +143,7 @@ data/cache/translations.sqlite
 models/random_forest_<embedding-model>.joblib
 models/random_forest_<embedding-model>_metrics.json
 data/processed/spanish_ai_exposure.sqlite
+data/processed/spanish_census_ai_exposure.sqlite
 data/processed/spanish_occupation_exposure.csv
 data/processed/spanish_industry_quarter_exposure.csv
 data/processed/spanish_census_occupation_exposure.csv

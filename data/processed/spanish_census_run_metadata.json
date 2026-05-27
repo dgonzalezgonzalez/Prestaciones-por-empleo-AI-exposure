@@ -1,0 +1,13 @@
+{
+  "embedding_model": "nomic-embed-text",
+  "source": "census",
+  "occupation_column": "OCU63",
+  "industry_column": "ACT89",
+  "translation_provider": "google_unofficial",
+  "ollama_host": "http://127.0.0.1:11434",
+  "model_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\random_forest_nomic-embed-text.joblib",
+  "model_sha256": "33edf6d57992289fcdd6fe310e28d0576450616e8df75514027ff86ce2d374be",
+  "database": "C:\\tmp\\spanish-ai-exposure-census\\data\\processed\\spanish_census_ai_exposure.sqlite",
+  "occupation_output": "C:\\tmp\\spanish-ai-exposure-census\\data\\processed\\spanish_census_occupation_exposure.csv",
+  "industry_quarter_output": "C:\\tmp\\spanish-ai-exposure-census\\data\\processed\\spanish_census_industry_period_exposure.csv"
+}
