@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.download_ine import read_ine_microdata
 from src.ine_metadata import build_occupation_table, parse_occupation_mapping_from_excel
 
 
@@ -56,3 +57,16 @@ class IneMetadataTests(TestCase):
 
         self.assertEqual(out["OCUP1"].tolist(), ["0", "1"])
         self.assertEqual(out.loc[0, "occupation_title"], "Ocupaciones militares. Fuerzas armadas")
+
+    def test_read_ine_microdata_keeps_only_pipeline_columns(self):
+        path = self._tmp_path("microdata.tab")
+        path.write_text(
+            '"OCUP1"\t"ACT1"\t"FACTOREL"\t"EXTRA"\n'
+            '1\t5\t10.5\tignored\n',
+            encoding="utf-8",
+        )
+
+        out = read_ine_microdata(path, "2020Q1")
+
+        self.assertEqual(out.columns.tolist(), ["quarter", "OCUP1", "ACT1", "FACTOREL"])
+        self.assertEqual(out.loc[0, "quarter"], "2020Q1")

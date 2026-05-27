@@ -124,7 +124,11 @@ def read_ine_microdata(path: Path, quarter: str) -> pd.DataFrame:
     for col in ["OCUP1", "ACT1"]:
         df[col] = df[col].astype("string").str.strip()
     df = df[df["OCUP1"].notna() & df["ACT1"].notna() & (df["OCUP1"] != "") & (df["ACT1"] != "")]
-    return df
+    keep_columns = ["quarter", "OCUP1", "ACT1"]
+    weight_column = detect_weight_column(df)
+    if weight_column:
+        keep_columns.append(weight_column)
+    return df[keep_columns].copy()
 
 
 def detect_weight_column(df: pd.DataFrame) -> str | None:

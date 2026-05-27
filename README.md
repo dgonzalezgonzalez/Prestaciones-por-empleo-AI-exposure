@@ -82,7 +82,7 @@ Optional columns:
 
 You can use one metadata workbook for all quarters by passing `--metadata-xlsx`; otherwise the manifest can download metadata files for archival use.
 
-The repository includes `ine_manifest.csv` for the latest available quarter at the time of the first run, `2026Q1`.
+The repository includes `ine_manifest.csv` for all CNO-2011-consistent quarters currently exposed on the INE page, from `2011Q1` through `2026Q1`.
 
 ## Run
 
