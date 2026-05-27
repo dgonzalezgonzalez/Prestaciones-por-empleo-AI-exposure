@@ -1,0 +1,10 @@
+{
+  "embedding_model": "nomic-embed-text",
+  "translation_provider": "google_unofficial",
+  "ollama_host": "http://127.0.0.1:11434",
+  "model_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_nomic-embed-text.joblib",
+  "model_sha256": "33edf6d57992289fcdd6fe310e28d0576450616e8df75514027ff86ce2d374be",
+  "database": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_ai_exposure.sqlite",
+  "occupation_output": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_occupation_exposure.csv",
+  "industry_quarter_output": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_industry_quarter_exposure.csv"
+}
