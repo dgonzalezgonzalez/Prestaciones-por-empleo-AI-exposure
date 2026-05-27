@@ -10,7 +10,7 @@ from src.aggregate import aggregate_industry_quarter_exposure
 from src.config import PipelineConfig
 from src.database import connect, upsert_industry_quarter_exposure, upsert_occupation_exposure
 from src.download_anthropic import download_anthropic_job_exposure, load_anthropic_job_exposure
-from src.download_ine import download_ine_from_manifest, read_ine_microdata
+from src.download_ine import download_ine_from_manifest, get_ine_source_spec, read_ine_microdata
 from src.embeddings import EmbeddingCache, OllamaEmbeddingClient, embed_texts
 from src.ine_metadata import build_occupation_table, parse_occupation_mapping_from_excel
 from src.model import predict_occupation_exposure, train_exposure_model
@@ -20,7 +20,13 @@ from src.utils import clean_occupation_title, file_sha256
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build Spanish industry-quarter AI exposure from Anthropic exposure data and INE EPA microdata."
+        description="Build Spanish industry-period AI exposure from Anthropic exposure data and INE microdata."
+    )
+    parser.add_argument(
+        "--source",
+        default="epa",
+        choices=["epa", "census"],
+        help="INE source to process. EPA uses OCUP1/ACT1; census uses OCU63/ACT89.",
     )
     parser.add_argument("--embedding-model", default=None, help="Ollama embedding model name.")
     parser.add_argument(
@@ -53,15 +59,17 @@ def _config_from_args(args: argparse.Namespace) -> PipelineConfig:
 def _load_ine_files(config: PipelineConfig, args: argparse.Namespace):
     if not args.ine_manifest:
         raise ValueError(
-            "INE manifest required for full run. Create a CSV with quarter,microdata_url,metadata_url "
-            "from the INE EPA microdata page, then pass --ine-manifest."
+            "INE manifest required for full run. Create a CSV with period,microdata_url,metadata_url "
+            "from the INE microdata page, then pass --ine-manifest."
         )
-    return download_ine_from_manifest(config, args.ine_manifest, args.refresh, args.max_quarters)
+    source_spec = get_ine_source_spec(args.source)
+    return download_ine_from_manifest(config, args.ine_manifest, source_spec, args.refresh, args.max_quarters)
 
 
 def _load_ine_data(config: PipelineConfig, args: argparse.Namespace) -> tuple[pd.DataFrame, Path | None]:
+    source_spec = get_ine_source_spec(args.source)
     files = _load_ine_files(config, args)
-    frames = [read_ine_microdata(item.microdata_path, item.quarter) for item in files]
+    frames = [read_ine_microdata(item.microdata_path, item.period, source_spec) for item in files]
     if not frames:
         raise ValueError("INE manifest produced no downloaded quarters.")
     metadata_path = args.metadata_xlsx or next((item.metadata_path for item in files if item.metadata_path), None)
@@ -105,10 +113,11 @@ def main() -> None:
         print("Skipped INE processing by request.")
         return
 
+    source_spec = get_ine_source_spec(args.source)
     ine, metadata_path = _load_ine_data(config, args)
     mapping = None
     if metadata_path:
-        mapping = parse_occupation_mapping_from_excel(metadata_path)
+        mapping = parse_occupation_mapping_from_excel(metadata_path, source_spec)
 
     occupations = build_occupation_table(ine, mapping, allow_code_labels=args.allow_code_labels)
     occupations["occupation_title_clean"] = occupations["occupation_title"].map(clean_occupation_title)
@@ -145,13 +154,23 @@ def main() -> None:
     upsert_occupation_exposure(conn, predictions, config.embedding_model, translation_client.provider_id, model_sha)
     upsert_industry_quarter_exposure(conn, panel, config.embedding_model, translation_client.provider_id, model_sha)
 
-    occupation_out = config.processed_dir / "spanish_occupation_exposure.csv"
-    panel_out = config.processed_dir / "spanish_industry_quarter_exposure.csv"
+    if args.source == "epa":
+        occupation_out = config.processed_dir / "spanish_occupation_exposure.csv"
+        panel_out = config.processed_dir / "spanish_industry_quarter_exposure.csv"
+        metadata_out = config.processed_dir / "run_metadata.json"
+    else:
+        source_prefix = f"spanish_{args.source}"
+        occupation_out = config.processed_dir / f"{source_prefix}_occupation_exposure.csv"
+        panel_out = config.processed_dir / f"{source_prefix}_industry_period_exposure.csv"
+        metadata_out = config.processed_dir / f"{source_prefix}_run_metadata.json"
     predictions.to_csv(occupation_out, index=False)
     panel.to_csv(panel_out, index=False)
 
     run_meta = {
         "embedding_model": config.embedding_model,
+        "source": args.source,
+        "occupation_column": source_spec.occupation_column,
+        "industry_column": source_spec.industry_column,
         "translation_provider": translation_client.provider_id,
         "ollama_host": config.ollama_host,
         "model_path": str(model_path),
@@ -160,7 +179,7 @@ def main() -> None:
         "occupation_output": str(occupation_out),
         "industry_quarter_output": str(panel_out),
     }
-    (config.processed_dir / "run_metadata.json").write_text(json.dumps(run_meta, indent=2), encoding="utf-8")
+    metadata_out.write_text(json.dumps(run_meta, indent=2), encoding="utf-8")
     print(f"Wrote {occupation_out}")
     print(f"Wrote {panel_out}")
     print(f"Wrote {config.db_path}")

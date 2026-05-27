@@ -34,6 +34,8 @@ class PipelineConfig:
             self.models_dir,
             self.raw_dir / "anthropic",
             self.raw_dir / "ine",
+            self.raw_dir / "ine" / "epa",
+            self.raw_dir / "ine" / "census",
         ]:
             path.mkdir(parents=True, exist_ok=True)
 

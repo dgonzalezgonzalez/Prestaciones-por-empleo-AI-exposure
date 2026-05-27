@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.download_ine import CENSUS_SOURCE, read_ine_microdata
 from src.ine_metadata import build_occupation_table, parse_occupation_mapping_from_excel
 
 
@@ -56,3 +57,57 @@ class IneMetadataTests(TestCase):
 
         self.assertEqual(out["OCUP1"].tolist(), ["0", "1"])
         self.assertEqual(out.loc[0, "occupation_title"], "Ocupaciones militares. Fuerzas armadas")
+
+    def test_parse_census_occupation_mapping_from_excel_uses_cno_block(self):
+        path = self._tmp_path("census_metadata.xlsx")
+        rows = pd.DataFrame(
+            [
+                ["T_CNAE", None, "ACT89"],
+                ["Código", "Descripción", None],
+                ["11", "Wrong block", None],
+                [None, None, None],
+                ["T_CNO", None, "OCU63"],
+                ["Código", "Descripción", None],
+                ["11", "Miembros del poder ejecutivo", None],
+                ["27", "Profesionales de las tecnologías de la información", None],
+                ["XX", "No consta", None],
+                [None, None, None],
+            ]
+        )
+        with pd.ExcelWriter(path) as writer:
+            rows.to_excel(writer, sheet_name="Tablas7", header=False, index=False)
+
+        out = parse_occupation_mapping_from_excel(path, CENSUS_SOURCE)
+
+        self.assertEqual(out["OCUP1"].tolist(), ["11", "27"])
+        self.assertEqual(
+            out.loc[out["OCUP1"] == "27", "occupation_title"].item(),
+            "Profesionales de las tecnologías de la información",
+        )
+
+    def test_read_census_microdata_maps_two_digit_columns(self):
+        path = self._tmp_path("census_microdata.csv")
+        path.write_text(
+            "OCU63;ACT89;EXTRA\n"
+            "27;62;kept\n"
+            "XX;62;bad occupation\n"
+            "27;XX;bad industry\n",
+            encoding="utf-8",
+        )
+
+        out = read_ine_microdata(path, "2021", CENSUS_SOURCE)
+
+        self.assertEqual(
+            out[["period", "quarter", "OCUP1", "ACT1"]].to_dict("records"),
+            [{"period": "2021", "quarter": "2021", "OCUP1": "27", "ACT1": "62"}],
+        )
+
+    def test_read_census_microdata_falls_back_to_fixed_width_positions(self):
+        path = self._tmp_path("census_microdata.txt")
+        row = (" " * 101) + "27" + "62" + "rest\n"
+        path.write_text(row, encoding="utf-8")
+
+        out = read_ine_microdata(path, "2021", CENSUS_SOURCE)
+
+        self.assertEqual(out.loc[0, "OCUP1"], "27")
+        self.assertEqual(out.loc[0, "ACT1"], "62")
