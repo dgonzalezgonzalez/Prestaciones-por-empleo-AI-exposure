@@ -18,22 +18,24 @@ def parse_occupation_mapping_from_excel(path: Path) -> pd.DataFrame:
     frames: list[pd.DataFrame] = []
     for _, sheet in sheets.items():
         rows = sheet.fillna("").astype(str)
-        joined = rows.apply(lambda row: " ".join(row.tolist()), axis=1)
-        relevant = rows[joined.str.contains(r"OCUP1|CNO", case=False, regex=True, na=False)]
-        if relevant.empty:
-            relevant = rows
-
-        for _, row in relevant.iterrows():
-            values = [normalize_space(v) for v in row.tolist() if normalize_space(v)]
-            if len(values) < 2:
+        for idx, row in rows.iterrows():
+            marker = " ".join(normalize_space(v) for v in row.tolist())
+            if "TOCUP" not in marker or "OCUP1" not in marker:
                 continue
-            code = next((v for v in values if re.fullmatch(r"\d{1,3}|[A-Z]\d{0,2}", v)), None)
-            if not code:
-                continue
-            desc = max((v for v in values if v != code), key=len)
-            if len(desc) < 4:
-                continue
-            frames.append(pd.DataFrame({"OCUP1": [code], "occupation_title": [clean_occupation_title(desc)]}))
+            for _, value_row in rows.iloc[idx + 1 :].iterrows():
+                code = normalize_space(value_row.iloc[0])
+                desc = normalize_space(value_row.iloc[1]) if len(value_row) > 1 else ""
+                if code.lower() == "código":
+                    continue
+                if not code and not desc:
+                    break
+                if not re.fullmatch(r"\d{1,2}", code) or not desc:
+                    continue
+                frames.append(
+                    pd.DataFrame(
+                        {"OCUP1": [code], "occupation_title": [clean_occupation_title(desc)]}
+                    )
+                )
 
     if not frames:
         raise ValueError(f"Could not parse OCUP1 occupation mapping from {path}")

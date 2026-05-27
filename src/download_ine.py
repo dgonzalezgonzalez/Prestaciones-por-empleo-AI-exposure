@@ -92,11 +92,16 @@ def find_first_tabular_file(path: Path) -> Path:
         archive.extractall(out_dir)
     candidates = [
         p for p in out_dir.rglob("*")
-        if p.is_file() and p.suffix.lower() in {".csv", ".txt", ".dat"}
+        if p.is_file() and p.suffix.lower() in {".csv", ".txt", ".dat", ".tab"}
     ]
     if not candidates:
         raise ValueError(f"No CSV/TXT/DAT file found inside {path}")
-    return sorted(candidates, key=lambda item: item.stat().st_size, reverse=True)[0]
+    preferred = [
+        item for item in candidates
+        if item.suffix.lower() in {".csv", ".tab"} or "csv" in {part.lower() for part in item.parts}
+    ]
+    pool = preferred or candidates
+    return sorted(pool, key=lambda item: item.stat().st_size, reverse=True)[0]
 
 
 def read_ine_microdata(path: Path, quarter: str) -> pd.DataFrame:

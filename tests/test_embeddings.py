@@ -17,8 +17,10 @@ class EmbeddingTests(TestCase):
 
     def test_clean_occupation_title_removes_cno_code_parenthetical(self):
         self.assertEqual(
-            clean_occupation_title("Directores comerciales (códigos CNO-2011)"),
-            "Directores comerciales",
+            clean_occupation_title(
+                "Ocupaciones militares (códigos CNO-2011). Fuerzas armadas (códigos CNO-1994)"
+            ),
+            "Ocupaciones militares. Fuerzas armadas",
         )
 
     def test_cache_reuses_embedding_for_cleaned_text(self):

@@ -79,6 +79,8 @@ Optional columns:
 
 You can use one metadata workbook for all quarters by passing `--metadata-xlsx`; otherwise the manifest can download metadata files for archival use.
 
+The repository includes `ine_manifest.csv` for the latest available quarter at the time of the first run, `2026Q1`.
+
 ## Run
 
 Train only on Anthropic data:
@@ -190,4 +192,3 @@ Commit source code, tests, README, and lightweight manifests only. Do not commit
 - embedding cache
 - trained model artifacts
 - generated SQLite/CSV outputs
-

@@ -21,6 +21,9 @@ def clean_occupation_title(value: str) -> str:
     """
     text = normalize_space(value)
     text = CODE_PAREN_RE.sub("", text)
+    text = re.sub(r"\s+\.", ".", text)
+    text = re.sub(r"\.\s*", ". ", text)
+    text = re.sub(r"(?:\s*\.\s*)+$", "", text)
     text = normalize_space(text)
     return text
 
