@@ -2,7 +2,7 @@
 
 This project builds a Spanish labor-market version of Anthropic's occupation AI exposure analysis.
 
-It downloads Anthropic's `job_exposure.csv`, embeds Anthropic occupation titles with a local Ollama embedding model, trains a Random Forest model to predict `observed_exposure`, translates Spanish occupation labels from INE EPA metadata into English, embeds the English translations, predicts Spanish occupation exposure, stores occupation-level predictions in SQLite, and aggregates them to industry-quarter exposure using EPA occupation frequencies within each `ACT1` industry cell.
+It downloads Anthropic's `job_exposure.csv`, embeds Anthropic occupation titles with a local Ollama embedding model, trains exposure models from Anthropic `observed_exposure`, translates Spanish occupation labels from INE EPA metadata into English, embeds the English translations, predicts Spanish occupation exposure with several approaches, stores occupation-level predictions in SQLite, and aggregates them to industry-quarter exposure using EPA occupation frequencies within each `ACT1` industry cell.
 
 ## Data Sources
 
@@ -21,13 +21,13 @@ Raw INE microdata, embedding cache, model files, and generated outputs are exclu
 1. Download Anthropic occupation exposure data.
 2. Clean occupation titles.
 3. Embed Anthropic titles with Ollama.
-4. Train a `RandomForestRegressor` with `observed_exposure` as the target and embedding dimensions as predictors.
+4. Train and validate exposure models with `observed_exposure` as the target and embedding dimensions as predictors. The Random Forest is evaluated on a holdout split, compared with cross-validated baselines, then refit on all Anthropic rows for final prediction.
 5. Download INE EPA microdata from a local manifest.
 6. Parse Spanish `OCUP1` occupation labels from INE metadata.
 7. Clean Spanish occupation labels before translation. This removes non-semantic annotations such as `(codigos CNO-2011)` or `(códigos CNO-2011)`.
 8. Translate cleaned Spanish occupation labels to English using an Ollama text-generation model.
 9. Embed the English translations with the same Ollama embedding model used for Anthropic titles.
-10. Predict `observed_exposure` for each Spanish occupation.
+10. Predict `observed_exposure` for each Spanish occupation with Random Forest, ridge regression, cosine-similarity weighted average, cosine nearest-neighbor, and a simple ensemble average.
 11. Store predictions in SQLite.
 12. Aggregate to `ACT1` industry by quarter:
 
@@ -137,22 +137,28 @@ SQLite tables:
 - `occupation_title_en`: English translation used for embedding
 - `embedding_model`: Ollama embedding model
 - `translation_model`: translation provider identifier
-- `model_sha256`: hash of trained Random Forest artifact
-- `observed_exposure`: predicted occupation exposure
+- `model_sha256`: hash of trained model bundle artifact
+- `observed_exposure`: Random Forest predicted occupation exposure, kept as the compatibility default
+- `observed_exposure_rf`: Random Forest prediction
+- `observed_exposure_ridge`: ridge regression prediction
+- `observed_exposure_cosine_weighted`: weighted average of Anthropic exposure values using nonnegative cosine similarities as weights
+- `observed_exposure_cosine_nearest`: exposure from the closest Anthropic occupation by cosine similarity
+- `observed_exposure_ensemble`: average of RF, ridge, cosine-weighted, and cosine-nearest predictions
 - `generated_at`: write timestamp
 
 ### `industry_quarter_exposure`
 
 - `cnae`: industry code from `ACT1`
 - `quarter`: quarter label from manifest
-- `observed_exposure_cnae`: weighted average predicted exposure
+- `observed_exposure_cnae`: weighted average Random Forest exposure, kept as the compatibility default
+- `observed_exposure_cnae_rf`, `observed_exposure_cnae_ridge`, `observed_exposure_cnae_cosine_weighted`, `observed_exposure_cnae_cosine_nearest`, `observed_exposure_cnae_ensemble`: method-specific weighted averages
 - `total_weight`: total records/weights in industry-quarter cell
 - `covered_weight`: weight with occupation exposure available
 - `coverage_share`: `covered_weight / total_weight`
 - `occupation_count`: distinct `OCUP1` count in cell
 - `embedding_model`: Ollama embedding model
 - `translation_model`: translation provider identifier
-- `model_sha256`: hash of trained Random Forest artifact
+- `model_sha256`: hash of trained model bundle artifact
 - `generated_at`: write timestamp
 
 ## Translation And Embedding Cache

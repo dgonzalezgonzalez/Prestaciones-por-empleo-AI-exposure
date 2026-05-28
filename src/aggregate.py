@@ -5,6 +5,15 @@ import pandas as pd
 from .download_ine import detect_weight_column
 
 
+def exposure_value_columns(occupation_exposure: pd.DataFrame) -> list[str]:
+    columns = [
+        column
+        for column in occupation_exposure.columns
+        if column == "observed_exposure" or column.startswith("observed_exposure_")
+    ]
+    return sorted(columns, key=lambda column: (column != "observed_exposure", column))
+
+
 def aggregate_industry_quarter_exposure(
     microdata: pd.DataFrame,
     occupation_exposure: pd.DataFrame,
@@ -19,30 +28,46 @@ def aggregate_industry_quarter_exposure(
     else:
         df["_weight"] = 1.0
 
-    exposure = occupation_exposure[["OCUP1", "observed_exposure"]].copy()
+    exposure_columns = exposure_value_columns(occupation_exposure)
+    if not exposure_columns:
+        raise ValueError("Occupation exposure data has no observed_exposure columns.")
+
+    exposure = occupation_exposure[["OCUP1", *exposure_columns]].copy()
     exposure["OCUP1"] = exposure["OCUP1"].astype(str).str.strip()
-    exposure["observed_exposure"] = pd.to_numeric(exposure["observed_exposure"], errors="coerce")
+    for column in exposure_columns:
+        exposure[column] = pd.to_numeric(exposure[column], errors="coerce")
     merged = df.merge(exposure, on="OCUP1", how="left")
-    merged["_covered_weight"] = merged["_weight"].where(merged["observed_exposure"].notna(), 0.0)
-    merged["_weighted_exposure"] = merged["_covered_weight"] * merged["observed_exposure"].fillna(0.0)
+    primary_column = "observed_exposure" if "observed_exposure" in exposure_columns else exposure_columns[0]
+    merged["_covered_weight"] = merged["_weight"].where(merged[primary_column].notna(), 0.0)
+    for column in exposure_columns:
+        merged[f"_weighted_{column}"] = merged["_weight"].where(merged[column].notna(), 0.0) * merged[column].fillna(0.0)
 
     grouped = merged.groupby(["ACT1", "quarter"], dropna=False)
+    aggregations = {
+        "total_weight": ("_weight", "sum"),
+        "covered_weight": ("_covered_weight", "sum"),
+        "occupation_count": ("OCUP1", "nunique"),
+    }
+    aggregations.update({f"weighted_{column}": (f"_weighted_{column}", "sum") for column in exposure_columns})
     out = grouped.agg(
-        total_weight=("_weight", "sum"),
-        covered_weight=("_covered_weight", "sum"),
-        weighted_exposure=("_weighted_exposure", "sum"),
-        occupation_count=("OCUP1", "nunique"),
+        **aggregations,
     ).reset_index()
     out = out[out["total_weight"] > 0].copy()
     out["coverage_share"] = out["covered_weight"] / out["total_weight"]
-    out["observed_exposure_cnae"] = out["weighted_exposure"] / out["covered_weight"]
     out = out[out["covered_weight"] > 0].copy()
+    for column in exposure_columns:
+        suffix = "" if column == "observed_exposure" else column.removeprefix("observed_exposure")
+        out[f"observed_exposure_cnae{suffix}"] = out[f"weighted_{column}"] / out["covered_weight"]
     out = out.rename(columns={"ACT1": "cnae"})
+    exposure_out_columns = [
+        "observed_exposure_cnae" if column == "observed_exposure" else f"observed_exposure_cnae{column.removeprefix('observed_exposure')}"
+        for column in exposure_columns
+    ]
     return out[
         [
             "cnae",
             "quarter",
-            "observed_exposure_cnae",
+            *exposure_out_columns,
             "total_weight",
             "covered_weight",
             "coverage_share",

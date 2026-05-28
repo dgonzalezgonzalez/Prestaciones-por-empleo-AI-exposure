@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from src.download_anthropic import load_anthropic_job_exposure
-from src.model import predict_occupation_exposure, train_exposure_model, vectors_to_matrix
+from src.model import EXPOSURE_COLUMNS, predict_occupation_exposure, train_exposure_model, vectors_to_matrix
 
 
 class ModelTests(TestCase):
@@ -40,7 +40,7 @@ class ModelTests(TestCase):
             df,
             embeddings,
             self._tmp_path("rf.joblib"),
-            self._tmp_path("metrics.json"),
+            metrics_path := self._tmp_path("metrics.json"),
             random_seed=1,
             n_estimators=10,
         )
@@ -48,6 +48,40 @@ class ModelTests(TestCase):
         pred = predict_occupation_exposure(occupations, embeddings, model)
         self.assertEqual(len(pred), 1)
         self.assertTrue(np.isfinite(pred.loc[0, "observed_exposure"]))
+        self.assertTrue(set(EXPOSURE_COLUMNS).issubset(pred.columns))
+        self.assertEqual(model.metrics["final_fit_uses_all_rows"], True)
+        self.assertIn("cross_validation", metrics_path.read_text(encoding="utf-8"))
+
+    def test_cosine_predictions_use_anthropic_neighbors(self):
+        df = pd.DataFrame(
+            {
+                "occ_code": ["a", "b", "c", "d", "e"],
+                "title": ["Low", "High", "Mid", "Other 1", "Other 2"],
+                "observed_exposure": [0.0, 1.0, 0.5, 0.2, 0.8],
+            }
+        )
+        embeddings = {
+            "Low": [1.0, 0.0],
+            "High": [0.0, 1.0],
+            "Mid": [0.7, 0.7],
+            "Other 1": [0.9, 0.1],
+            "Other 2": [0.1, 0.9],
+            "Spanish high": [0.0, 0.99],
+        }
+        model = train_exposure_model(
+            df,
+            embeddings,
+            self._tmp_path("cosine.joblib"),
+            self._tmp_path("cosine_metrics.json"),
+            random_seed=1,
+            n_estimators=10,
+        )
+        occupations = pd.DataFrame(
+            {"OCUP1": ["1"], "occupation_title": ["Spanish high"], "embedding_text": ["Spanish high"]}
+        )
+        pred = predict_occupation_exposure(occupations, embeddings, model)
+        self.assertAlmostEqual(pred.loc[0, "observed_exposure_cosine_nearest"], 1.0)
+        self.assertTrue(0.0 <= pred.loc[0, "observed_exposure_cosine_weighted"] <= 1.0)
 
     def test_prediction_uses_embedding_text_when_present(self):
         class DummyModel:
