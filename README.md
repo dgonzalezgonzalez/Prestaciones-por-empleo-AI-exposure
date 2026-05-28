@@ -40,17 +40,17 @@ If an EPA weight column such as `FACTOREL` exists, the pipeline uses it. Otherwi
 
 ## Exposure Estimation Details
 
-Let Anthropic occupation \(i = 1,\dots,N\) have cleaned English title \(a_i\), embedding vector \(x_i \in \mathbb{R}^d\), and observed Anthropic exposure \(y_i\). Let Spanish occupation \(j = 1,\dots,M\) have cleaned Spanish title \(s_j\), English translation \(t_j\), and embedding vector \(z_j \in \mathbb{R}^d\). The same Ollama embedding model is used for \(x_i\) and \(z_j\), so all approaches work in one shared semantic vector space.
+Let Anthropic occupation $i = 1,\dots,N$ have cleaned English title $a_i$, embedding vector $x_i \in \mathbb{R}^d$, and observed Anthropic exposure $y_i$. Let Spanish occupation $j = 1,\dots,M$ have cleaned Spanish title $s_j$, English translation $t_j$, and embedding vector $z_j \in \mathbb{R}^d$. The same Ollama embedding model is used for $x_i$ and $z_j$, so all approaches work in one shared semantic vector space.
 
-The training set keeps Anthropic rows with non-missing exposure and a cached/generated embedding. Current full runs use \(N = 756\) and \(d = 768\) with `nomic-embed-text`. Diagnostics are computed first; final models used for Spanish prediction are then fit on all \(N\) Anthropic rows. This matters because diagnostic splits should measure performance, not permanently discard labeled Anthropic occupations from final estimation.
+The training set keeps Anthropic rows with non-missing exposure and a cached/generated embedding. Current full runs use $N = 756$ and $d = 768$ with `nomic-embed-text`. Diagnostics are computed first; final models used for Spanish prediction are then fit on all $N$ Anthropic rows. This matters because diagnostic splits should measure performance, not permanently discard labeled Anthropic occupations from final estimation.
 
 ### Random Forest: `observed_exposure_rf`
 
-The Random Forest estimates a nonlinear function \(f_{\mathrm{RF}}\) from embedding dimensions to exposure:
+The Random Forest estimates a nonlinear function $f_{\mathrm{RF}}$ from embedding dimensions to exposure:
 
-```text
-observed_exposure_rf_j = f_RF(z_j)
-```
+$$
+\widehat{y}^{\mathrm{RF}}_j = f_{\mathrm{RF}}(z_j)
+$$
 
 Implementation details:
 
@@ -66,49 +66,58 @@ Implementation details:
 
 Ridge regression estimates a linear map from standardized embeddings to exposure:
 
-```text
-observed_exposure_ridge_j = alpha + z_j' beta
-```
+$$
+\widehat{y}^{\mathrm{ridge}}_j = \alpha + z_j^\top \beta
+$$
 
 The model is a `StandardScaler()` followed by `RidgeCV`. The penalty grid is:
 
-```text
-lambda in {10^-3, 10^-2.5, ..., 10^3}
-```
+$$
+\lambda \in \{10^{-3}, 10^{-2.5}, \dots, 10^3\}
+$$
 
 This is included because dense semantic embeddings often encode information in joint vector geometry; a regularized linear model can sometimes be more stable than trees that split on individual embedding coordinates.
 
 ### Cosine-Weighted Anthropic Imputation: `observed_exposure_cosine_weighted`
 
-For every Spanish occupation \(j\), cosine similarity to every Anthropic occupation \(i\) is:
+For every Anthropic occupation $i$, the pipeline first finds the Spanish occupation $j$ with the highest cosine similarity. Cosine similarity between Anthropic occupation $i$ and Spanish occupation $j$ is:
 
-```text
-c_ji = (z_j dot x_i) / (||z_j|| ||x_i||)
-```
+$$
+c_{ji} = \frac{z_j^\top x_i}{\lVert z_j \rVert \lVert x_i \rVert}
+$$
 
-Negative similarities are set to zero:
+The nearest Spanish match for Anthropic occupation $i$ is:
 
-```text
-w_ji = max(c_ji, 0)
-```
+$$
+j^\*(i) = \arg\max_{j \in \{1,\dots,M\}} c_{ji}
+$$
 
-The imputed exposure is the similarity-weighted average of all Anthropic exposure values:
+For a given Spanish occupation $j$, define the assigned Anthropic set:
 
-```text
-observed_exposure_cosine_weighted_j =
-  sum_i(w_ji * y_i) / sum_i(w_ji)
-```
+$$
+A_j = \{i : j^\*(i) = j\}
+$$
 
-If all weights are zero, the fallback is the Anthropic global mean. This is the explicit semantic-linking approach: each Spanish occupation inherits exposure from all Anthropic occupations, with closer occupations receiving more weight.
+The imputed exposure is the cosine-similarity weighted average of Anthropic exposure values assigned to that Spanish occupation:
+
+$$
+\widehat{y}^{\mathrm{cos,w}}_j =
+\frac{\sum_{i \in A_j} c_{ji} y_i}{\sum_{i \in A_j} c_{ji}}
+$$
+
+This is the assignment-based semantic-linking approach: every Anthropic occupation contributes to exactly one Spanish occupation, namely its closest Spanish semantic match. If no Anthropic occupation chooses Spanish occupation $j$, or if the assigned cosine weights have non-positive total weight, the pipeline falls back to `observed_exposure_cosine_nearest` for that Spanish occupation so every Spanish occupation still has a defined value.
 
 ### Cosine Nearest Neighbor: `observed_exposure_cosine_nearest`
 
 This approach assigns the exposure of the single nearest Anthropic occupation:
 
-```text
-i*(j) = argmax_i c_ji
-observed_exposure_cosine_nearest_j = y_i*(j)
-```
+$$
+i^\*(j) = \arg\max_{i \in \{1,\dots,N\}} c_{ji}
+$$
+
+$$
+\widehat{y}^{\mathrm{cos,nn}}_j = y_{i^\*(j)}
+$$
 
 It is intentionally simple and useful as a transparent benchmark: every Spanish occupation can be audited by looking at its closest Anthropic occupation in embedding space.
 
@@ -116,33 +125,37 @@ It is intentionally simple and useful as a transparent benchmark: every Spanish 
 
 The ensemble is the unweighted arithmetic mean of the four method-specific estimates:
 
-```text
-observed_exposure_ensemble_j =
-  (observed_exposure_rf_j
-   + observed_exposure_ridge_j
-   + observed_exposure_cosine_weighted_j
-   + observed_exposure_cosine_nearest_j) / 4
-```
+$$
+\widehat{y}^{\mathrm{ens}}_j =
+\frac{
+\widehat{y}^{\mathrm{RF}}_j
++ \widehat{y}^{\mathrm{ridge}}_j
++ \widehat{y}^{\mathrm{cos,w}}_j
++ \widehat{y}^{\mathrm{cos,nn}}_j
+}{4}
+$$
 
 It is not optimized or trained; it is a simple robustness summary.
 
 ### Industry-Quarter Aggregation
 
-For industry \(k\), quarter \(q\), method \(m\), person/record \(r\), occupation code \(o(r)\), industry code \(a(r)\), and survey weight \(W_r\):
+For industry $k$, quarter $q$, method $m$, person/record $r$, occupation code $o(r)$, industry code $a(r)$, and survey weight $W_r$:
 
-```text
-observed_exposure_cnae_m(k,q) =
-  sum_{r: a(r)=k, quarter(r)=q} W_r * exposure_m(o(r))
-  /
-  sum_{r: a(r)=k, quarter(r)=q, exposure_m(o(r)) observed} W_r
-```
+$$
+\widehat{Y}_{kq}^{m} =
+\frac{
+\sum_{r: a(r)=k,\; quarter(r)=q} W_r \widehat{y}^{m}_{o(r)}
+}{
+\sum_{r: a(r)=k,\; quarter(r)=q,\; \widehat{y}^{m}_{o(r)}\; observed} W_r
+}
+$$
 
 Coverage is:
 
-```text
-coverage_share(k,q) =
-  covered_weight(k,q) / total_weight(k,q)
-```
+$$
+coverage\_share_{kq} =
+\frac{covered\_weight_{kq}}{total\_weight_{kq}}
+$$
 
 Because EPA `OCUP1` has only 10 broad groups, these are major-occupation exposure estimates. They should not be interpreted as fine CNO four-digit occupation estimates.
 
@@ -152,11 +165,11 @@ Correlations are calculated across the 10 Spanish EPA occupation rows in `data/p
 
 | measure | rf | ridge | cosine_weighted | cosine_nearest | ensemble |
 |---|---:|---:|---:|---:|---:|
-| rf | 1.000 | 0.810 | 0.330 | 0.280 | 0.747 |
-| ridge | 0.810 | 1.000 | 0.649 | 0.345 | 0.746 |
-| cosine_weighted | 0.330 | 0.649 | 1.000 | 0.107 | 0.328 |
-| cosine_nearest | 0.280 | 0.345 | 0.107 | 1.000 | 0.840 |
-| ensemble | 0.747 | 0.746 | 0.328 | 0.840 | 1.000 |
+| rf | 1.000 | 0.810 | 0.060 | 0.280 | 0.519 |
+| ridge | 0.810 | 1.000 | 0.161 | 0.345 | 0.561 |
+| cosine_weighted | 0.060 | 0.161 | 1.000 | 0.971 | 0.880 |
+| cosine_nearest | 0.280 | 0.345 | 0.971 | 1.000 | 0.963 |
+| ensemble | 0.519 | 0.561 | 0.880 | 0.963 | 1.000 |
 
 ## Install
 

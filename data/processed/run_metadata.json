@@ -4,7 +4,7 @@
   "ollama_host": "http://127.0.0.1:11434",
   "model_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_nomic-embed-text.joblib",
   "model_metrics_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_nomic-embed-text_metrics.json",
-  "model_sha256": "a884ddb3c785e0f4a94898a1560a787c1efc1742af0332309fbbfc6450128b44",
+  "model_sha256": "432cb14aab405f84443caf0be19fa02917dc14777ba7733ea0f56b21e8873dc9",
   "exposure_columns": [
     "observed_exposure_rf",
     "observed_exposure_ridge",
