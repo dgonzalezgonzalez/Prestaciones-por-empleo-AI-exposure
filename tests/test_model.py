@@ -53,7 +53,7 @@ class ModelTests(TestCase):
         self.assertEqual(model.metrics["final_fit_uses_all_rows"], True)
         self.assertIn("cross_validation", metrics_path.read_text(encoding="utf-8"))
 
-    def test_cosine_predictions_use_anthropic_neighbors(self):
+    def test_cosine_weighted_assigns_anthropic_rows_to_nearest_spanish_target(self):
         df = pd.DataFrame(
             {
                 "occ_code": ["a", "b", "c", "d", "e"],
@@ -68,6 +68,7 @@ class ModelTests(TestCase):
             "Other 1": [0.9, 0.1],
             "Other 2": [0.1, 0.9],
             "Spanish high": [0.0, 0.99],
+            "Spanish low": [0.99, 0.0],
         }
         model = train_exposure_model(
             df,
@@ -78,11 +79,25 @@ class ModelTests(TestCase):
             n_estimators=10,
         )
         occupations = pd.DataFrame(
-            {"OCUP1": ["1"], "occupation_title": ["Spanish high"], "embedding_text": ["Spanish high"]}
+            {
+                "OCUP1": ["1", "2"],
+                "occupation_title": ["Spanish high", "Spanish low"],
+                "embedding_text": ["Spanish high", "Spanish low"],
+            }
         )
         pred = predict_occupation_exposure(occupations, embeddings, model)
-        self.assertAlmostEqual(pred.loc[0, "observed_exposure_cosine_nearest"], 1.0)
-        self.assertTrue(0.0 <= pred.loc[0, "observed_exposure_cosine_weighted"] <= 1.0)
+        high = pred.loc[pred["OCUP1"] == "1"].iloc[0]
+        high_vector = np.array(embeddings["Spanish high"])
+        assigned_vectors = np.array([embeddings["High"], embeddings["Mid"], embeddings["Other 2"]])
+        high_weights = assigned_vectors @ high_vector / (
+            np.linalg.norm(assigned_vectors, axis=1) * np.linalg.norm(high_vector)
+        )
+        high_values = np.array([1.0, 0.5, 0.8])
+        self.assertAlmostEqual(high["observed_exposure_cosine_nearest"], 1.0)
+        self.assertAlmostEqual(
+            high["observed_exposure_cosine_weighted"],
+            np.average(high_values, weights=high_weights),
+        )
 
     def test_prediction_uses_embedding_text_when_present(self):
         class DummyModel:

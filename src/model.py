@@ -169,7 +169,7 @@ def _cross_validate_methods(
         ridge_model.fit(x_train, y_train)
         predictions["random_forest"][test_idx] = rf_model.predict(x_test)
         predictions["ridge"][test_idx] = ridge_model.predict(x_test)
-        predictions["cosine_weighted"][test_idx] = _cosine_weighted_predict(x_train, y_train, x_test)
+        predictions["cosine_weighted"][test_idx] = _cosine_assignment_weighted_predict(x_train, y_train, x_test)
         predictions["cosine_nearest"][test_idx] = _cosine_nearest_predict(x_train, y_train, x_test)
         predictions["global_mean"][test_idx] = float(np.mean(y_train))
 
@@ -184,11 +184,23 @@ def _cosine_similarity(train_x: np.ndarray, target_x: np.ndarray) -> np.ndarray:
     return np.divide(sims, denom, out=np.zeros_like(sims, dtype=float), where=denom != 0)
 
 
-def _cosine_weighted_predict(train_x: np.ndarray, y: np.ndarray, target_x: np.ndarray) -> np.ndarray:
-    sims = np.maximum(_cosine_similarity(train_x, target_x), 0.0)
-    totals = sims.sum(axis=1)
-    fallback = float(np.mean(y))
-    return np.divide(sims @ y, totals, out=np.full(len(target_x), fallback), where=totals != 0)
+def _cosine_assignment_weighted_predict(source_x: np.ndarray, y: np.ndarray, target_x: np.ndarray) -> np.ndarray:
+    sims = _cosine_similarity(source_x, target_x)
+    nearest_target = np.argmax(sims, axis=0)
+    predictions = np.empty(len(target_x), dtype=float)
+    nearest_source_fallback = _cosine_nearest_predict(source_x, y, target_x)
+    for target_idx in range(len(target_x)):
+        assigned = nearest_target == target_idx
+        if not np.any(assigned):
+            predictions[target_idx] = nearest_source_fallback[target_idx]
+            continue
+        weights = sims[target_idx, assigned]
+        total_weight = weights.sum()
+        if total_weight <= 0:
+            predictions[target_idx] = nearest_source_fallback[target_idx]
+            continue
+        predictions[target_idx] = float(np.average(y[assigned], weights=weights))
+    return predictions
 
 
 def _cosine_nearest_predict(train_x: np.ndarray, y: np.ndarray, target_x: np.ndarray) -> np.ndarray:
@@ -222,7 +234,7 @@ def predict_occupation_exposure(
     if isinstance(model, ExposureModelBundle):
         rf_pred = model.rf_model.predict(x)
         ridge_pred = model.ridge_model.predict(x)
-        cosine_weighted = _cosine_weighted_predict(model.anthropic_x, model.anthropic_y, x)
+        cosine_weighted = _cosine_assignment_weighted_predict(model.anthropic_x, model.anthropic_y, x)
         cosine_nearest = _cosine_nearest_predict(model.anthropic_x, model.anthropic_y, x)
         out["observed_exposure_rf"] = rf_pred
         out["observed_exposure_ridge"] = ridge_pred
