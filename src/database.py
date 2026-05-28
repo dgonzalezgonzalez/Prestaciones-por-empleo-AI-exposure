@@ -31,8 +31,7 @@ CREATE TABLE IF NOT EXISTS occupation_exposure (
     embedding_model TEXT NOT NULL,
     translation_model TEXT,
     model_sha256 TEXT NOT NULL,
-    observed_exposure REAL NOT NULL,
-    observed_exposure_rf REAL,
+    observed_exposure_rf REAL NOT NULL,
     observed_exposure_ridge REAL,
     observed_exposure_cosine_weighted REAL,
     observed_exposure_cosine_nearest REAL,
@@ -44,7 +43,6 @@ CREATE TABLE IF NOT EXISTS occupation_exposure (
 CREATE TABLE IF NOT EXISTS industry_quarter_exposure (
     cnae TEXT NOT NULL,
     quarter TEXT NOT NULL,
-    observed_exposure_cnae REAL NOT NULL,
     total_weight REAL NOT NULL,
     covered_weight REAL NOT NULL,
     coverage_share REAL NOT NULL,
@@ -52,7 +50,7 @@ CREATE TABLE IF NOT EXISTS industry_quarter_exposure (
     embedding_model TEXT NOT NULL,
     translation_model TEXT,
     model_sha256 TEXT NOT NULL,
-    observed_exposure_cnae_rf REAL,
+    observed_exposure_cnae_rf REAL NOT NULL,
     observed_exposure_cnae_ridge REAL,
     observed_exposure_cnae_cosine_weighted REAL,
     observed_exposure_cnae_cosine_nearest REAL,
@@ -75,14 +73,22 @@ def connect(db_path: Path) -> sqlite3.Connection:
     for column in OCCUPATION_EXPOSURE_COLUMNS:
         if column not in columns:
             conn.execute(f"ALTER TABLE occupation_exposure ADD COLUMN {column} REAL")
+    _drop_legacy_column(conn, "occupation_exposure", "observed_exposure")
     panel_columns = {row[1] for row in conn.execute("PRAGMA table_info(industry_quarter_exposure)").fetchall()}
     if "translation_model" not in panel_columns:
         conn.execute("ALTER TABLE industry_quarter_exposure ADD COLUMN translation_model TEXT")
     for column in INDUSTRY_EXPOSURE_COLUMNS:
         if column not in panel_columns:
             conn.execute(f"ALTER TABLE industry_quarter_exposure ADD COLUMN {column} REAL")
+    _drop_legacy_column(conn, "industry_quarter_exposure", "observed_exposure_cnae")
     conn.commit()
     return conn
+
+
+def _drop_legacy_column(conn: sqlite3.Connection, table: str, column: str) -> None:
+    columns = {row[1] for row in conn.execute(f"PRAGMA table_info({table})").fetchall()}
+    if column in columns:
+        conn.execute(f"ALTER TABLE {table} DROP COLUMN {column}")
 
 
 def upsert_occupation_exposure(
@@ -105,7 +111,6 @@ def upsert_occupation_exposure(
             embedding_model,
             translation_model,
             model_sha256,
-            float(row["observed_exposure"]),
             *[float(row[column]) for column in extra_columns],
         )
         for _, row in predictions.iterrows()
@@ -117,7 +122,6 @@ def upsert_occupation_exposure(
         "embedding_model",
         "translation_model",
         "model_sha256",
-        "observed_exposure",
         *extra_columns,
     ]
     placeholders = ", ".join(["?"] * len(columns))
@@ -144,7 +148,6 @@ def upsert_industry_quarter_exposure(
         (
             str(row["cnae"]),
             str(row["quarter"]),
-            float(row["observed_exposure_cnae"]),
             float(row["total_weight"]),
             float(row["covered_weight"]),
             float(row["coverage_share"]),
@@ -159,7 +162,6 @@ def upsert_industry_quarter_exposure(
     columns = [
         "cnae",
         "quarter",
-        "observed_exposure_cnae",
         "total_weight",
         "covered_weight",
         "coverage_share",

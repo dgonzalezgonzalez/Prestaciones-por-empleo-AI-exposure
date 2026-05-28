@@ -18,6 +18,18 @@ DEEPL_PRO_URL = "https://api.deepl.com/v2/translate"
 GOOGLE_CLOUD_URL = "https://translation.googleapis.com/language/translate/v2"
 GOOGLE_UNOFFICIAL_URL = "https://translate.googleapis.com/translate_a/single"
 
+DOMAIN_TRANSLATION_OVERRIDES = {
+    "Trabajadores de servicios de restauración, personales, protección y vendedores de comercio": (
+        "Food service, catering, hospitality, personal service, protection, and retail sales workers"
+    ),
+    "Directores y gerentes de empresas de alojamiento, restauración y comercio": (
+        "Directors and managers of accommodation, food service, catering, hospitality, and retail businesses"
+    ),
+    "Trabajadores asalariados de los servicios de restauración": (
+        "Salaried food service, catering, and hospitality workers"
+    ),
+}
+
 
 def resolve_translation_provider(provider: str) -> str:
     if provider != "auto":
@@ -199,6 +211,13 @@ def translate_texts_to_english(
     result: dict[str, str] = {}
     for idx, text in enumerate(texts, start=1):
         source = clean_occupation_title(text)
+        override = DOMAIN_TRANSLATION_OVERRIDES.get(source)
+        if override is not None:
+            cache.set(client.provider_id, "es", "en", source, override)
+            result[source] = override
+            if progress:
+                progress(idx, source, override)
+            continue
         cached = cache.get(client.provider_id, "es", "en", source)
         if cached is not None:
             result[source] = cached

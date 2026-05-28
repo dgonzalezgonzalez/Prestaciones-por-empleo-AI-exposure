@@ -9,7 +9,6 @@
   "model_metrics_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\random_forest_nomic-embed-text_metrics.json",
   "model_sha256": "a884ddb3c785e0f4a94898a1560a787c1efc1742af0332309fbbfc6450128b44",
   "exposure_columns": [
-    "observed_exposure",
     "observed_exposure_rf",
     "observed_exposure_ridge",
     "observed_exposure_cosine_weighted",

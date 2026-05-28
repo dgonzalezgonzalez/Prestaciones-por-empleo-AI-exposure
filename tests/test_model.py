@@ -47,8 +47,9 @@ class ModelTests(TestCase):
         occupations = pd.DataFrame({"OCUP1": ["1"], "occupation_title": ["Job 1"]})
         pred = predict_occupation_exposure(occupations, embeddings, model)
         self.assertEqual(len(pred), 1)
-        self.assertTrue(np.isfinite(pred.loc[0, "observed_exposure"]))
+        self.assertTrue(np.isfinite(pred.loc[0, "observed_exposure_rf"]))
         self.assertTrue(set(EXPOSURE_COLUMNS).issubset(pred.columns))
+        self.assertNotIn("observed_exposure", pred.columns)
         self.assertEqual(model.metrics["final_fit_uses_all_rows"], True)
         self.assertIn("cross_validation", metrics_path.read_text(encoding="utf-8"))
 
@@ -100,4 +101,4 @@ class ModelTests(TestCase):
             {"Managers and executives": [1.0, 2.0]},
             DummyModel(),
         )
-        self.assertAlmostEqual(pred.loc[0, "observed_exposure"], 0.5)
+        self.assertAlmostEqual(pred.loc[0, "observed_exposure_rf"], 0.5)
