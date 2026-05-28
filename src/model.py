@@ -18,7 +18,6 @@ from .utils import clean_occupation_title, file_sha256
 
 
 EXPOSURE_COLUMNS = [
-    "observed_exposure",
     "observed_exposure_rf",
     "observed_exposure_ridge",
     "observed_exposure_cosine_weighted",
@@ -233,7 +232,6 @@ def predict_occupation_exposure(
             np.vstack([rf_pred, ridge_pred, cosine_weighted, cosine_nearest]),
             axis=0,
         )
-        out["observed_exposure"] = out["observed_exposure_rf"]
     else:
-        out["observed_exposure"] = model.predict(x)
+        out["observed_exposure_rf"] = model.predict(x)
     return out

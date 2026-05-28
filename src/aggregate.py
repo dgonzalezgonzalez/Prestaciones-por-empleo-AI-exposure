@@ -5,13 +5,30 @@ import pandas as pd
 from .download_ine import detect_weight_column
 
 
+EXPOSURE_COLUMN_ORDER = [
+    "observed_exposure_rf",
+    "observed_exposure_ridge",
+    "observed_exposure_cosine_weighted",
+    "observed_exposure_cosine_nearest",
+    "observed_exposure_ensemble",
+]
+
+
 def exposure_value_columns(occupation_exposure: pd.DataFrame) -> list[str]:
     columns = [
         column
         for column in occupation_exposure.columns
-        if column == "observed_exposure" or column.startswith("observed_exposure_")
+        if column.startswith("observed_exposure_")
     ]
-    return sorted(columns, key=lambda column: (column != "observed_exposure", column))
+    return sorted(
+        columns,
+        key=lambda column: (
+            EXPOSURE_COLUMN_ORDER.index(column)
+            if column in EXPOSURE_COLUMN_ORDER
+            else len(EXPOSURE_COLUMN_ORDER),
+            column,
+        ),
+    )
 
 
 def aggregate_industry_quarter_exposure(
@@ -37,7 +54,7 @@ def aggregate_industry_quarter_exposure(
     for column in exposure_columns:
         exposure[column] = pd.to_numeric(exposure[column], errors="coerce")
     merged = df.merge(exposure, on="OCUP1", how="left")
-    primary_column = "observed_exposure" if "observed_exposure" in exposure_columns else exposure_columns[0]
+    primary_column = "observed_exposure_rf" if "observed_exposure_rf" in exposure_columns else exposure_columns[0]
     merged["_covered_weight"] = merged["_weight"].where(merged[primary_column].notna(), 0.0)
     for column in exposure_columns:
         merged[f"_weighted_{column}"] = merged["_weight"].where(merged[column].notna(), 0.0) * merged[column].fillna(0.0)
@@ -56,11 +73,11 @@ def aggregate_industry_quarter_exposure(
     out["coverage_share"] = out["covered_weight"] / out["total_weight"]
     out = out[out["covered_weight"] > 0].copy()
     for column in exposure_columns:
-        suffix = "" if column == "observed_exposure" else column.removeprefix("observed_exposure")
+        suffix = column.removeprefix("observed_exposure")
         out[f"observed_exposure_cnae{suffix}"] = out[f"weighted_{column}"] / out["covered_weight"]
     out = out.rename(columns={"ACT1": "cnae"})
     exposure_out_columns = [
-        "observed_exposure_cnae" if column == "observed_exposure" else f"observed_exposure_cnae{column.removeprefix('observed_exposure')}"
+        f"observed_exposure_cnae{column.removeprefix('observed_exposure')}"
         for column in exposure_columns
     ]
     return out[
