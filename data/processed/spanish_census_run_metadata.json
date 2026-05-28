@@ -6,7 +6,16 @@
   "translation_provider": "google_unofficial",
   "ollama_host": "http://127.0.0.1:11434",
   "model_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\random_forest_nomic-embed-text.joblib",
-  "model_sha256": "33edf6d57992289fcdd6fe310e28d0576450616e8df75514027ff86ce2d374be",
+  "model_metrics_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\random_forest_nomic-embed-text_metrics.json",
+  "model_sha256": "a884ddb3c785e0f4a94898a1560a787c1efc1742af0332309fbbfc6450128b44",
+  "exposure_columns": [
+    "observed_exposure",
+    "observed_exposure_rf",
+    "observed_exposure_ridge",
+    "observed_exposure_cosine_weighted",
+    "observed_exposure_cosine_nearest",
+    "observed_exposure_ensemble"
+  ],
   "database": "C:\\tmp\\spanish-ai-exposure-census\\data\\processed\\spanish_census_ai_exposure.sqlite",
   "occupation_output": "C:\\tmp\\spanish-ai-exposure-census\\data\\processed\\spanish_census_occupation_exposure.csv",
   "industry_quarter_output": "C:\\tmp\\spanish-ai-exposure-census\\data\\processed\\spanish_census_industry_period_exposure.csv"

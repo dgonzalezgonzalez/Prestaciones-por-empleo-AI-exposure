@@ -13,7 +13,7 @@ from src.download_anthropic import download_anthropic_job_exposure, load_anthrop
 from src.download_ine import download_ine_from_manifest, get_ine_source_spec, read_ine_microdata
 from src.embeddings import EmbeddingCache, OllamaEmbeddingClient, embed_texts
 from src.ine_metadata import build_occupation_table, parse_occupation_mapping_from_excel
-from src.model import predict_occupation_exposure, train_exposure_model
+from src.model import EXPOSURE_COLUMNS, predict_occupation_exposure, train_exposure_model
 from src.translation import TranslationCache, TranslationClient, translate_texts_to_english
 from src.utils import clean_occupation_title, file_sha256
 
@@ -178,7 +178,9 @@ def main() -> None:
         "translation_provider": translation_client.provider_id,
         "ollama_host": config.ollama_host,
         "model_path": str(model_path),
+        "model_metrics_path": str(metrics_path),
         "model_sha256": model_sha,
+        "exposure_columns": [column for column in EXPOSURE_COLUMNS if column in predictions.columns],
         "database": str(config.db_path),
         "occupation_output": str(occupation_out),
         "industry_quarter_output": str(panel_out),
