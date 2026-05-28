@@ -46,7 +46,7 @@ If a weight column such as `FACTOREL` exists, the pipeline uses it. Otherwise it
 
 Let Anthropic occupation $i = 1,\dots,N$ have cleaned English title $a_i$, embedding vector $x_i \in \mathbb{R}^d$, and observed Anthropic exposure $y_i$. Let Spanish occupation $j = 1,\dots,M$ have cleaned Spanish title $s_j$, English translation $t_j$, and embedding vector $z_j \in \mathbb{R}^d$. The same Ollama embedding model is used for $x_i$ and $z_j$, so all approaches work in one shared semantic vector space.
 
-The training set keeps Anthropic rows with non-missing exposure and a cached/generated embedding. Current full runs use $N = 756$ and $d = 768$ with `nomic-embed-text`. Diagnostics are computed first; final models used for Spanish prediction are then fit on all $N$ Anthropic rows. This matters because diagnostic splits should measure performance, not permanently discard labeled Anthropic occupations from final estimation.
+The training set keeps Anthropic rows with non-missing exposure and a cached/generated embedding. Current full runs use $N = 756$ and $d = 2560$ with `qwen3-embedding:4b`. Diagnostics are computed first; final models used for Spanish prediction are then fit on all $N$ Anthropic rows. This matters because diagnostic splits should measure performance, not permanently discard labeled Anthropic occupations from final estimation.
 
 ### Random Forest: `observed_exposure_rf`
 
@@ -163,11 +163,11 @@ Correlations are calculated across the 61 Spanish Census occupation rows in `dat
 
 | measure | rf | ridge | cosine_weighted | cosine_nearest | ensemble |
 |---|---:|---:|---:|---:|---:|
-| rf | 1.000 | 0.234 | 0.360 | 0.311 | 0.486 |
-| ridge | 0.234 | 1.000 | -0.032 | -0.044 | 0.118 |
-| cosine_weighted | 0.360 | -0.032 | 1.000 | 0.988 | 0.981 |
-| cosine_nearest | 0.311 | -0.044 | 0.988 | 1.000 | 0.972 |
-| ensemble | 0.486 | 0.118 | 0.981 | 0.972 | 1.000 |
+| rf | 1.000 | 0.851 | 0.736 | 0.663 | 0.863 |
+| ridge | 0.851 | 1.000 | 0.701 | 0.696 | 0.879 |
+| cosine_weighted | 0.736 | 0.701 | 1.000 | 0.819 | 0.918 |
+| cosine_nearest | 0.663 | 0.696 | 0.819 | 1.000 | 0.920 |
+| ensemble | 0.863 | 0.879 | 0.918 | 0.920 | 1.000 |
 
 ## Install
 
@@ -182,9 +182,10 @@ Install and start Ollama separately:
 ```powershell
 ollama list
 ollama pull nomic-embed-text
+ollama pull qwen3-embedding:4b
 ```
 
-The default embedding model is `nomic-embed-text`. Override it with `--embedding-model` or `OLLAMA_EMBED_MODEL`.
+The default embedding model is `nomic-embed-text`. Current tracked outputs were generated with `qwen3-embedding:4b`. Override the model with `--embedding-model` or `OLLAMA_EMBED_MODEL`.
 
 The default translation provider is `auto`. It uses DeepL if `DEEPL_API_KEY` is set, Google Cloud if `GOOGLE_TRANSLATE_API_KEY` is set, and otherwise falls back to the no-key Google Translate web endpoint. Ollama translation remains available only when explicitly requested with `--translation-provider ollama`.
 
