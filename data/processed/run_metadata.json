@@ -1,10 +1,10 @@
 {
-  "embedding_model": "nomic-embed-text",
+  "embedding_model": "qwen3-embedding:4b",
   "translation_provider": "google_unofficial",
   "ollama_host": "http://127.0.0.1:11434",
-  "model_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_nomic-embed-text.joblib",
-  "model_metrics_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_nomic-embed-text_metrics.json",
-  "model_sha256": "432cb14aab405f84443caf0be19fa02917dc14777ba7733ea0f56b21e8873dc9",
+  "model_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_qwen3-embedding_4b.joblib",
+  "model_metrics_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_qwen3-embedding_4b_metrics.json",
+  "model_sha256": "09554b2d2a03d2a3f074dc3f46a5c96eed55ff203821f6cb4de0935c228ff90a",
   "exposure_columns": [
     "observed_exposure_rf",
     "observed_exposure_ridge",
