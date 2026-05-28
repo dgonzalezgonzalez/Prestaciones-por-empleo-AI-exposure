@@ -126,13 +126,7 @@ It is intentionally simple and useful as a transparent benchmark: every Spanish 
 The ensemble is the unweighted arithmetic mean of the four method-specific estimates:
 
 $$
-\widehat{y}^{\mathrm{ens}}_j =
-\frac{
-\widehat{y}^{\mathrm{RF}}_j
-+ \widehat{y}^{\mathrm{ridge}}_j
-+ \widehat{y}^{\mathrm{cos,w}}_j
-+ \widehat{y}^{\mathrm{cos,nn}}_j
-}{4}
+\widehat{y}^{\mathrm{ens}}_j = \frac{\widehat{y}^{\mathrm{RF}}_j + \widehat{y}^{\mathrm{ridge}}_j + \widehat{y}^{\mathrm{cos,w}}_j + \widehat{y}^{\mathrm{cos,nn}}_j}{4}
 $$
 
 It is not optimized or trained; it is a simple robustness summary.
