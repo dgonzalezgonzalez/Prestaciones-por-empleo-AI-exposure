@@ -158,7 +158,7 @@ Implementation:
 
 ### 6. Cosine nearest
 
-For Spanish CNO4 target vector `z_j` and Anthropic vector `x_i`:
+For Spanish CNO4 target vector $z_j$ and Anthropic vector $x_i$:
 
 $$
 c_{ji} =
