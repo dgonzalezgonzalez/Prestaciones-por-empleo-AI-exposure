@@ -1,341 +1,418 @@
 # Spanish Employment AI Exposure Pipeline
 
-This project builds a Spanish labor-market version of Anthropic's occupation AI exposure analysis.
+This project builds Spanish labor-market AI exposure estimates from Anthropic's occupation-level `observed_exposure` data.
 
-It downloads Anthropic's `job_exposure.csv`, embeds Anthropic occupation titles with a local Ollama embedding model, trains exposure models from Anthropic `observed_exposure`, translates Spanish occupation labels from INE EPA metadata into English, embeds the English translations, predicts Spanish occupation exposure with several approaches, stores occupation-level predictions in SQLite, and aggregates them to industry-quarter exposure using EPA occupation frequencies within each `ACT1` industry cell.
+Current `main` branch scope: EPA only. The Census implementation lives on branch `census-ai-exposure`.
+
+## Current Status
+
+The current EPA pipeline no longer uses Ridge Regression or Ensemble outputs. Active exposure methods are:
+
+- `rf`: Random Forest on embedding vectors.
+- `cosine_weighted`: assignment-based cosine weighted average.
+- `cosine_nearest`: nearest Anthropic occupation by cosine similarity.
+
+The default occupation representation is now taxonomy-aware:
+
+1. Anthropic occupations use O*NET title plus O*NET description.
+2. Spanish occupations use parsed CNO-2011 4-digit occupation records from INE's CNO-2011 explanatory PDF.
+3. Each CNO4 occupation is embedded as one structured semantic unit.
+4. Exposure is predicted at CNO4.
+5. CNO4 predictions are aggregated to EPA `OCUP1`.
+6. EPA worker records are merged on `OCUP1`.
+7. Industry-quarter exposure is aggregated by `ACT1` plus quarter.
+
+The dated implementation log is in `docs/2026-05-29-cno4-cosine-update.md`.
 
 ## Data Sources
 
-- Anthropic Economic Index dataset: `labor_market_impacts/job_exposure.csv`
+- Anthropic Economic Index `job_exposure.csv`
+  - Local path: `data/raw/anthropic/job_exposure.csv`
   - URL: <https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/main/labor_market_impacts>
   - Required columns: `occ_code`, `title`, `observed_exposure`
-- INE Encuesta de Poblacion Activa microdata
-  - URL: <https://ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176918&menu=resultados&secc=1254736030639&idp=1254735976595>
-  - Core variables: `OCUP1` for occupation and `ACT1` for industry
-  - Metadata workbook: "Diseño de registro y valores validos" from the same INE page
 
-Raw INE microdata, embedding cache, model files, and generated outputs are excluded from git. They are reproducible local artifacts and may be large.
+- O*NET 30.3 Occupation Data
+  - Local path: `data/raw/anthropic/Occupation_Data_30_3.xlsx`
+  - URL used by code: <https://www.onetcenter.org/dl_files/database/db_30_3_excel/Occupation%20Data.xlsx>
+  - Used columns: `O*NET-SOC Code`, `Title`, `Description`
+  - Join rule: strip trailing `.00` from O*NET codes before merging to Anthropic `occ_code`.
 
-## Method
+- INE CNO-2011 explanatory PDF
+  - Local path: `data/raw/ine/cno11_notas.pdf`
+  - URL used by code: <https://ine.es/daco/daco42/clasificaciones/cno11_notas.pdf>
+  - Used to parse 4-digit CNO primary occupation groups.
 
-1. Download Anthropic occupation exposure data.
-2. Clean occupation titles.
-3. Embed Anthropic titles with Ollama.
-4. Train and validate exposure models with `observed_exposure` as the target and embedding dimensions as predictors. The Random Forest is evaluated on a holdout split, compared with cross-validated baselines, then refit on all Anthropic rows for final prediction.
-5. Download INE EPA microdata from a local manifest.
-6. Parse Spanish `OCUP1` occupation labels from INE metadata.
-7. Clean Spanish occupation labels before translation. This removes non-semantic annotations such as `(codigos CNO-2011)` or `(códigos CNO-2011)`.
-8. Translate cleaned Spanish occupation labels to English using the configured translation provider. Domain overrides are applied before external translation for known labor-market terms whose literal translation is misleading. In particular, Spanish `restauración` is translated as food service/catering/hospitality, not art/building restoration.
-9. Embed the English translations with the same Ollama embedding model used for Anthropic titles.
-10. Predict exposure for each Spanish occupation with Random Forest, ridge regression, cosine-similarity weighted average, cosine nearest-neighbor, and a simple ensemble average.
-11. Store predictions in SQLite.
-12. Aggregate to `ACT1` industry by quarter:
+- INE EPA table 65134 for CNO2 employment weights
+  - Local path: `data/raw/ine/epa_65134_cno2_weights.csv`
+  - URL used by code: <https://www.ine.es/jaxiT3/files/t/csv_bdsc/65134.csv>
+  - Filter: `Sexo == Ambos sexos`, `Unidad == Valor absoluto`, latest period in the downloaded table.
+  - Current latest parsed period during run: `2026T1`.
+
+- INE EPA microdata
+  - Manifest: `ine_manifest.csv`
+  - Core variables: `OCUP1` for major occupation, `ACT1` for industry, `FACTOREL` when present for weights.
+  - Metadata workbook: used to parse `OCUP1` labels and `ACT1` industry names.
+
+## Exact Method
+
+### 1. Anthropic side
+
+1. Download or reuse `job_exposure.csv`.
+2. Load rows with non-missing `occ_code`, `title`, and `observed_exposure`.
+3. Download or reuse O*NET Occupation Data.
+4. Normalize O*NET codes by removing a trailing `.00`.
+5. Merge O*NET descriptions onto Anthropic rows by `occ_code`.
+6. Build Anthropic embedding text:
+
+```text
+O*NET occupation: <Anthropic title>. Description: <O*NET description>
+```
+
+If O*NET description is missing, the code falls back to the cleaned Anthropic title only.
+
+### 2. Spanish CNO side
+
+1. Download or reuse INE `cno11_notas.pdf`.
+2. Parse PDF text with `pypdf`.
+3. Start after introductory pages.
+4. Detect 4-digit headings such as `1111 Miembros del poder ejecutivo...`.
+5. Treat each 4-digit CNO group as exactly one occupation record.
+6. Extract structured fields where possible:
+   - `CNO4`
+   - `CNO2`
+   - `OCUP1`
+   - Spanish title
+   - definition text
+   - typical tasks after `Entre sus tareas se incluyen:`
+   - included examples
+   - related or excluded occupations
+7. Build CNO embedding text:
+
+```text
+CNO occupation: <code> <title>. Definition: ... Typical tasks: ... Examples included: ... Related or excluded occupations: ...
+```
+
+No generic chunks are used. No arbitrary chunk averaging is used.
+
+Spanish CNO text is not translated before embedding. Decision: `qwen3-embedding:4b` is multilingual, and translating long PDF descriptions would add another undocumented transformation layer. Anthropic text remains English because O*NET is English.
+
+### 3. Embeddings
+
+Embeddings are generated through local Ollama and cached in `data/cache/embeddings.sqlite`.
+
+Cache key includes:
+
+- embedding model name
+- cleaned/normalized text
+
+Current tracked outputs were generated with:
+
+```text
+qwen3-embedding:4b
+```
+
+Current embedding dimension from run metadata: `2560`.
+
+### 4. Exposure model bundle
+
+`src/model.py` builds an `ExposureModelBundle` containing:
+
+- optional fitted Random Forest
+- Anthropic embedding matrix
+- Anthropic exposure vector
+- Anthropic titles and occupation codes for diagnostics
+- metrics dictionary
+
+Valid methods:
+
+```text
+rf, cosine_weighted, cosine_nearest
+```
+
+`--methods cosine_weighted,cosine_nearest` runs without fitting or requiring RF. This was added so cosine-only runs do not pay the RF runtime cost.
+
+### 5. Random Forest
+
+RF method:
+
+```text
+observed_exposure_rf
+```
+
+Implementation:
+
+- `sklearn.ensemble.RandomForestRegressor`
+- default trees: `AI_EXPOSURE_RF_TREES`, default `500`
+- default seed: `AI_EXPOSURE_RANDOM_SEED`, default `20260527`
+- `min_samples_leaf = 2`
+- `n_jobs = 1`
+- diagnostics: 80/20 holdout and 5-fold cross-validation
+- final RF: fit on all 756 Anthropic rows
+
+### 6. Cosine nearest
+
+For Spanish CNO4 target vector `z_j` and Anthropic vector `x_i`:
+
+```text
+cosine(j, i) = dot(z_j, x_i) / (norm(z_j) * norm(x_i))
+```
+
+Nearest method:
+
+```text
+observed_exposure_cosine_nearest = exposure of Anthropic occupation with max cosine similarity
+```
+
+### 7. Cosine weighted
+
+For every Anthropic occupation, find the nearest Spanish CNO4 target. Then for each Spanish CNO4, average all Anthropic exposures assigned to it, weighted by cosine similarity.
+
+If no Anthropic occupation is assigned to a Spanish CNO4 target, the code falls back to cosine nearest for that target. This is explicit and prevents missing CNO4 predictions.
+
+### 8. CNO4 to OCUP1 aggregation
+
+EPA public table 65134 gives usable occupation employment counts down to CNO2, not CNO4.
+
+Therefore EPA aggregation is:
+
+```text
+CNO4 -> CNO2: equal average within each CNO2
+CNO2 -> OCUP1: weighted average using INE EPA table 65134 employment weights
+```
+
+If an `OCUP1` group has no matching CNO2 public weight, fallback is equal CNO4 weights for that group. The output records the source in `aggregation_weight_source`.
+
+### 9. EPA industry-quarter aggregation
+
+EPA microdata are merged on `OCUP1`.
+
+For industry `ACT1`, quarter, and method:
 
 ```text
 observed_exposure_cnae_<method> =
-  sum_occupations(weight_occupation_in_industry_quarter * observed_exposure_occupation_<method>)
+  sum(weight * observed_exposure_<method>) / covered_weight
 ```
 
-If an EPA weight column such as `FACTOREL` exists, the pipeline uses it. Otherwise it falls back to record counts.
+Weight source:
 
-## Exposure Estimation Details
+- use `FACTOREL` if present
+- otherwise use record count `1.0`
 
-Let Anthropic occupation $i = 1,\dots,N$ have cleaned English title $a_i$, embedding vector $x_i \in \mathbb{R}^d$, and observed Anthropic exposure $y_i$. Let Spanish occupation $j = 1,\dots,M$ have cleaned Spanish title $s_j$, English translation $t_j$, and embedding vector $z_j \in \mathbb{R}^d$. The same Ollama embedding model is used for $x_i$ and $z_j$, so all approaches work in one shared semantic vector space.
+Outputs include:
 
-The training set keeps Anthropic rows with non-missing exposure and a cached/generated embedding. Current full runs use $N = 756$ and $d = 2560$ with `qwen3-embedding:4b`. Diagnostics are computed first; final models used for Spanish prediction are then fit on all $N$ Anthropic rows. This matters because diagnostic splits should measure performance, not permanently discard labeled Anthropic occupations from final estimation.
+- `total_weight`
+- `covered_weight`
+- `coverage_share`
+- `occupation_count`
+- `industry_name`
 
-### Random Forest: `observed_exposure_rf`
+## Match Diagnostics
 
-The Random Forest estimates a nonlinear function $f_{\mathrm{RF}}$ from embedding dimensions to exposure:
+Two diagnostic outputs show exactly which Anthropic occupations were matched to Spanish CNO4 occupations:
 
-$$
-\widehat{y}^{\mathrm{RF}}_j = f_{\mathrm{RF}}(z_j)
-$$
+- `data/processed/spanish_occupation_matches_cosine_weighted.csv`
+- `data/processed/spanish_occupation_matches_cosine_nearest.csv`
 
-Implementation details:
+Columns include:
 
-- estimator: `sklearn.ensemble.RandomForestRegressor`
-- trees: `AI_EXPOSURE_RF_TREES`, default `500`
-- random seed: `AI_EXPOSURE_RANDOM_SEED`, default `20260527`
-- `min_samples_leaf = 2`
-- `n_jobs = 1`
-- diagnostics: one 80/20 holdout split plus 5-fold cross-validation when at least five Anthropic rows exist
-- final prediction model: refit on all Anthropic rows after diagnostics
+- `method`
+- `spanish_code`
+- `spanish_title`
+- `spanish_embedding_text`
+- `anthropic_occ_code`
+- `anthropic_title`
+- `anthropic_observed_exposure`
+- `cosine_similarity`
+- `CNO4`
+- `CNO2`
+- `OCUP1`
 
-### Ridge Regression: `observed_exposure_ridge`
+Weighted diagnostics have one row per Anthropic occupation assigned to a Spanish CNO4 target, plus fallback nearest rows for targets with no assignments. Nearest diagnostics have one row per CNO4 target.
 
-Ridge regression estimates a linear map from standardized embeddings to exposure:
+## Commands Actually Run
 
-$$
-\widehat{y}^{\mathrm{ridge}}_j = \alpha + z_j^\top \beta
-$$
+Cosine-only EPA run:
 
-The model is a `StandardScaler()` followed by `RidgeCV`. The penalty grid is:
+```powershell
+py -3 main.py --embedding-model qwen3-embedding:4b --ine-manifest ine_manifest.csv --methods cosine_weighted,cosine_nearest
+```
 
-$$
-\lambda \in \{10^{-3}, 10^{-2.5}, \dots, 10^3\}
-$$
+RF-inclusive EPA run:
 
-This is included because dense semantic embeddings often encode information in joint vector geometry; a regularized linear model can sometimes be more stable than trees that split on individual embedding coordinates.
+```powershell
+py -3 main.py --embedding-model qwen3-embedding:4b --ine-manifest ine_manifest.csv --methods rf,cosine_weighted,cosine_nearest
+```
 
-### Cosine-Weighted Anthropic Imputation: `observed_exposure_cosine_weighted`
+Both command wrappers reported timeout after final output had already printed. Files were inspected afterward and committed only after expected outputs existed.
 
-For every Anthropic occupation $i$, the pipeline first finds the Spanish occupation $j$ with the highest cosine similarity. Cosine similarity between Anthropic occupation $i$ and Spanish occupation $j$ is:
+Tests:
 
-$$
-c_{ji} = \frac{z_j^\top x_i}{\lVert z_j \rVert \lVert x_i \rVert}
-$$
+```powershell
+py -3 -m unittest discover -s tests -v
+```
 
-The nearest Spanish match for Anthropic occupation $i$ is:
+Result after cosine-only EPA implementation: 16 tests passed.
 
-$$
-j^\*(i) = \arg\max_{j \in \{1,\dots,M\}} c_{ji}
-$$
+Result after RF-inclusive EPA run: 16 tests passed.
 
-For a given Spanish occupation $j$, define the assigned Anthropic set:
+## RF Diagnostics From Current EPA RF Run
 
-$$
-A_j = \{i : j^\*(i) = j\}
-$$
+Model file:
 
-The imputed exposure is the cosine-similarity weighted average of Anthropic exposure values assigned to that Spanish occupation:
+```text
+models/exposure_model_qwen3-embedding_4b_rf_cosine_weighted_cosine_nearest.joblib
+```
 
-$$
-\widehat{y}^{\mathrm{cos,w}}_j =
-\frac{\sum_{i \in A_j} c_{ji} y_i}{\sum_{i \in A_j} c_{ji}}
-$$
+Model SHA256:
 
-This is the assignment-based semantic-linking approach: every Anthropic occupation contributes to exactly one Spanish occupation, namely its closest Spanish semantic match. If no Anthropic occupation chooses Spanish occupation $j$, or if the assigned cosine weights have non-positive total weight, the pipeline falls back to `observed_exposure_cosine_nearest` for that Spanish occupation so every Spanish occupation still has a defined value.
+```text
+832de72489b2f2318a54b0b0b47b78fe6fad17a4a17e9c5ca8f419cf9cec0e1d
+```
 
-### Cosine Nearest Neighbor: `observed_exposure_cosine_nearest`
+Holdout RF diagnostics:
 
-This approach assigns the exposure of the single nearest Anthropic occupation:
+- MAE: `0.0645711039940907`
+- RMSE: `0.09334295237351001`
+- R2: `0.42746290775471074`
 
-$$
-i^\*(j) = \arg\max_{i \in \{1,\dots,N\}} c_{ji}
-$$
+5-fold cross-validation:
 
-$$
-\widehat{y}^{\mathrm{cos,nn}}_j = y_{i^\*(j)}
-$$
+- global mean MAE: `0.09735047482001576`
+- Random Forest MAE: `0.06917329313943038`
+- cosine weighted MAE: `0.057537667569887326`
+- cosine nearest MAE: `0.06683253968253969`
 
-It is intentionally simple and useful as a transparent benchmark: every Spanish occupation can be audited by looking at its closest Anthropic occupation in embedding space.
+## Current EPA Outputs
 
-### Ensemble: `observed_exposure_ensemble`
+Generated tracked outputs:
 
-The ensemble is the unweighted arithmetic mean of the four method-specific estimates:
+- `data/processed/spanish_occupation_exposure.csv`
+  - rows: 10
+  - columns:
+    - `OCUP1`
+    - `occupation_title`
+    - `cno4_count`
+    - `cno2_count`
+    - `aggregation_weight_source`
+    - `observed_exposure_rf`
+    - `observed_exposure_cosine_weighted`
+    - `observed_exposure_cosine_nearest`
 
-$$
-\widehat{y}^{\mathrm{ens}}_j = \frac{\widehat{y}^{\mathrm{RF}}_j + \widehat{y}^{\mathrm{ridge}}_j + \widehat{y}^{\mathrm{cos,w}}_j + \widehat{y}^{\mathrm{cos,nn}}_j}{4}
-$$
+- `data/processed/spanish_industry_quarter_exposure.csv`
+  - rows: 610
+  - columns:
+    - `cnae`
+    - `industry_name`
+    - `quarter`
+    - `observed_exposure_cnae_rf`
+    - `observed_exposure_cnae_cosine_weighted`
+    - `observed_exposure_cnae_cosine_nearest`
+    - `total_weight`
+    - `covered_weight`
+    - `coverage_share`
+    - `occupation_count`
 
-It is not optimized or trained; it is a simple robustness summary.
+- `data/processed/spanish_occupation_matches_cosine_weighted.csv`
+  - rows after cosine-only run: 913
 
-### Industry-Quarter Aggregation
+- `data/processed/spanish_occupation_matches_cosine_nearest.csv`
+  - rows after cosine-only run: 502
 
-For industry $k$, quarter $q$, method $m$, person/record $r$, occupation code $o(r)$, industry code $a(r)$, and survey weight $W_r$:
+- `data/processed/run_metadata.json`
 
-$$
-\widehat{Y}_{kq}^{m} =
-\frac{
-\sum_{r: a(r)=k,\; quarter(r)=q} W_r \widehat{y}^{m}_{o(r)}
-}{
-\sum_{r: a(r)=k,\; quarter(r)=q,\; \widehat{y}^{m}_{o(r)}\; observed} W_r
-}
-$$
+- `data/processed/spanish_ai_exposure.sqlite`
 
-Coverage is:
-
-$$
-coverage\_share_{kq} =
-\frac{covered\_weight_{kq}}{total\_weight_{kq}}
-$$
-
-Because EPA `OCUP1` has only 10 broad groups, these are major-occupation exposure estimates. They should not be interpreted as fine CNO four-digit occupation estimates.
-
-### Current Occupation-Level Correlations
-
-Correlations are calculated across the 10 Spanish EPA occupation rows in `data/processed/spanish_occupation_exposure.csv`.
-
-| measure | rf | ridge | cosine_weighted | cosine_nearest | ensemble |
-|---|---:|---:|---:|---:|---:|
-| rf | 1.000 | 0.710 | 0.675 | 0.522 | 0.740 |
-| ridge | 0.710 | 1.000 | 0.754 | 0.744 | 0.882 |
-| cosine_weighted | 0.675 | 0.754 | 1.000 | 0.831 | 0.925 |
-| cosine_nearest | 0.522 | 0.744 | 0.831 | 1.000 | 0.941 |
-| ensemble | 0.740 | 0.882 | 0.925 | 0.941 | 1.000 |
+Ridge and Ensemble columns are intentionally absent.
 
 ## Install
-
-No virtual environment is required.
 
 ```powershell
 py -3 -m pip install -r requirements.txt
 ```
 
+Required Python packages:
+
+- `pandas`
+- `scikit-learn`
+- `requests`
+- `joblib`
+- `openpyxl`
+- `pypdf`
+
 Install and start Ollama separately:
 
 ```powershell
-ollama list
-ollama pull nomic-embed-text
 ollama pull qwen3-embedding:4b
 ```
 
-The default embedding model is `nomic-embed-text`. Current tracked outputs were generated with `qwen3-embedding:4b`. Override the model with `--embedding-model` or `OLLAMA_EMBED_MODEL`.
+## Run Options
 
-The default translation provider is `auto`. It uses DeepL if `DEEPL_API_KEY` is set, Google Cloud if `GOOGLE_TRANSLATE_API_KEY` is set, and otherwise falls back to the no-key Google Translate web endpoint. Ollama translation remains available only when explicitly requested with `--translation-provider ollama`.
+Important options:
 
-## INE Manifest
+- `--methods cosine_weighted,cosine_nearest`: cosine-only, no RF fit.
+- `--methods rf,cosine_weighted,cosine_nearest`: all active methods.
+- `--occupation-detail cno4`: default taxonomy-aware CNO4 pipeline.
+- `--occupation-detail metadata`: legacy metadata-title path.
+- `--refresh`: re-download source files.
+- `--max-quarters 1`: quick manifest check.
+- `--allow-code-labels`: allow fallback labels if metadata labels are missing. Not recommended for final outputs.
 
-INE microdata links are selected on the INE web page and can change over time, so the pipeline uses a small manifest CSV for the exact quarters you want to process.
-
-Create a file such as `ine_manifest.csv`:
-
-```csv
-quarter,microdata_url,metadata_url
-2025Q4,https://example.ine.es/path/to/epa_2025q4.zip,https://example.ine.es/path/to/diseno_registro.xlsx
-2025Q3,https://example.ine.es/path/to/epa_2025q3.zip,https://example.ine.es/path/to/diseno_registro.xlsx
-```
-
-Required columns:
-
-- `quarter`: label used in final panel, for example `2025Q4`
-- `microdata_url`: direct URL to the INE EPA microdata zip/csv/txt
-
-Optional columns:
-
-- `metadata_url`: direct URL to INE record/value metadata workbook
-- `microdata_filename`: local filename override
-- `metadata_filename`: local filename override
-
-You can use one metadata workbook for all quarters by passing `--metadata-xlsx`; otherwise the manifest can download metadata files for archival use.
-
-The repository includes `ine_manifest.csv` for all CNO-2011-consistent quarters currently exposed on the INE page, from `2011Q1` through `2026Q1`.
-
-## Run
-
-Train only on Anthropic data:
-
-```powershell
-py -3 main.py --skip-ine --embedding-model nomic-embed-text
-```
-
-Full run:
-
-```powershell
-py -3 main.py `
-  --embedding-model nomic-embed-text `
-  --translation-provider auto `
-  --ine-manifest ine_manifest.csv `
-  --metadata-xlsx path\to\diseno_registro_y_valores_validos.xlsx
-```
-
-Useful options:
-
-- `--refresh`: re-download source files
-- `--max-quarters 1`: process only first manifest row for a quick check
-- `--ollama-host http://127.0.0.1:11434`: override Ollama host
-- `--translation-provider deepl`: use DeepL API; requires `DEEPL_API_KEY`
-- `--translation-provider google_cloud`: use official Google Cloud Translation; requires `GOOGLE_TRANSLATE_API_KEY`
-- `--translation-provider google_unofficial`: use the no-key Google Translate web endpoint
-- `--translation-provider ollama --translation-model gpt-oss:120b-cloud`: use the previous local LLM translator fallback
-- `--allow-code-labels`: allow fallback labels like `OCUP1 1` if metadata labels are missing. This is not recommended for final analysis.
-
-## Outputs
-
-Generated files:
-
-```text
-data/cache/embeddings.sqlite
-data/cache/translations.sqlite
-models/random_forest_<embedding-model>.joblib
-models/random_forest_<embedding-model>_metrics.json
-data/processed/spanish_ai_exposure.sqlite
-data/processed/spanish_occupation_exposure.csv
-data/processed/spanish_industry_quarter_exposure.csv
-data/processed/run_metadata.json
-```
-
-SQLite tables:
+## SQLite Tables
 
 ### `occupation_exposure`
 
-- `ocup1`: Spanish occupation code from `OCUP1`
-- `occupation_title`: cleaned Spanish occupation label
-- `occupation_title_en`: English translation used for embedding
-- `embedding_model`: Ollama embedding model
-- `translation_model`: translation provider identifier
-- `model_sha256`: hash of trained model bundle artifact
-- `observed_exposure_rf`: Random Forest prediction
-- `observed_exposure_ridge`: ridge regression prediction
-- `observed_exposure_cosine_weighted`: weighted average of Anthropic exposure values using nonnegative cosine similarities as weights
-- `observed_exposure_cosine_nearest`: exposure from the closest Anthropic occupation by cosine similarity
-- `observed_exposure_ensemble`: average of RF, ridge, cosine-weighted, and cosine-nearest predictions
-- `generated_at`: write timestamp
+- `ocup1`
+- `occupation_title`
+- `occupation_title_en`
+- `embedding_model`
+- `translation_model`
+- `model_sha256`
+- `observed_exposure_rf`
+- `observed_exposure_cosine_weighted`
+- `observed_exposure_cosine_nearest`
+- `generated_at`
+
+The RF column allows nulls so cosine-only runs can be stored.
 
 ### `industry_quarter_exposure`
 
-- `cnae`: industry code from `ACT1`
-- `quarter`: quarter label from manifest
-- `observed_exposure_cnae_rf`, `observed_exposure_cnae_ridge`, `observed_exposure_cnae_cosine_weighted`, `observed_exposure_cnae_cosine_nearest`, `observed_exposure_cnae_ensemble`: method-specific weighted averages
-- `total_weight`: total records/weights in industry-quarter cell
-- `covered_weight`: weight with occupation exposure available
-- `coverage_share`: `covered_weight / total_weight`
-- `occupation_count`: distinct `OCUP1` count in cell
-- `embedding_model`: Ollama embedding model
-- `translation_model`: translation provider identifier
-- `model_sha256`: hash of trained model bundle artifact
-- `generated_at`: write timestamp
+- `cnae`
+- `industry_name`
+- `quarter`
+- `total_weight`
+- `covered_weight`
+- `coverage_share`
+- `occupation_count`
+- `embedding_model`
+- `translation_model`
+- `model_sha256`
+- `observed_exposure_cnae_rf`
+- `observed_exposure_cnae_cosine_weighted`
+- `observed_exposure_cnae_cosine_nearest`
+- `generated_at`
 
-## Translation And Embedding Cache
+## What Was Removed
 
-The cache is SQLite-backed at `data/cache/embeddings.sqlite`.
+Removed from active code/output:
 
-Translations are SQLite-backed at `data/cache/translations.sqlite`.
+- `observed_exposure_ridge`
+- `observed_exposure_ensemble`
+- `observed_exposure_cnae_ridge`
+- `observed_exposure_cnae_ensemble`
 
-Cache keys include:
+Older SQLite files may still contain historical dropped columns only if opened before rebuild logic runs. Current active writes do not populate them.
 
-- embedding model name
-- cleaned/normalized text
+## Known Caveats
 
-Spanish labels are cleaned before translation, cache lookup, and embedding. Parentheticals containing terms such as `codigo`, `códigos`, `CNO`, or `CNAE` are removed. Example:
+- Anthropic labels are US occupation semantics, so outputs are semantic-transfer estimates, not validated Spanish causal measures.
+- EPA still merges final predictions at `OCUP1`, so final EPA panel has 10 occupation groups.
+- CNO4 aggregation uses equal CNO4 weights within CNO2 because public EPA table 65134 does not expose CNO4 counts.
+- CNO PDF parsing is rule-based. It uses 4-digit headings and section markers; it does not use an LLM to interpret the PDF.
+- Some PDF text includes extraction artifacts from line breaks or hyphenation. The parser applies light cleanup only.
+- CNO descriptions remain Spanish by design.
+- Final results depend on `qwen3-embedding:4b`.
 
-```text
-Directores comerciales (códigos CNO-2011)
-```
+## Commit History For This Update
 
-becomes:
-
-```text
-Directores comerciales
-```
-
-becomes an English translation before embedding. Changing the embedding model or translation provider creates separate cache entries.
-
-## Tests
-
-Run:
-
-```powershell
-py -3 -m unittest discover -s tests
-```
-
-The tests use fixtures/mocks and do not require network or Ollama.
-
-## Limitations
-
-- Anthropic's occupation exposure labels are based on US occupation semantics, so Spanish predictions are semantic-transfer estimates.
-- `OCUP1` may be coarser than Anthropic's occupation codes.
-- INE file formats and metadata workbooks can vary by period; update the manifest/parser if INE changes file layout.
-- The Random Forest baseline is predictive, not causal.
-- Final results depend on the chosen embedding model.
-- Final results also depend on the chosen machine-translation provider and its translation choices.
-
-## Repository Hygiene
-
-Commit source code, tests, README, and lightweight manifests only. Do not commit:
-
-- raw INE microdata
-- embedding cache
-- trained model artifacts
-- generated SQLite/CSV outputs
+- `4a697fe`: CNO4 cosine pipeline, cosine-only EPA outputs, docs note.
+- `05595af`: RF-inclusive EPA outputs and RF documentation.
