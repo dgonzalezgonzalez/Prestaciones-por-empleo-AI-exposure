@@ -242,8 +242,8 @@ $$
 Coverage is:
 
 $$
-\mathrm{coverage\_share}_{kt} =
-\frac{\mathrm{covered\_weight}_{kt}}{\mathrm{total\_weight}_{kt}}
+\text{coverage\_share}_{kt} =
+\frac{\text{covered\_weight}_{kt}}{\text{total\_weight}_{kt}}
 $$
 
 Weight source:
