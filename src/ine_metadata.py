@@ -33,6 +33,27 @@ def parse_occupation_mapping_from_excel(
     )
 
 
+def parse_industry_mapping_from_excel(
+    path: Path,
+    source_spec: IneSourceSpec = EPA_SOURCE,
+) -> pd.DataFrame:
+    """Parse industry code labels from INE metadata workbooks."""
+    path = find_first_excel_file(path)
+    dictionary_names = ["T_ACT", "TACT1", "ACT89", "CNAE"]
+    for dictionary_name in dictionary_names:
+        try:
+            return parse_code_mapping_from_excel(
+                path,
+                dictionary_name=dictionary_name,
+                variable_name=source_spec.industry_column,
+                code_column="cnae",
+                label_column="industry_name",
+            )
+        except ValueError:
+            continue
+    return pd.DataFrame(columns=["cnae", "industry_name"])
+
+
 def find_first_excel_file(path: Path) -> Path:
     if path.suffix.lower() != ".zip":
         return path
