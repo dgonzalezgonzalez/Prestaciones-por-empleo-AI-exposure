@@ -140,6 +140,12 @@ RF method:
 observed_exposure_rf
 ```
 
+Let Anthropic occupation \(i = 1,\dots,N\) have embedding \(x_i \in \mathbb{R}^d\) and observed exposure \(y_i\). Let Spanish CNO4 occupation \(j\) have embedding \(z_j \in \mathbb{R}^d\). The Random Forest estimates:
+
+$$
+\widehat{y}^{RF}_j = f_{RF}(z_j)
+$$
+
 Implementation:
 
 - `sklearn.ensemble.RandomForestRegressor`
@@ -154,19 +160,37 @@ Implementation:
 
 For Spanish CNO4 target vector `z_j` and Anthropic vector `x_i`:
 
-```text
-cosine(j, i) = dot(z_j, x_i) / (norm(z_j) * norm(x_i))
-```
+$$
+c_{ji} =
+\frac{z_j^\top x_i}{\lVert z_j \rVert \lVert x_i \rVert}
+$$
 
 Nearest method:
 
-```text
-observed_exposure_cosine_nearest = exposure of Anthropic occupation with max cosine similarity
-```
+$$
+i^\*(j) = \arg\max_i c_{ji}
+$$
+
+$$
+\widehat{y}^{NN}_j = y_{i^\*(j)}
+$$
 
 ### 7. Cosine weighted
 
 For every Anthropic occupation, find the nearest Spanish CNO4 target. Then for each Spanish CNO4, average all Anthropic exposures assigned to it, weighted by cosine similarity.
+
+$$
+j^\*(i) = \arg\max_j c_{ji}
+$$
+
+$$
+A_j = \{i : j^\*(i) = j\}
+$$
+
+$$
+\widehat{y}^{CW}_j =
+\frac{\sum_{i \in A_j} c_{ji} y_i}{\sum_{i \in A_j} c_{ji}}
+$$
 
 If no Anthropic occupation is assigned to a Spanish CNO4 target, the code falls back to cosine nearest for that target. This is explicit and prevents missing CNO4 predictions.
 
@@ -177,6 +201,14 @@ Census `OCU63` is already a 2-digit CNO variable. Therefore Census aggregation i
 ```text
 CNO4 -> CNO2: equal average within each CNO2
 ```
+
+For CNO2 group \(g\), CNO4 occupations \(J_g\), method \(m\):
+
+$$
+\widehat{y}^{m}_{g} =
+\frac{1}{|J_g|}
+\sum_{j \in J_g} \widehat{y}^{m}_{j}
+$$
 
 No EPA table 65134 employment weighting is used for Census. Reason: table 65134 is an EPA employment table, while Census branch already uses two-digit CNO categories from Census person records. The Census microdata itself supplies the actual person counts by `OCU63` and `ACT89` during final industry aggregation.
 
@@ -194,10 +226,23 @@ Census microdata are merged on normalized `OCUP1`, which contains the Census `OC
 
 For industry `ACT89`, period, and method:
 
-```text
-observed_exposure_cnae_<method> =
-  sum(weight * observed_exposure_<method>) / covered_weight
-```
+Let person or record \(r\) have industry \(a(r)\), occupation \(o(r)\), period \(p(r)\), and weight \(W_r = 1\). For industry \(k\), period \(t\), and method \(m\):
+
+$$
+\widehat{Y}^{m}_{kt} =
+\frac{
+\sum_{r: a(r)=k,\;p(r)=t} W_r \widehat{y}^{m}_{o(r)}
+}{
+\sum_{r: a(r)=k,\;p(r)=t,\;\widehat{y}^{m}_{o(r)}\;observed} W_r
+}
+$$
+
+Coverage is:
+
+$$
+coverage\_share_{kt} =
+\frac{covered\_weight_{kt}}{total\_weight_{kt}}
+$$
 
 Census run has no `FACTOREL`; the pipeline uses record count `1.0` per person/record.
 
