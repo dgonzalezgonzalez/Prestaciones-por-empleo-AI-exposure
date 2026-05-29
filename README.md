@@ -240,8 +240,8 @@ $$
 Coverage is:
 
 $$
-\text{coverage\_share}_{kt} =
-\frac{\text{covered\_weight}_{kt}}{\text{total\_weight}_{kt}}
+\text{coverage share}_{kt} =
+\frac{\text{covered weight}_{kt}}{\text{total weight}_{kt}}
 $$
 
 Census run has no `FACTOREL`; the pipeline uses record count `1.0` per person/record.
