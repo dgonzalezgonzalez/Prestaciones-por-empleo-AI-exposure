@@ -1,63 +1,63 @@
-CNO2,observed_exposure_cosine_weighted,observed_exposure_cosine_nearest,cno4_count,OCUP1,CNO1,occupation_title,aggregation_weight_source
-00,0.15013333333333334,0.15013333333333334,3,00,0,CNO2 00,equal CNO4 weights
-11,0.0663402524969268,0.053524999999999996,4,11,1,Miembros del poder ejecutivo y de los cuerpos legislativos; directivos de la Administración Pública y organizaciones de interés social; directores ejecutivos,equal CNO4 weights
-12,0.15264453679024867,0.17941666666666667,6,12,1,Directores de departamentos administrativos y comerciales,equal CNO4 weights
-13,0.09198313379981059,0.09571428571428572,14,13,1,Directores de producción y operaciones,equal CNO4 weights
-14,0.09192857142857143,0.09192857142857143,7,14,1,"Directores y gerentes de empresas de alojamiento, restauración y comercio",equal CNO4 weights
-15,0.046620159690942645,0.09105,2,15,1,Directores y gerentes de otras empresas de servicios no clasificados bajo otros epígrafes,equal CNO4 weights
-21,0.03910048467041437,0.030425,16,21,2,Profesionales de la salud,equal CNO4 weights
-22,0.07668399053055813,0.08283333333333334,6,22,2,"Profesionales de la enseñanza infantil, primaria, secundaria y postsecundaria",equal CNO4 weights
-23,0.18245090727332552,0.18943333333333331,9,23,2,Otros profesionales de la enseñanza,equal CNO4 weights
-24,0.07526795570584371,0.0665952380952381,42,24,2,"Profesionales de las ciencias físicas, químicas, matemáticas y de las ingenierías",equal CNO4 weights
-25,0.1794959686710317,0.15606666666666666,6,25,2,Profesionales en derecho,equal CNO4 weights
-26,0.2643688343529258,0.26642307692307693,13,26,2,Especialistas en organización de la Administración Pública y de las empresas y en la comercialización,equal CNO4 weights
-27,0.3574506759748814,0.3343125,8,27,2,Profesionales de las tecnologías de la información,equal CNO4 weights
-28,0.1189179454074709,0.1821857142857143,7,28,2,Profesionales en ciencias sociales,equal CNO4 weights
-29,0.18976173098341717,0.1707923076923077,13,29,2,Profesionales de la cultura y el espectáculo,equal CNO4 weights
-31,0.058340251531380755,0.074428,25,31,3,Técnicos de las ciencias y de las ingenierías,equal CNO4 weights
-32,0.021524743330757636,0.025575,8,32,3,"Supervisores en ingeniería de minas, de industrias manufactureras y de la construcción",equal CNO4 weights
-33,0.04741468796286117,0.054441176470588236,17,33,3,Técnicos sanitarios y profesionales de las terapias alternativas,equal CNO4 weights
-34,0.2641529988304862,0.22962,5,34,3,Profesionales de apoyo en finanzas y matemáticas,equal CNO4 weights
-35,0.19438005023138705,0.21362,10,35,3,"Representantes, agentes comerciales y afines",equal CNO4 weights
-36,0.13302655636579172,0.12050000000000001,10,36,3,Profesionales de apoyo a la gestión administrativa; técnicos de las fuerzas y cuerpos de seguridad,equal CNO4 weights
-37,0.06304783008258831,0.04946,15,37,3,"Profesionales de apoyo de servicios jurídicos, sociales, culturales, deportivos y afines",equal CNO4 weights
-38,0.28254306714150496,0.2921875,8,38,3,Técnicos de las tecnologías de la información y las comunicaciones (TIC),equal CNO4 weights
-41,0.1779744607927922,0.23565000000000003,6,41,4,"Empleados en servicios contables, financieros, y de servicios de apoyo a la producción y al transporte",equal CNO4 weights
-42,0.18411225816847487,0.170125,4,42,4,"Empleados de bibliotecas, servicios de correos y afines",equal CNO4 weights
-43,0.4386678899275942,0.56175,2,43,4,Otros empleados administrativos sin tareas de atención al público,equal CNO4 weights
-44,0.21613544683650213,0.17891538461538462,13,44,4,"Empleados de agencias de viajes, recepcionistas y telefonistas; empleados de ventanilla y afines (excepto taquilleros)",equal CNO4 weights
-45,0.4528,0.4528,1,45,4,Empleados administrativos con tareas de atención al público no clasificados bajo otros epígrafes,equal CNO4 weights
-50,0.0,0.0,1,50,5,Camareros y cocineros propietarios,equal CNO4 weights
-51,0.008985515226818279,0.0058,2,51,5,Trabajadores asalariados de los servicios de restauración,equal CNO4 weights
-52,0.29245,0.29245,2,52,5,Dependientes en tiendas y almacenes,equal CNO4 weights
-53,0.3222,0.3222,1,53,5,Comerciantes propietarios de tiendas,equal CNO4 weights
-54,0.13340000000000002,0.13340000000000002,8,54,5,Vendedores (excepto en tiendas y almacenes),equal CNO4 weights
-55,0.04528977887392574,0.0846,1,55,5,Cajeros y taquilleros (excepto bancos),equal CNO4 weights
-56,0.00955736674965919,0.0147,5,56,5,Trabajadores de los cuidados a las personas en servicios de salud,equal CNO4 weights
-57,0.017233333333333333,0.008133333333333334,3,57,5,Otros trabajadores de los cuidados a las personas,equal CNO4 weights
-58,0.1081250261824357,0.13203529411764706,17,58,5,Trabajadores de los servicios personales,equal CNO4 weights
-59,0.03560833333333333,0.03560833333333333,12,59,5,Trabajadores de los servicios de protección y seguridad,equal CNO4 weights
-61,0.0203,0.0203,2,61,6,Trabajadores cualificados en actividades agrícolas,equal CNO4 weights
-62,0.0,0.0,6,62,6,"Trabajadores cualificados en actividades ganaderas, (incluidas avícolas, apícolas y similares)",equal CNO4 weights
-63,0.0,0.0,1,63,6,Trabajadores cualificados en actividades agropecuarias mixtas,equal CNO4 weights
-64,0.0,0.0,5,64,6,"Trabajadores cualificados en actividades forestales, pesqueras y cinegéticas",equal CNO4 weights
-71,0.0,0.0,10,71,7,Trabajadores en obras estructurales de construcción y afines,equal CNO4 weights
-72,0.003269076577367366,0.007278571428571428,14,72,7,"Trabajadores de acabado de construcciones e instalaciones (excepto electricistas), pintores y afines",equal CNO4 weights
-73,0.0034482297162239176,0.0,9,73,7,"Soldadores, chapistas, montadores de estructuras metálicas, herreros, elaboradores de herramientas y afines",equal CNO4 weights
-74,0.0016385801882805955,0.0,5,74,7,Mecánicos y ajustadores de maquinaria,equal CNO4 weights
-75,0.00560964478243482,0.0,6,75,7,Trabajadores especializados en electricidad y electrotecnología,equal CNO4 weights
-76,0.036659027759535286,0.021958333333333333,12,76,7,"Mecánicos de precisión en metales, ceramistas, vidrieros, artesanos y trabajadores de artes gráficas",equal CNO4 weights
-77,0.0,0.0,9,77,7,"Trabajadores de la industria de la alimentación, bebidas y tabaco",equal CNO4 weights
-78,0.010495470255020024,0.011326666666666667,15,78,7,"Trabajadores de la madera, textil, confección, piel, cuero, calzado y otros operarios en oficios",equal CNO4 weights
-81,0.005071984720389711,0.004348148148148149,27,81,8,Operadores de instalaciones y maquinaria fijas,equal CNO4 weights
-82,0.02094385318849584,0.0,3,82,8,Montadores y ensambladores en fábricas,equal CNO4 weights
-83,0.00043553404343926077,0.0,8,83,8,"Maquinistas de locomotoras, operadores de maquinaria agrícola y de equipos pesados móviles, y marineros",equal CNO4 weights
-84,0.009622099202517786,0.0,6,84,8,Conductores de vehículos para el transporte urbano o por carretera,equal CNO4 weights
-91,0.0,0.0,1,91,9,Empleados domésticos,equal CNO4 weights
-92,0.0,0.0,5,92,9,Otro personal de limpieza,equal CNO4 weights
-93,0.0058,0.0058,2,93,9,Ayudantes de preparación de alimentos,equal CNO4 weights
-94,0.06324903434032154,0.05406,10,94,9,"Recogedores de residuos urbanos, vendedores callejeros y otras ocupaciones elementales en servicios",equal CNO4 weights
-95,0.0058,0.0058,7,95,9,"Peones agrarios, forestales y de la pesca",equal CNO4 weights
-96,0.018733333333333334,0.018733333333333334,3,96,9,Peones de la construcción y de la minería,equal CNO4 weights
-97,0.0,0.0,1,97,9,Peones de las industrias manufactureras,equal CNO4 weights
-98,0.0,0.0,3,98,9,"Peones del transporte, descargadores y reponedores",equal CNO4 weights
+CNO2,observed_exposure_rf,observed_exposure_cosine_weighted,observed_exposure_cosine_nearest,cno4_count,OCUP1,CNO1,occupation_title,aggregation_weight_source
+00,0.11137863061087062,0.15013333333333334,0.15013333333333334,3,00,0,CNO2 00,equal CNO4 weights
+11,0.136652678961039,0.0663402524969268,0.053524999999999996,4,11,1,Miembros del poder ejecutivo y de los cuerpos legislativos; directivos de la Administración Pública y organizaciones de interés social; directores ejecutivos,equal CNO4 weights
+12,0.1542554296031747,0.15264453679024867,0.17941666666666667,6,12,1,Directores de departamentos administrativos y comerciales,equal CNO4 weights
+13,0.10996162158730158,0.09198313379981059,0.09571428571428572,14,13,1,Directores de producción y operaciones,equal CNO4 weights
+14,0.10816033435374149,0.09192857142857143,0.09192857142857143,7,14,1,"Directores y gerentes de empresas de alojamiento, restauración y comercio",equal CNO4 weights
+15,0.08776643400793654,0.046620159690942645,0.09105,2,15,1,Directores y gerentes de otras empresas de servicios no clasificados bajo otros epígrafes,equal CNO4 weights
+21,0.09349274273764431,0.03910048467041437,0.030425,16,21,2,Profesionales de la salud,equal CNO4 weights
+22,0.11086130229918233,0.07668399053055813,0.08283333333333334,6,22,2,"Profesionales de la enseñanza infantil, primaria, secundaria y postsecundaria",equal CNO4 weights
+23,0.13365061865079367,0.18245090727332552,0.18943333333333331,9,23,2,Otros profesionales de la enseñanza,equal CNO4 weights
+24,0.08806777951281523,0.07526795570584371,0.0665952380952381,42,24,2,"Profesionales de las ciencias físicas, químicas, matemáticas y de las ingenierías",equal CNO4 weights
+25,0.14067200133838392,0.1794959686710317,0.15606666666666666,6,25,2,Profesionales en derecho,equal CNO4 weights
+26,0.19932135109168608,0.2643688343529258,0.26642307692307693,13,26,2,Especialistas en organización de la Administración Pública y de las empresas y en la comercialización,equal CNO4 weights
+27,0.23340282451930006,0.3574506759748814,0.3343125,8,27,2,Profesionales de las tecnologías de la información,equal CNO4 weights
+28,0.1466863440476191,0.1189179454074709,0.1821857142857143,7,28,2,Profesionales en ciencias sociales,equal CNO4 weights
+29,0.1296962670573871,0.18976173098341717,0.1707923076923077,13,29,2,Profesionales de la cultura y el espectáculo,equal CNO4 weights
+31,0.07765567293160174,0.058340251531380755,0.074428,25,31,3,Técnicos de las ciencias y de las ingenierías,equal CNO4 weights
+32,0.04928288475198413,0.021524743330757636,0.025575,8,32,3,"Supervisores en ingeniería de minas, de industrias manufactureras y de la construcción",equal CNO4 weights
+33,0.08229069700492317,0.04741468796286117,0.054441176470588236,17,33,3,Técnicos sanitarios y profesionales de las terapias alternativas,equal CNO4 weights
+34,0.155000130968254,0.2641529988304862,0.22962,5,34,3,Profesionales de apoyo en finanzas y matemáticas,equal CNO4 weights
+35,0.16153232501659456,0.19438005023138705,0.21362,10,35,3,"Representantes, agentes comerciales y afines",equal CNO4 weights
+36,0.1270593005822511,0.13302655636579172,0.12050000000000001,10,36,3,Profesionales de apoyo a la gestión administrativa; técnicos de las fuerzas y cuerpos de seguridad,equal CNO4 weights
+37,0.0977180145925926,0.06304783008258831,0.04946,15,37,3,"Profesionales de apoyo de servicios jurídicos, sociales, culturales, deportivos y afines",equal CNO4 weights
+38,0.15447189945436507,0.28254306714150496,0.2921875,8,38,3,Técnicos de las tecnologías de la información y las comunicaciones (TIC),equal CNO4 weights
+41,0.1231570794817219,0.1779744607927922,0.23565000000000003,6,41,4,"Empleados en servicios contables, financieros, y de servicios de apoyo a la producción y al transporte",equal CNO4 weights
+42,0.09885955964285711,0.18411225816847487,0.170125,4,42,4,"Empleados de bibliotecas, servicios de correos y afines",equal CNO4 weights
+43,0.14987544710317463,0.4386678899275942,0.56175,2,43,4,Otros empleados administrativos sin tareas de atención al público,equal CNO4 weights
+44,0.11477777523088026,0.21613544683650213,0.17891538461538462,13,44,4,"Empleados de agencias de viajes, recepcionistas y telefonistas; empleados de ventanilla y afines (excepto taquilleros)",equal CNO4 weights
+45,0.14171245507936509,0.4528,0.4528,1,45,4,Empleados administrativos con tareas de atención al público no clasificados bajo otros epígrafes,equal CNO4 weights
+50,0.062294168809523806,0.0,0.0,1,50,5,Camareros y cocineros propietarios,equal CNO4 weights
+51,0.07543703178571431,0.008985515226818279,0.0058,2,51,5,Trabajadores asalariados de los servicios de restauración,equal CNO4 weights
+52,0.10059197550865803,0.29245,0.29245,2,52,5,Dependientes en tiendas y almacenes,equal CNO4 weights
+53,0.12393456761904761,0.3222,0.3222,1,53,5,Comerciantes propietarios de tiendas,equal CNO4 weights
+54,0.10082245073142136,0.13340000000000002,0.13340000000000002,8,54,5,Vendedores (excepto en tiendas y almacenes),equal CNO4 weights
+55,0.05569076460317458,0.04528977887392574,0.0846,1,55,5,Cajeros y taquilleros (excepto bancos),equal CNO4 weights
+56,0.05581740247619049,0.00955736674965919,0.0147,5,56,5,Trabajadores de los cuidados a las personas en servicios de salud,equal CNO4 weights
+57,0.03847084944444446,0.017233333333333333,0.008133333333333334,3,57,5,Otros trabajadores de los cuidados a las personas,equal CNO4 weights
+58,0.06386201167939903,0.1081250261824357,0.13203529411764706,17,58,5,Trabajadores de los servicios personales,equal CNO4 weights
+59,0.05108372939454065,0.03560833333333333,0.03560833333333333,12,59,5,Trabajadores de los servicios de protección y seguridad,equal CNO4 weights
+61,0.07073445202380949,0.0203,0.0203,2,61,6,Trabajadores cualificados en actividades agrícolas,equal CNO4 weights
+62,0.04914009584656085,0.0,0.0,6,62,6,"Trabajadores cualificados en actividades ganaderas, (incluidas avícolas, apícolas y similares)",equal CNO4 weights
+63,0.07461098523809524,0.0,0.0,1,63,6,Trabajadores cualificados en actividades agropecuarias mixtas,equal CNO4 weights
+64,0.059466093634920655,0.0,0.0,5,64,6,"Trabajadores cualificados en actividades forestales, pesqueras y cinegéticas",equal CNO4 weights
+71,0.03866876561111112,0.0,0.0,10,71,7,Trabajadores en obras estructurales de construcción y afines,equal CNO4 weights
+72,0.040277059223356004,0.003269076577367366,0.007278571428571428,14,72,7,"Trabajadores de acabado de construcciones e instalaciones (excepto electricistas), pintores y afines",equal CNO4 weights
+73,0.03699282066778901,0.0034482297162239176,0.0,9,73,7,"Soldadores, chapistas, montadores de estructuras metálicas, herreros, elaboradores de herramientas y afines",equal CNO4 weights
+74,0.028897080825396833,0.0016385801882805955,0.0,5,74,7,Mecánicos y ajustadores de maquinaria,equal CNO4 weights
+75,0.0329198373015873,0.00560964478243482,0.0,6,75,7,Trabajadores especializados en electricidad y electrotecnología,equal CNO4 weights
+76,0.046447148148148154,0.036659027759535286,0.021958333333333333,12,76,7,"Mecánicos de precisión en metales, ceramistas, vidrieros, artesanos y trabajadores de artes gráficas",equal CNO4 weights
+77,0.07228046940917109,0.0,0.0,9,77,7,"Trabajadores de la industria de la alimentación, bebidas y tabaco",equal CNO4 weights
+78,0.04358740650264551,0.010495470255020024,0.011326666666666667,15,78,7,"Trabajadores de la madera, textil, confección, piel, cuero, calzado y otros operarios en oficios",equal CNO4 weights
+81,0.0308628134303351,0.005071984720389711,0.004348148148148149,27,81,8,Operadores de instalaciones y maquinaria fijas,equal CNO4 weights
+82,0.04722286891534394,0.02094385318849584,0.0,3,82,8,Montadores y ensambladores en fábricas,equal CNO4 weights
+83,0.02253277126984127,0.00043553404343926077,0.0,8,83,8,"Maquinistas de locomotoras, operadores de maquinaria agrícola y de equipos pesados móviles, y marineros",equal CNO4 weights
+84,0.04967843033068784,0.009622099202517786,0.0,6,84,8,Conductores de vehículos para el transporte urbano o por carretera,equal CNO4 weights
+91,0.03047419904761905,0.0,0.0,1,91,9,Empleados domésticos,equal CNO4 weights
+92,0.03783220680952381,0.0,0.0,5,92,9,Otro personal de limpieza,equal CNO4 weights
+93,0.035257124563492045,0.0058,0.0058,2,93,9,Ayudantes de preparación de alimentos,equal CNO4 weights
+94,0.05582971154617605,0.06324903434032154,0.05406,10,94,9,"Recogedores de residuos urbanos, vendedores callejeros y otras ocupaciones elementales en servicios",equal CNO4 weights
+95,0.03834001552154195,0.0058,0.0058,7,95,9,"Peones agrarios, forestales y de la pesca",equal CNO4 weights
+96,0.03355839129629631,0.018733333333333334,0.018733333333333334,3,96,9,Peones de la construcción y de la minería,equal CNO4 weights
+97,0.024835969285714292,0.0,0.0,1,97,9,Peones de las industrias manufactureras,equal CNO4 weights
+98,0.043346030634920624,0.0,0.0,3,98,9,"Peones del transporte, descargadores y reponedores",equal CNO4 weights

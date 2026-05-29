@@ -158,3 +158,34 @@ py -3 -m unittest discover -s tests -v
 ```
 
 Result on Census branch: 18 tests passed.
+
+## RF-Inclusive Census Run
+
+Command run after the cosine-only Census commit was pushed:
+
+```powershell
+py -3 main.py --source census --embedding-model qwen3-embedding:4b --ine-manifest census_manifest.csv --methods rf,cosine_weighted,cosine_nearest
+```
+
+The first command wrapper timed out while the Python process was still running. The process was left to finish, then outputs were inspected. No partial output was committed.
+
+Output changes from cosine-only run:
+
+- `data/processed/spanish_census_occupation_exposure.csv` now includes `observed_exposure_rf`.
+- `data/processed/spanish_census_industry_period_exposure.csv` now includes `observed_exposure_cnae_rf`.
+- Ridge and Ensemble columns remain absent.
+- Cosine match diagnostic files were not structurally changed by the RF run.
+
+The RF-inclusive Census run uses the same model hash as the RF-inclusive EPA run:
+
+```text
+832de72489b2f2318a54b0b0b47b78fe6fad17a4a17e9c5ca8f419cf9cec0e1d
+```
+
+Verification after RF run:
+
+```powershell
+py -3 -m unittest discover -s tests -v
+```
+
+Result on Census branch: 18 tests passed.

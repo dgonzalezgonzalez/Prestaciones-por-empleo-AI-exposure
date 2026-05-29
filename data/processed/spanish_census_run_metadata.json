@@ -4,16 +4,18 @@
   "occupation_column": "OCU63",
   "industry_column": "ACT89",
   "methods": [
+    "rf",
     "cosine_weighted",
     "cosine_nearest"
   ],
   "occupation_detail": "cno4",
   "translation_provider": "google_unofficial",
   "ollama_host": "http://127.0.0.1:11434",
-  "model_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\exposure_model_qwen3-embedding_4b_cosine_weighted_cosine_nearest.joblib",
-  "model_metrics_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\exposure_model_qwen3-embedding_4b_cosine_weighted_cosine_nearest_metrics.json",
-  "model_sha256": "8e8bc457dff7d1d2cbbab4f1f8cf8165b922bc687d6ba3e41122ee4267bc3de7",
+  "model_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\exposure_model_qwen3-embedding_4b_rf_cosine_weighted_cosine_nearest.joblib",
+  "model_metrics_path": "C:\\tmp\\spanish-ai-exposure-census\\models\\exposure_model_qwen3-embedding_4b_rf_cosine_weighted_cosine_nearest_metrics.json",
+  "model_sha256": "832de72489b2f2318a54b0b0b47b78fe6fad17a4a17e9c5ca8f419cf9cec0e1d",
   "exposure_columns": [
+    "observed_exposure_rf",
     "observed_exposure_cosine_weighted",
     "observed_exposure_cosine_nearest"
   ],
