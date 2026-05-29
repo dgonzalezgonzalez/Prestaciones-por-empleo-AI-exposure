@@ -1,18 +1,22 @@
 {
   "embedding_model": "qwen3-embedding:4b",
+  "methods": [
+    "cosine_weighted",
+    "cosine_nearest"
+  ],
+  "occupation_detail": "cno4",
   "translation_provider": "google_unofficial",
   "ollama_host": "http://127.0.0.1:11434",
-  "model_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_qwen3-embedding_4b.joblib",
-  "model_metrics_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\random_forest_qwen3-embedding_4b_metrics.json",
-  "model_sha256": "09554b2d2a03d2a3f074dc3f46a5c96eed55ff203821f6cb4de0935c228ff90a",
+  "model_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\exposure_model_qwen3-embedding_4b_cosine_weighted_cosine_nearest.joblib",
+  "model_metrics_path": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\models\\exposure_model_qwen3-embedding_4b_cosine_weighted_cosine_nearest_metrics.json",
+  "model_sha256": "8e8bc457dff7d1d2cbbab4f1f8cf8165b922bc687d6ba3e41122ee4267bc3de7",
   "exposure_columns": [
-    "observed_exposure_rf",
-    "observed_exposure_ridge",
     "observed_exposure_cosine_weighted",
-    "observed_exposure_cosine_nearest",
-    "observed_exposure_ensemble"
+    "observed_exposure_cosine_nearest"
   ],
   "database": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_ai_exposure.sqlite",
   "occupation_output": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_occupation_exposure.csv",
-  "industry_quarter_output": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_industry_quarter_exposure.csv"
+  "industry_quarter_output": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_industry_quarter_exposure.csv",
+  "cosine_weighted_matches_output": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_occupation_matches_cosine_weighted.csv",
+  "cosine_nearest_matches_output": "C:\\Users\\dgonzalez\\Desktop\\Diego Gonz\u00e1lez\\Prestaciones por empleo AI exposure\\data\\processed\\spanish_occupation_matches_cosine_nearest.csv"
 }

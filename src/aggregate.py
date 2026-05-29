@@ -7,10 +7,8 @@ from .download_ine import detect_weight_column
 
 EXPOSURE_COLUMN_ORDER = [
     "observed_exposure_rf",
-    "observed_exposure_ridge",
     "observed_exposure_cosine_weighted",
     "observed_exposure_cosine_nearest",
-    "observed_exposure_ensemble",
 ]
 
 
@@ -35,6 +33,7 @@ def aggregate_industry_quarter_exposure(
     microdata: pd.DataFrame,
     occupation_exposure: pd.DataFrame,
     weight_column: str | None = None,
+    industry_mapping: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     df = microdata.copy()
     df["OCUP1"] = df["OCUP1"].astype(str).str.strip()
@@ -76,6 +75,13 @@ def aggregate_industry_quarter_exposure(
         suffix = column.removeprefix("observed_exposure")
         out[f"observed_exposure_cnae{suffix}"] = out[f"weighted_{column}"] / out["covered_weight"]
     out = out.rename(columns={"ACT1": "cnae"})
+    if industry_mapping is not None and not industry_mapping.empty:
+        labels = industry_mapping.copy()
+        labels["cnae"] = labels["cnae"].astype(str).str.strip()
+        out["cnae"] = out["cnae"].astype(str).str.strip()
+        out = out.merge(labels[["cnae", "industry_name"]], on="cnae", how="left")
+    else:
+        out["industry_name"] = pd.NA
     exposure_out_columns = [
         f"observed_exposure_cnae{column.removeprefix('observed_exposure')}"
         for column in exposure_columns
@@ -83,6 +89,7 @@ def aggregate_industry_quarter_exposure(
     return out[
         [
             "cnae",
+            "industry_name",
             "quarter",
             *exposure_out_columns,
             "total_weight",

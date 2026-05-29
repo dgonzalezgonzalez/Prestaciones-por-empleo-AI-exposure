@@ -44,6 +44,34 @@ def parse_occupation_mapping_from_excel(path: Path) -> pd.DataFrame:
     return mapping.sort_values("OCUP1").reset_index(drop=True)
 
 
+def parse_industry_mapping_from_excel(path: Path) -> pd.DataFrame:
+    """Parse ACT1/CNAE labels from INE metadata workbook."""
+    sheets = pd.read_excel(path, sheet_name=None, dtype="string", header=None)
+    frames: list[pd.DataFrame] = []
+    for _, sheet in sheets.items():
+        rows = sheet.fillna("").astype(str)
+        for idx, row in rows.iterrows():
+            marker = " ".join(normalize_space(v) for v in row.tolist())
+            if "ACT1" not in marker and "CNAE" not in marker:
+                continue
+            for _, value_row in rows.iloc[idx + 1 :].iterrows():
+                code = normalize_space(value_row.iloc[0])
+                desc = normalize_space(value_row.iloc[1]) if len(value_row) > 1 else ""
+                if code.lower() in {"código", "codigo"}:
+                    continue
+                if not code and not desc:
+                    break
+                if not re.fullmatch(r"[A-Z0-9]{1,2}", code) or not desc:
+                    continue
+                frames.append(pd.DataFrame({"cnae": [code], "industry_name": [clean_occupation_title(desc)]}))
+
+    if not frames:
+        return pd.DataFrame(columns=["cnae", "industry_name"])
+    mapping = pd.concat(frames, ignore_index=True)
+    mapping = mapping.drop_duplicates(subset=["cnae"], keep="first")
+    return mapping.sort_values("cnae").reset_index(drop=True)
+
+
 def build_occupation_table(
     microdata: pd.DataFrame,
     mapping: pd.DataFrame | None,

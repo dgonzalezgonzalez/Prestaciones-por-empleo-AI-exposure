@@ -8,18 +8,14 @@ import pandas as pd
 
 OCCUPATION_EXPOSURE_COLUMNS = [
     "observed_exposure_rf",
-    "observed_exposure_ridge",
     "observed_exposure_cosine_weighted",
     "observed_exposure_cosine_nearest",
-    "observed_exposure_ensemble",
 ]
 
 INDUSTRY_EXPOSURE_COLUMNS = [
     "observed_exposure_cnae_rf",
-    "observed_exposure_cnae_ridge",
     "observed_exposure_cnae_cosine_weighted",
     "observed_exposure_cnae_cosine_nearest",
-    "observed_exposure_cnae_ensemble",
 ]
 
 
@@ -31,17 +27,16 @@ CREATE TABLE IF NOT EXISTS occupation_exposure (
     embedding_model TEXT NOT NULL,
     translation_model TEXT,
     model_sha256 TEXT NOT NULL,
-    observed_exposure_rf REAL NOT NULL,
-    observed_exposure_ridge REAL,
+    observed_exposure_rf REAL,
     observed_exposure_cosine_weighted REAL,
     observed_exposure_cosine_nearest REAL,
-    observed_exposure_ensemble REAL,
     generated_at TEXT DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (ocup1, embedding_model, model_sha256)
 );
 
 CREATE TABLE IF NOT EXISTS industry_quarter_exposure (
     cnae TEXT NOT NULL,
+    industry_name TEXT,
     quarter TEXT NOT NULL,
     total_weight REAL NOT NULL,
     covered_weight REAL NOT NULL,
@@ -50,11 +45,9 @@ CREATE TABLE IF NOT EXISTS industry_quarter_exposure (
     embedding_model TEXT NOT NULL,
     translation_model TEXT,
     model_sha256 TEXT NOT NULL,
-    observed_exposure_cnae_rf REAL NOT NULL,
-    observed_exposure_cnae_ridge REAL,
+    observed_exposure_cnae_rf REAL,
     observed_exposure_cnae_cosine_weighted REAL,
     observed_exposure_cnae_cosine_nearest REAL,
-    observed_exposure_cnae_ensemble REAL,
     generated_at TEXT DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (cnae, quarter, embedding_model, model_sha256)
 );
@@ -65,6 +58,7 @@ def connect(db_path: Path) -> sqlite3.Connection:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.executescript(SCHEMA)
+    _relax_not_null_columns(conn)
     columns = {row[1] for row in conn.execute("PRAGMA table_info(occupation_exposure)").fetchall()}
     if "occupation_title_en" not in columns:
         conn.execute("ALTER TABLE occupation_exposure ADD COLUMN occupation_title_en TEXT")
@@ -74,15 +68,46 @@ def connect(db_path: Path) -> sqlite3.Connection:
         if column not in columns:
             conn.execute(f"ALTER TABLE occupation_exposure ADD COLUMN {column} REAL")
     _drop_legacy_column(conn, "occupation_exposure", "observed_exposure")
+    _drop_legacy_column(conn, "occupation_exposure", "observed_exposure_ridge")
+    _drop_legacy_column(conn, "occupation_exposure", "observed_exposure_ensemble")
     panel_columns = {row[1] for row in conn.execute("PRAGMA table_info(industry_quarter_exposure)").fetchall()}
+    if "industry_name" not in panel_columns:
+        conn.execute("ALTER TABLE industry_quarter_exposure ADD COLUMN industry_name TEXT")
     if "translation_model" not in panel_columns:
         conn.execute("ALTER TABLE industry_quarter_exposure ADD COLUMN translation_model TEXT")
     for column in INDUSTRY_EXPOSURE_COLUMNS:
         if column not in panel_columns:
             conn.execute(f"ALTER TABLE industry_quarter_exposure ADD COLUMN {column} REAL")
     _drop_legacy_column(conn, "industry_quarter_exposure", "observed_exposure_cnae")
+    _drop_legacy_column(conn, "industry_quarter_exposure", "observed_exposure_cnae_ridge")
+    _drop_legacy_column(conn, "industry_quarter_exposure", "observed_exposure_cnae_ensemble")
     conn.commit()
     return conn
+
+
+def _relax_not_null_columns(conn: sqlite3.Connection) -> None:
+    occupation_info = conn.execute("PRAGMA table_info(occupation_exposure)").fetchall()
+    panel_info = conn.execute("PRAGMA table_info(industry_quarter_exposure)").fetchall()
+    if any(row[1] == "observed_exposure_rf" and row[3] for row in occupation_info):
+        _rebuild_table(conn, "occupation_exposure")
+    if any(row[1] == "observed_exposure_cnae_rf" and row[3] for row in panel_info):
+        _rebuild_table(conn, "industry_quarter_exposure")
+
+
+def _rebuild_table(conn: sqlite3.Connection, table: str) -> None:
+    backup = f"{table}_legacy_not_null"
+    conn.execute(f"ALTER TABLE {table} RENAME TO {backup}")
+    conn.executescript(SCHEMA)
+    old_columns = [row[1] for row in conn.execute(f"PRAGMA table_info({backup})").fetchall()]
+    new_columns = [row[1] for row in conn.execute(f"PRAGMA table_info({table})").fetchall()]
+    common = [column for column in old_columns if column in new_columns]
+    conn.execute(
+        f"""
+        INSERT OR IGNORE INTO {table} ({", ".join(common)})
+        SELECT {", ".join(common)} FROM {backup}
+        """
+    )
+    conn.execute(f"DROP TABLE {backup}")
 
 
 def _drop_legacy_column(conn: sqlite3.Connection, table: str, column: str) -> None:
@@ -147,6 +172,7 @@ def upsert_industry_quarter_exposure(
     rows = [
         (
             str(row["cnae"]),
+            str(row.get("industry_name", "")),
             str(row["quarter"]),
             float(row["total_weight"]),
             float(row["covered_weight"]),
@@ -161,6 +187,7 @@ def upsert_industry_quarter_exposure(
     ]
     columns = [
         "cnae",
+        "industry_name",
         "quarter",
         "total_weight",
         "covered_weight",
