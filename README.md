@@ -139,6 +139,12 @@ RF method:
 observed_exposure_rf
 ```
 
+Let Anthropic occupation \(i = 1,\dots,N\) have embedding \(x_i \in \mathbb{R}^d\) and observed exposure \(y_i\). Let Spanish CNO4 occupation \(j\) have embedding \(z_j \in \mathbb{R}^d\). The Random Forest estimates:
+
+$$
+\widehat{y}^{RF}_j = f_{RF}(z_j)
+$$
+
 Implementation:
 
 - `sklearn.ensemble.RandomForestRegressor`
@@ -153,19 +159,37 @@ Implementation:
 
 For Spanish CNO4 target vector `z_j` and Anthropic vector `x_i`:
 
-```text
-cosine(j, i) = dot(z_j, x_i) / (norm(z_j) * norm(x_i))
-```
+$$
+c_{ji} =
+\frac{z_j^\top x_i}{\lVert z_j \rVert \lVert x_i \rVert}
+$$
 
 Nearest method:
 
-```text
-observed_exposure_cosine_nearest = exposure of Anthropic occupation with max cosine similarity
-```
+$$
+i^\*(j) = \arg\max_i c_{ji}
+$$
+
+$$
+\widehat{y}^{NN}_j = y_{i^\*(j)}
+$$
 
 ### 7. Cosine weighted
 
 For every Anthropic occupation, find the nearest Spanish CNO4 target. Then for each Spanish CNO4, average all Anthropic exposures assigned to it, weighted by cosine similarity.
+
+$$
+j^\*(i) = \arg\max_j c_{ji}
+$$
+
+$$
+A_j = \{i : j^\*(i) = j\}
+$$
+
+$$
+\widehat{y}^{CW}_j =
+\frac{\sum_{i \in A_j} c_{ji} y_i}{\sum_{i \in A_j} c_{ji}}
+$$
 
 If no Anthropic occupation is assigned to a Spanish CNO4 target, the code falls back to cosine nearest for that target. This is explicit and prevents missing CNO4 predictions.
 
@@ -180,6 +204,22 @@ CNO4 -> CNO2: equal average within each CNO2
 CNO2 -> OCUP1: weighted average using INE EPA table 65134 employment weights
 ```
 
+For CNO2 group \(g\), CNO4 occupations \(J_g\), method \(m\):
+
+$$
+\widehat{y}^{m}_{g} =
+\frac{1}{|J_g|}
+\sum_{j \in J_g} \widehat{y}^{m}_{j}
+$$
+
+For OCUP1 group \(h\), CNO2 groups \(G_h\), and EPA CNO2 employment weights \(w_g\) from INE table 65134:
+
+$$
+\widehat{y}^{m}_{h} =
+\frac{\sum_{g \in G_h} w_g \widehat{y}^{m}_{g}}
+\sum_{g \in G_h} w_g}
+$$
+
 If an `OCUP1` group has no matching CNO2 public weight, fallback is equal CNO4 weights for that group. The output records the source in `aggregation_weight_source`.
 
 ### 9. EPA industry-quarter aggregation
@@ -188,10 +228,23 @@ EPA microdata are merged on `OCUP1`.
 
 For industry `ACT1`, quarter, and method:
 
-```text
-observed_exposure_cnae_<method> =
-  sum(weight * observed_exposure_<method>) / covered_weight
-```
+Let person or record \(r\) have industry \(a(r)\), occupation \(o(r)\), quarter \(q(r)\), and survey weight \(W_r\). For industry \(k\), quarter \(t\), and method \(m\):
+
+$$
+\widehat{Y}^{m}_{kt} =
+\frac{
+\sum_{r: a(r)=k,\;q(r)=t} W_r \widehat{y}^{m}_{o(r)}
+}{
+\sum_{r: a(r)=k,\;q(r)=t,\;\widehat{y}^{m}_{o(r)}\;observed} W_r
+}
+$$
+
+Coverage is:
+
+$$
+coverage\_share_{kt} =
+\frac{covered\_weight_{kt}}{total\_weight_{kt}}
+$$
 
 Weight source:
 
