@@ -140,10 +140,10 @@ RF method:
 observed_exposure_rf
 ```
 
-Let Anthropic occupation \(i = 1,\dots,N\) have embedding \(x_i \in \mathbb{R}^d\) and observed exposure \(y_i\). Let Spanish CNO4 occupation \(j\) have embedding \(z_j \in \mathbb{R}^d\). The Random Forest estimates:
+Let Anthropic occupation $i = 1,\dots,N$ have embedding $x_i \in \mathbb{R}^d$ and observed exposure $y_i$. Let Spanish CNO4 occupation $j$ have embedding $z_j \in \mathbb{R}^d$. The Random Forest estimates:
 
 $$
-\widehat{y}^{RF}_j = f_{RF}(z_j)
+\widehat{y}^{\mathrm{RF}}_j = f_{\mathrm{RF}}(z_j)
 $$
 
 Implementation:
@@ -172,7 +172,7 @@ i^\*(j) = \arg\max_i c_{ji}
 $$
 
 $$
-\widehat{y}^{NN}_j = y_{i^\*(j)}
+\widehat{y}^{\mathrm{NN}}_j = y_{i^\*(j)}
 $$
 
 ### 7. Cosine weighted
@@ -188,7 +188,7 @@ A_j = \{i : j^\*(i) = j\}
 $$
 
 $$
-\widehat{y}^{CW}_j =
+\widehat{y}^{\mathrm{CW}}_j =
 \frac{\sum_{i \in A_j} c_{ji} y_i}{\sum_{i \in A_j} c_{ji}}
 $$
 
@@ -202,7 +202,7 @@ Census `OCU63` is already a 2-digit CNO variable. Therefore Census aggregation i
 CNO4 -> CNO2: equal average within each CNO2
 ```
 
-For CNO2 group \(g\), CNO4 occupations \(J_g\), method \(m\):
+For CNO2 group $g$, CNO4 occupations $J_g$, method $m$:
 
 $$
 \widehat{y}^{m}_{g} =
@@ -226,22 +226,22 @@ Census microdata are merged on normalized `OCUP1`, which contains the Census `OC
 
 For industry `ACT89`, period, and method:
 
-Let person or record \(r\) have industry \(a(r)\), occupation \(o(r)\), period \(p(r)\), and weight \(W_r = 1\). For industry \(k\), period \(t\), and method \(m\):
+Let person or record $r$ have industry $a(r)$, occupation $o(r)$, period $p(r)$, and weight $W_r = 1$. For industry $k$, period $t$, and method $m$:
 
 $$
 \widehat{Y}^{m}_{kt} =
 \frac{
 \sum_{r: a(r)=k,\;p(r)=t} W_r \widehat{y}^{m}_{o(r)}
 }{
-\sum_{r: a(r)=k,\;p(r)=t,\;\widehat{y}^{m}_{o(r)}\;observed} W_r
+\sum_{r: a(r)=k,\;p(r)=t,\;\widehat{y}^{m}_{o(r)}\;\mathrm{observed}} W_r
 }
 $$
 
 Coverage is:
 
 $$
-coverage\_share_{kt} =
-\frac{covered\_weight_{kt}}{total\_weight_{kt}}
+\mathrm{coverage\_share}_{kt} =
+\frac{\mathrm{covered\_weight}_{kt}}{\mathrm{total\_weight}_{kt}}
 $$
 
 Census run has no `FACTOREL`; the pipeline uses record count `1.0` per person/record.
