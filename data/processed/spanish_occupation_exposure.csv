@@ -1,11 +1,11 @@
-OCUP1,occupation_title,cno4_count,cno2_count,aggregation_weight_source,observed_exposure_cosine_weighted,observed_exposure_cosine_nearest
-0,Ocupaciones militares. Fuerzas armadas,3,1,INE EPA table 65134 CNO2 employment weights,0.15013333333333334,0.15013333333333334
-1,Directores y gerentes. Dirección de las empresas y de las Administraciones Públicas,33,5,INE EPA table 65134 CNO2 employment weights,0.10368794835683023,0.1173644693782141
-2,Técnicos y Profesionales científicos e intelectuales,120,9,INE EPA table 65134 CNO2 employment weights,0.13476369347736206,0.13395356752871074
-3,Técnicos y Profesionales de apoyo,98,8,INE EPA table 65134 CNO2 employment weights,0.14132722997988037,0.14569825813713191
-4,"Empleados contables, administrativos y otros empleados de oficina. Empleados de tipo administrativo",26,5,INE EPA table 65134 CNO2 employment weights,0.31822557872247476,0.3585704210598806
-5,"Trabajadores de servicios de restauración, personales, protección y vendedores de comercio",52,10,INE EPA table 65134 CNO2 employment weights,0.10466007467927162,0.10779997766528326
-6,"Trabajadores cualificados en el sector agrícola, ganadero, forestal y pesquero. Trabajadores cualificados en la agricultura y en la pesca",14,4,INE EPA table 65134 CNO2 employment weights,0.013709581395348835,0.013709581395348835
-7,"Artesanos y trabajadores cualificados de las industrias manufactureras y la construcción. Artesanos y trabajadores cualificados de las industrias manufactureras, la construcción, y la minería, excepto operadores de instalaciones y maquinaria",80,8,INE EPA table 65134 CNO2 employment weights,0.0033623358287740712,0.002055370026362021
-8,"Operadores de instalaciones y maquinaria, y montadores",44,4,INE EPA table 65134 CNO2 employment weights,0.007677330986784313,0.0011509493855596418
-9,Ocupaciones elementales. Trabajadores no cualificados,32,8,INE EPA table 65134 CNO2 employment weights,0.007021976092619245,0.006376231153944438
+OCUP1,occupation_title,cno4_count,cno2_count,aggregation_weight_source,observed_exposure_rf,observed_exposure_cosine_weighted,observed_exposure_cosine_nearest
+0,Ocupaciones militares. Fuerzas armadas,3,1,INE EPA table 65134 CNO2 employment weights,0.11137863061087062,0.15013333333333334,0.15013333333333334
+1,Directores y gerentes. Dirección de las empresas y de las Administraciones Públicas,33,5,INE EPA table 65134 CNO2 employment weights,0.12221844654862847,0.10368794835683023,0.1173644693782141
+2,Técnicos y Profesionales científicos e intelectuales,120,9,INE EPA table 65134 CNO2 employment weights,0.13124087428928446,0.13476369347736206,0.13395356752871074
+3,Técnicos y Profesionales de apoyo,98,8,INE EPA table 65134 CNO2 employment weights,0.12158678203387639,0.14132722997988037,0.14569825813713191
+4,"Empleados contables, administrativos y otros empleados de oficina. Empleados de tipo administrativo",26,5,INE EPA table 65134 CNO2 employment weights,0.13210482558086928,0.31822557872247476,0.3585704210598806
+5,"Trabajadores de servicios de restauración, personales, protección y vendedores de comercio",52,10,INE EPA table 65134 CNO2 employment weights,0.07334863409577223,0.10466007467927162,0.10779997766528326
+6,"Trabajadores cualificados en el sector agrícola, ganadero, forestal y pesquero. Trabajadores cualificados en la agricultura y en la pesca",14,4,INE EPA table 65134 CNO2 employment weights,0.06552454951047494,0.013709581395348835,0.013709581395348835
+7,"Artesanos y trabajadores cualificados de las industrias manufactureras y la construcción. Artesanos y trabajadores cualificados de las industrias manufactureras, la construcción, y la minería, excepto operadores de instalaciones y maquinaria",80,8,INE EPA table 65134 CNO2 employment weights,0.040068888361406936,0.0033623358287740712,0.002055370026362021
+8,"Operadores de instalaciones y maquinaria, y montadores",44,4,INE EPA table 65134 CNO2 employment weights,0.03995920525992704,0.007677330986784313,0.0011509493855596418
+9,Ocupaciones elementales. Trabajadores no cualificados,32,8,INE EPA table 65134 CNO2 employment weights,0.03745247905923406,0.007021976092619245,0.006376231153944438

@@ -116,3 +116,38 @@ Additional checks:
   - industry-quarter exposure: 610
   - cosine-weighted match diagnostics: 913
   - cosine-nearest match diagnostics: 502
+
+## RF-Inclusive EPA Run
+
+Command run after the cosine-only commit was pushed:
+
+```powershell
+py -3 main.py --embedding-model qwen3-embedding:4b --ine-manifest ine_manifest.csv --methods rf,cosine_weighted,cosine_nearest
+```
+
+The command wrapper again reported a timeout after final output had already printed, but all expected files were written and verified.
+
+Model diagnostics:
+
+- Holdout RF MAE: 0.0645711039940907.
+- Holdout RF RMSE: 0.09334295237351001.
+- Holdout RF R2: 0.42746290775471074.
+- 5-fold cross-validation:
+  - Random Forest MAE: 0.06917329313943038.
+  - Cosine-weighted MAE: 0.057537667569887326.
+  - Cosine-nearest MAE: 0.06683253968253969.
+
+Output changes from cosine-only run:
+
+- `data/processed/spanish_occupation_exposure.csv` now includes `observed_exposure_rf`.
+- `data/processed/spanish_industry_quarter_exposure.csv` now includes `observed_exposure_cnae_rf`.
+- Ridge and Ensemble columns remain absent.
+- Cosine match diagnostic files were regenerated unchanged in schema.
+
+Verification after RF run:
+
+```powershell
+py -3 -m unittest discover -s tests -v
+```
+
+Result: 16 tests passed.
