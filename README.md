@@ -217,7 +217,7 @@ For OCUP1 group $h$, CNO2 groups $G_h$, and EPA CNO2 employment weights $w_g$ fr
 $$
 \widehat{y}^{m}_{h} =
 \frac{\sum_{g \in G_h} w_g \widehat{y}^{m}_{g}}
-\sum_{g \in G_h} w_g}
+{\sum_{g \in G_h} w_g}
 $$
 
 If an `OCUP1` group has no matching CNO2 public weight, fallback is equal CNO4 weights for that group. The output records the source in `aggregation_weight_source`.
