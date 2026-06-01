@@ -1,5 +1,5 @@
 CNO2,observed_exposure_rf,observed_exposure_cosine_weighted,observed_exposure_cosine_nearest,cno4_count,OCUP1,CNO1,occupation_title,aggregation_weight_source
-00,0.11137863061087062,0.15013333333333334,0.15013333333333334,3,00,0,CNO2 00,equal CNO4 weights
+00,0.11145746521404525,0.0,0.0,3,00,0,CNO2 00,equal CNO4 weights
 11,0.136652678961039,0.0663402524969268,0.053524999999999996,4,11,1,Miembros del poder ejecutivo y de los cuerpos legislativos; directivos de la Administración Pública y organizaciones de interés social; directores ejecutivos,equal CNO4 weights
 12,0.1542554296031747,0.15264453679024867,0.17941666666666667,6,12,1,Directores de departamentos administrativos y comerciales,equal CNO4 weights
 13,0.10996162158730158,0.09198313379981059,0.09571428571428572,14,13,1,Directores de producción y operaciones,equal CNO4 weights

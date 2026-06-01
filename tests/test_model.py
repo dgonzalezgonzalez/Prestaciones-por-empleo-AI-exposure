@@ -5,7 +5,14 @@ import numpy as np
 import pandas as pd
 
 from src.download_anthropic import load_anthropic_job_exposure
-from src.model import EXPOSURE_COLUMNS, predict_occupation_exposure, train_exposure_model, vectors_to_matrix
+from src.model import (
+    EXPOSURE_COLUMNS,
+    ExposureModelBundle,
+    cosine_match_details,
+    predict_occupation_exposure,
+    train_exposure_model,
+    vectors_to_matrix,
+)
 
 
 class ModelTests(TestCase):
@@ -117,3 +124,31 @@ class ModelTests(TestCase):
             DummyModel(),
         )
         self.assertAlmostEqual(pred.loc[0, "observed_exposure_rf"], 0.5)
+
+    def test_manual_military_audit_overrides_false_office_clerk_match(self):
+        model = ExposureModelBundle(
+            rf_model=None,
+            anthropic_x=np.array([[1.0, 0.0], [0.95, 0.05]]),
+            anthropic_y=np.array([0.0, 0.4504]),
+            anthropic_titles=["First-Line Supervisors of Police and Detectives", "Office Clerks, General"],
+            anthropic_codes=["33-1012", "43-9061"],
+            metrics={},
+        )
+        occupations = pd.DataFrame(
+            {
+                "CNO4": ["0011"],
+                "CNO2": ["00"],
+                "OCUP1": ["0"],
+                "occupation_title": ["Oficiales de las fuerzas armadas"],
+                "embedding_text": ["Oficiales de las fuerzas armadas"],
+            }
+        )
+        embeddings = {"Oficiales de las fuerzas armadas": [0.99, 0.01]}
+
+        pred = predict_occupation_exposure(occupations, embeddings, model, ("cosine_weighted", "cosine_nearest"))
+        weighted, nearest = cosine_match_details(occupations, embeddings, model)
+
+        self.assertEqual(pred.loc[0, "observed_exposure_cosine_weighted"], 0.0)
+        self.assertEqual(pred.loc[0, "observed_exposure_cosine_nearest"], 0.0)
+        self.assertEqual(weighted.loc[0, "anthropic_occ_code"], "33-1012")
+        self.assertEqual(nearest.loc[0, "anthropic_occ_code"], "33-1012")
