@@ -20,6 +20,11 @@ EXPOSURE_COLUMNS = [
     "observed_exposure_cosine_nearest",
 ]
 VALID_METHODS = ("rf", "cosine_weighted", "cosine_nearest")
+MANUAL_CNO4_COSINE_MATCH_OVERRIDES = {
+    # Manual audit of CNO military group 00: Anthropic has no military officers.
+    # The raw embedding match 0011 -> Office Clerks is a false friend from "Oficiales".
+    "0011": "33-1012",
+}
 
 
 @dataclass
@@ -256,6 +261,7 @@ def predict_occupation_exposure(
             out["observed_exposure_cosine_weighted"] = _cosine_assignment_weighted_predict(model.anthropic_x, model.anthropic_y, x)
         if "cosine_nearest" in methods:
             out["observed_exposure_cosine_nearest"] = _cosine_nearest_predict(model.anthropic_x, model.anthropic_y, x)
+        _apply_manual_cno4_cosine_overrides(out, model, methods)
     else:
         if "rf" not in methods:
             raise ValueError("Legacy sklearn model only supports the rf method.")
@@ -295,7 +301,10 @@ def cosine_match_details(
     for target_idx, row in enumerate(rows):
         source_idx = int(nearest_source_by_target[target_idx])
         nearest_rows.append(_match_row(row, model, sims[target_idx, source_idx], source_idx, "cosine_nearest"))
-    return pd.DataFrame(weighted_rows), pd.DataFrame(nearest_rows)
+    return (
+        _apply_manual_cno4_match_overrides(pd.DataFrame(weighted_rows), rows, model, sims, "cosine_weighted"),
+        _apply_manual_cno4_match_overrides(pd.DataFrame(nearest_rows), rows, model, sims, "cosine_nearest"),
+    )
 
 
 def _match_row(row: pd.Series, model: ExposureModelBundle, similarity: float, source_idx: int, method: str) -> dict[str, object]:
@@ -313,3 +322,52 @@ def _match_row(row: pd.Series, model: ExposureModelBundle, similarity: float, so
         if key in row:
             out[key] = str(row[key])
     return out
+
+
+def _apply_manual_cno4_cosine_overrides(
+    out: pd.DataFrame,
+    model: ExposureModelBundle,
+    methods: tuple[str, ...],
+) -> None:
+    if "CNO4" not in out.columns:
+        return
+    source_by_code = {code: idx for idx, code in enumerate(model.anthropic_codes)}
+    for cno4, anthropic_code in MANUAL_CNO4_COSINE_MATCH_OVERRIDES.items():
+        source_idx = source_by_code.get(anthropic_code)
+        if source_idx is None:
+            continue
+        mask = out["CNO4"].astype(str) == cno4
+        if not mask.any():
+            continue
+        value = float(model.anthropic_y[source_idx])
+        if "cosine_weighted" in methods:
+            out.loc[mask, "observed_exposure_cosine_weighted"] = value
+        if "cosine_nearest" in methods:
+            out.loc[mask, "observed_exposure_cosine_nearest"] = value
+
+
+def _apply_manual_cno4_match_overrides(
+    matches: pd.DataFrame,
+    rows: list[pd.Series],
+    model: ExposureModelBundle,
+    sims: np.ndarray,
+    method: str,
+) -> pd.DataFrame:
+    if matches.empty or "CNO4" not in matches.columns:
+        return matches
+    source_by_code = {code: idx for idx, code in enumerate(model.anthropic_codes)}
+    row_by_cno4 = {str(row.get("CNO4", "")): (idx, row) for idx, row in enumerate(rows)}
+    override_rows = []
+    override_cno4 = []
+    for cno4, anthropic_code in MANUAL_CNO4_COSINE_MATCH_OVERRIDES.items():
+        source_idx = source_by_code.get(anthropic_code)
+        target = row_by_cno4.get(cno4)
+        if source_idx is None or target is None:
+            continue
+        target_idx, row = target
+        override_rows.append(_match_row(row, model, sims[target_idx, source_idx], source_idx, method))
+        override_cno4.append(cno4)
+    if not override_rows:
+        return matches
+    kept = matches[~matches["CNO4"].astype(str).isin(override_cno4)]
+    return pd.concat([kept, pd.DataFrame(override_rows)], ignore_index=True)

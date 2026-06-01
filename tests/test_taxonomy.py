@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import pandas as pd
 
-from src.taxonomy import aggregate_cno4_predictions, build_cno4_structured_text
+from src.taxonomy import _is_document_stop_line, aggregate_cno4_predictions, build_cno4_structured_text
 
 
 class TaxonomyTests(TestCase):
@@ -45,3 +45,8 @@ class TaxonomyTests(TestCase):
         self.assertAlmostEqual(row["observed_exposure_cosine_weighted"], 0.25 * 0.2 + 0.75 * 0.9)
         self.assertAlmostEqual(row["observed_exposure_cosine_nearest"], 0.25 * 0.3 + 0.75 * 0.8)
         self.assertEqual(row["cno4_count"], 3)
+
+    def test_document_stop_line_detects_appendix_change_log(self):
+        self.assertTrue(_is_document_stop_line("Anexo I"))
+        self.assertTrue(_is_document_stop_line("Cambios respecto a la versión anterior del documento"))
+        self.assertFalse(_is_document_stop_line("Ocupaciones afines no incluidas en este grupo primario"))

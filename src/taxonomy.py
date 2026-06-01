@@ -21,6 +21,11 @@ SECTION_MARKERS = [
     "Ejemplos de ocupaciones incluidas en este grupo primario",
     "Ocupaciones afines no incluidas en este grupo primario",
 ]
+DOCUMENT_STOP_MARKERS = [
+    "Anexo I",
+    "Cambios respecto a la versión anterior del documento",
+    "Cambios respecto a la version anterior del documento",
+]
 
 
 def ensure_reference_file(url: str, target: Path, refresh: bool = False) -> Path:
@@ -80,12 +85,18 @@ def parse_cno4_pdf(path: Path) -> pd.DataFrame:
 
     reader = PdfReader(str(path))
     lines: list[str] = []
+    stop_seen = False
     for page in reader.pages[2:]:
         text = page.extract_text() or ""
         for line in text.splitlines():
             cleaned = normalize_space(line.replace("\xad", ""))
             if cleaned:
+                if _is_document_stop_line(cleaned):
+                    stop_seen = True
+                    break
                 lines.append(cleaned)
+        if stop_seen:
+            break
 
     records: list[dict[str, str]] = []
     idx = 0
@@ -245,6 +256,11 @@ def _aggregate_equal(df: pd.DataFrame, level_column: str, exposure_columns: list
 
 def _starts_definition(line: str) -> bool:
     return bool(re.match(r"^(El|La|Los|Las|Este|Esta|Estos|Estas|En este|Se incluyen|Nota:)", line))
+
+
+def _is_document_stop_line(line: str) -> bool:
+    normalized = normalize_space(line).strip(" ;:.-")
+    return any(normalized.startswith(marker) for marker in DOCUMENT_STOP_MARKERS)
 
 
 def _clean_bullets(lines: list[str]) -> list[str]:

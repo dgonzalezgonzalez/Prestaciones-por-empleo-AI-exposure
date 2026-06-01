@@ -7,7 +7,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2011Q1,0.07907249635575618,0.10329511028610973,0.1089323395597967,4268121.87,4268121.87,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2011Q1,0.08757439251816788,0.10689887521647434,0.11210059046305508,1438567.81,1438567.81,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2011Q1,0.10214722415451072,0.13735625880361071,0.14716531849369088,2342736.49,2342736.49,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2011Q1,0.10768517974988187,0.13329328186843958,0.13808350956663631,4124514.89,4124514.89,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2011Q1,0.10768725453630672,0.1293420397822056,0.13413226748040233,4124514.89,4124514.89,1.0,10
 9,"Otros servicios ,",2011Q1,0.07086001075617981,0.08069668179789312,0.08498341331566342,1395967.16,1395967.16,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2011Q2,0.05755881149500643,0.021529231112705393,0.02185363614669756,735904.7,735904.7,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2011Q2,0.06433006698352083,0.057525245869566435,0.059881807134561996,825107.07,825107.07,1.0,9
@@ -17,7 +17,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2011Q2,0.07865918479235685,0.10253883574691247,0.10814342503572241,4419540.7,4419540.7,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2011Q2,0.08916769755700754,0.11309125856420756,0.11943066377367813,1434041.69,1434041.69,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2011Q2,0.10177670916771535,0.13604240905381798,0.14581539554532347,2364303.44,2364303.44,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2011Q2,0.10725623842219746,0.13306884898875662,0.1379635542146617,4156800.05,4156800.05,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2011Q2,0.10725817653603513,0.12937788741716663,0.1342725926430717,4156800.05,4156800.05,1.0,10
 9,"Otros servicios ,",2011Q2,0.0700134757707225,0.07890832421184812,0.0829879246803953,1447528.81,1447528.81,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2011Q3,0.05886298301502432,0.02316544175866426,0.02366161955248357,704770.64,704770.64,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2011Q3,0.06412299627963107,0.05796871684733536,0.06038953940384087,810662.87,810662.87,1.0,9
@@ -27,7 +27,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2011Q3,0.0784089085877462,0.1027572815917205,0.1082916027221662,4476262.86,4476262.86,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2011Q3,0.09037481950944684,0.11859186610182434,0.1260061583503817,1430612.57,1430612.57,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2011Q3,0.1018965741944017,0.13619073706454052,0.14594204376096134,2312464.18,2312464.18,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2011Q3,0.10716289910840006,0.13402165645747374,0.13910305293804467,4115276.31,4115276.31,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2011Q3,0.10716474539217904,0.13050557688257236,0.13558697336314324,4115276.31,4115276.31,1.0,10
 9,"Otros servicios ,",2011Q3,0.07052151795030745,0.08018124984864201,0.08432609073852501,1427943.6,1427943.6,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2011Q4,0.05562798971999818,0.0196556653107095,0.019931573920741456,802341.74,802341.74,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2011Q4,0.06464118085568331,0.05781531365677946,0.06019620196293909,811407.29,811407.29,1.0,9
@@ -37,7 +37,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2011Q4,0.07829118638005425,0.10232176957382207,0.10777640949994946,4290058.9,4290058.9,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2011Q4,0.08938924925139613,0.1129985272631247,0.11934041044084949,1427159.56,1427159.56,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2011Q4,0.10311833633025325,0.13942635286310867,0.14957405383318695,2294728.53,2294728.53,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2011Q4,0.10816860521846407,0.1349774736352541,0.1400492340614508,4088869.82,4088869.82,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2011Q4,0.10817045773059508,0.131449532730221,0.13652129315641773,4088869.82,4088869.82,1.0,10
 9,"Otros servicios ,",2011Q4,0.07041773857249375,0.08002840536421219,0.08404257587972197,1374763.41,1374763.41,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2012Q1,0.05614287256444951,0.01982226363591511,0.020138346743962622,763002.28,763002.28,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2012Q1,0.06669681049843834,0.06279593168691107,0.0659581740696872,808555.47,808555.47,1.0,9
@@ -47,7 +47,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2012Q1,0.0777751567501489,0.10124515781751392,0.1064843137041355,4147618.85,4147618.85,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2012Q1,0.08974295488573729,0.11412615846537345,0.12068330250998496,1407190.28,1407190.28,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2012Q1,0.10353009467266988,0.1405303563623179,0.1507443548076681,2274664.01,2274664.01,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2012Q1,0.1084664778901457,0.1360640130721423,0.1412282803999126,4083071.22,4083071.22,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2012Q1,0.10846853179828847,0.13215253177563596,0.13731679910340625,4083071.22,4083071.22,1.0,10
 9,"Otros servicios ,",2012Q1,0.07107708898128441,0.08037607506606846,0.08433046513253574,1378995.21,1378995.21,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2012Q2,0.05738174250367206,0.021013216793856686,0.021428930833660157,722293.51,722293.51,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2012Q2,0.06623681241873777,0.06126468891032001,0.06414122465714323,793858.78,793858.78,1.0,9
@@ -57,8 +57,8 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2012Q2,0.0778128717478832,0.10142897474501283,0.10664826422030044,4238183.05,4238183.05,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2012Q2,0.08947900842195901,0.11176089807942323,0.11788404288459581,1397096.87,1397096.87,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2012Q2,0.10315936099202551,0.13938193178761477,0.14934330248430883,2286927.36,2286927.36,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2012Q2,0.10889076438981014,0.1358395395802677,0.14084079935176683,4043779.08,4043779.08,1.0,10
-9,"Otros servicios ,",2012Q2,0.07147660977397095,0.08131636487881977,0.08536624219978833,1376042.52,1376042.52,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2012Q2,0.10889272490607387,0.13210591462533242,0.13710717439683154,4043779.08,4043779.08,1.0,10
+9,"Otros servicios ,",2012Q2,0.07147661708313367,0.08130244524306124,0.08535232256402979,1376042.52,1376042.52,1.0,10
 0,"Agricultura, ganadería, silvicultura y pesca ,",2012Q3,0.057976746168677415,0.021555347165562264,0.02206353130387792,714173.46,714173.46,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2012Q3,0.06638746598454526,0.06273770481521286,0.06577437578367586,781596.69,781596.69,1.0,9
 2,"Industrias extractivas, refino de petróleo, industria química, farmaceutica, industria del caucho y materias plásticas, suministro energía eléctrica, gas, vapor y aire acondicionado, suministro de agua, gestión de residuos. Metalurgia ,",2012Q3,0.07726348105196869,0.07988181644914055,0.08396967513610923,953184.85,953184.85,1.0,8
@@ -67,7 +67,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2012Q3,0.07771637664607445,0.10144843601712573,0.10663216181056863,4300721.82,4300721.82,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2012Q3,0.08926739209011955,0.11188619054263028,0.11809630885889548,1381301.15,1381301.15,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2012Q3,0.10186396244986633,0.13609069713050448,0.14570524959228756,2303804.88,2303804.88,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2012Q3,0.10844045909519467,0.13596376630545437,0.14105205814609617,3891350.62,3891350.62,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2012Q3,0.10844231885795728,0.13242201723188118,0.13751030907252298,3891350.62,3891350.62,1.0,10
 9,"Otros servicios ,",2012Q3,0.07119479567575995,0.07937387974805435,0.08310329817320466,1429750.39,1429750.39,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2012Q4,0.05572367239546409,0.02031884108855571,0.02070378113908793,774044.15,774044.15,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2012Q4,0.06563193408624379,0.06112038359954537,0.06402326381049203,778336.52,778336.52,1.0,9
@@ -77,7 +77,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2012Q4,0.07778910204997981,0.10136872586034151,0.10656236068475704,4103156.03,4103156.03,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2012Q4,0.08980759798785581,0.1123633912381652,0.1185886173373268,1361985.57,1361985.57,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2012Q4,0.10270869993038106,0.13809203213437296,0.14784398141575572,2277293.5,2277293.5,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2012Q4,0.10866177098188656,0.1356614609719461,0.14065721293088668,3882947.41,3882947.41,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2012Q4,0.10866358763307993,0.13220181396185865,0.13719756592079924,3882947.41,3882947.41,1.0,10
 9,"Otros servicios ,",2012Q4,0.07190664647188062,0.08060193166277481,0.08443571629556196,1410995.29,1410995.29,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2013Q1,0.05739207414064238,0.021074840790223356,0.02147554536411475,716498.85,716498.85,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2013Q1,0.0669881574778161,0.06327165626884654,0.06636815463376028,771405.55,771405.55,1.0,9
@@ -87,7 +87,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2013Q1,0.07803076995978141,0.10207404878874977,0.10732169189800266,4058827.73,4058827.73,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2013Q1,0.08959954267370845,0.11155334157244874,0.11768579165801922,1340764.01,1340764.01,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2013Q1,0.10321596887347272,0.13850568213593076,0.14822826491165203,2254699.67,2254699.67,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2013Q1,0.1088680922564536,0.13497448658911865,0.13978814182702226,3813109.5,3813109.5,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2013Q1,0.1088699180006136,0.1314975228509062,0.13631117808880985,3813109.5,3813109.5,1.0,10
 9,"Otros servicios ,",2013Q1,0.0714975192505842,0.07985108479516151,0.08360193737027055,1402628.22,1402628.22,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2013Q2,0.05748064069170662,0.022232673299389674,0.022805144930038462,753096.65,753096.65,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2013Q2,0.06571849178383517,0.06109946891087172,0.06396244846274872,747944.53,747944.53,1.0,9
@@ -97,7 +97,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2013Q2,0.07852594598130486,0.10304847679619558,0.10835752107407186,4182400.81,4182400.81,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2013Q2,0.0878130093720563,0.10735748566502741,0.11297845661100593,1344483.25,1344483.25,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2013Q2,0.1024255231241918,0.13607659300840863,0.14550302924934203,2226523.73,2226523.73,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2013Q2,0.10880961303488763,0.13397037032263714,0.1385636226602909,3829077.37,3829077.37,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2013Q2,0.10881137311329843,0.13061846103280214,0.1352117133704559,3829077.37,3829077.37,1.0,10
 9,"Otros servicios ,",2013Q2,0.07193223778309658,0.08099252479093237,0.084810724745781,1433122.18,1433122.18,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2013Q3,0.05885537419428995,0.02332238300911574,0.023999326030477452,699360.21,699360.21,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2013Q3,0.0663041322636726,0.062457925332347494,0.06549689977250339,738184.2,738184.2,1.0,9
@@ -107,7 +107,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2013Q3,0.07875955620394773,0.10368679766600668,0.10908401077384347,4298640.37,4298640.37,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2013Q3,0.08826430231386478,0.10719662533473777,0.11256726707231746,1361054.11,1361054.11,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2013Q3,0.10213859384973847,0.1368892943115814,0.14650672095605521,2304384.34,2304384.34,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2013Q3,0.10859168736191874,0.13464912131425236,0.13940952406191057,3768087.67,3768087.67,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2013Q3,0.10859349176826417,0.13121279350361695,0.13597319625127516,3768087.67,3768087.67,1.0,10
 9,"Otros servicios ,",2013Q3,0.07091371194123167,0.07963140343415552,0.0832428707312033,1425337.01,1425337.01,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2013Q4,0.05679947545232524,0.022585852426232705,0.023166040369339433,777298.2,777298.2,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2013Q4,0.06617134170786328,0.06236263834525506,0.06543953901763477,750704.6900000001,750704.6900000001,1.0,9
@@ -117,7 +117,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2013Q4,0.07861030107009859,0.10287079075468164,0.10823349837979913,4176732.86,4176732.86,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2013Q4,0.08974404053018038,0.1126623951014139,0.11877996237819477,1371764.72,1371764.72,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2013Q4,0.10240966261207397,0.13700443772334003,0.14649072705091237,2276738.85,2276738.85,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2013Q4,0.10902658642517961,0.13504092224235242,0.1398213947597396,3816176.81,3816176.81,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2013Q4,0.10902841675569869,0.13155522420031995,0.13633569671770715,3816176.81,3816176.81,1.0,10
 9,"Otros servicios ,",2013Q4,0.07092233997575154,0.07983037337759742,0.08363068766826053,1385372.42,1385372.42,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2014Q1,0.055423820054501284,0.020456530268044282,0.020808748763978965,809076.65,809076.65,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2014Q1,0.06673740355425684,0.06367258881928833,0.06698515363488025,746499.37,746499.37,1.0,9
@@ -127,7 +127,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2014Q1,0.0788619820248792,0.10319310281262756,0.1085512491780968,4081824.11,4081824.11,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2014Q1,0.089055520848985,0.11095648820676768,0.11690496543897397,1338345.53,1338345.53,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2014Q1,0.1028362911441578,0.13691610728456577,0.14634675934269017,2241443.46,2241443.46,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2014Q1,0.10922252941295837,0.13584610723007257,0.14071231370481585,3868919.07,3868919.07,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2014Q1,0.10922444542241738,0.1321972414376951,0.13706344791243835,3868919.07,3868919.07,1.0,10
 9,"Otros servicios ,",2014Q1,0.07164597114427217,0.08089865095847788,0.08485208797588384,1370245.37,1370245.37,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2014Q2,0.05712175866263914,0.02180437384178641,0.022174450130346843,739264.29,739264.29,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2014Q2,0.0665261252801611,0.06211134107445465,0.06513032692818954,782920.8,782920.8,1.0,9
@@ -137,7 +137,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2014Q2,0.07819786550993164,0.10275917280407545,0.10805808321447667,4292827.35,4292827.35,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2014Q2,0.08871343753489756,0.11055934289483352,0.11655662711430553,1361326.17,1361326.17,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2014Q2,0.10266492712302216,0.1367723707973237,0.14618601055233735,2306805.28,2306805.28,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2014Q2,0.10936832233932149,0.1361103802392468,0.14095885161657337,3898309.73,3898309.73,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2014Q2,0.10937023189376385,0.13247380743909973,0.13732227881642634,3898309.73,3898309.73,1.0,10
 9,"Otros servicios ,",2014Q2,0.07189898958241656,0.08112804798988475,0.08508977660075477,1420168.11,1420168.11,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2014Q3,0.05824751582969287,0.021872569448321756,0.022181175999351245,666146.6,666146.6,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2014Q3,0.06567827005811551,0.06072849082961474,0.0637119345837596,806094.87,806094.87,1.0,9
@@ -147,7 +147,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2014Q3,0.07826953702093295,0.10333373723083669,0.10865741529834393,4414751.7,4414751.7,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2014Q3,0.0890641929893043,0.11186665474162577,0.11811181492205933,1384002.62,1384002.62,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2014Q3,0.10263503153799979,0.1368910196280777,0.14624546769189498,2313530.5,2313530.5,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2014Q3,0.1088186067800647,0.1362934288341949,0.14132226011155674,3828943.43,3828943.43,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2014Q3,0.10882063211150267,0.13243636927351082,0.13746520055087266,3828943.43,3828943.43,1.0,10
 9,"Otros servicios ,",2014Q3,0.07121896464861006,0.08092438784335848,0.08489302007210242,1446968.32,1446968.32,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2014Q4,0.05681169890125108,0.02144004742294135,0.021807953704521172,728906.37,728906.37,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2014Q4,0.06610187391643314,0.06067354892746205,0.0635351195867141,815084.26,815084.26,1.0,9
@@ -157,7 +157,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2014Q4,0.07782089221626799,0.10205735040428288,0.10726200114964002,4292722.16,4292722.16,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2014Q4,0.08991599018617956,0.11301151879681291,0.11921947301241911,1390048.89,1390048.89,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2014Q4,0.10311397626666899,0.13759681750607597,0.1470759692853259,2349909.48,2349909.48,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2014Q4,0.10903132777712957,0.13593925661926556,0.14083026979857632,3912513.97,3912513.97,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2014Q4,0.10903325191105158,0.1322749185258393,0.13716593170515012,3912513.97,3912513.97,1.0,10
 9,"Otros servicios ,",2014Q4,0.07269623104148337,0.0820010235161394,0.08593000178764137,1425824.19,1425824.19,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2015Q1,0.05659255063577954,0.02144725519406741,0.0218345575176246,717399.03,717399.03,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2015Q1,0.06534529088176608,0.05937896729952924,0.0620863951793607,791717.46,791717.46,1.0,9
@@ -167,7 +167,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2015Q1,0.0782154739322096,0.10288220513335238,0.10819498516815361,4252658.09,4252658.09,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2015Q1,0.08973472605159084,0.11353463612942706,0.11989462579343062,1336842.95,1336842.95,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2015Q1,0.1027653004279238,0.13739189508748692,0.14689893098912113,2333659.78,2333659.78,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2015Q1,0.10892438867191988,0.13589005688549619,0.1408704503955729,3921389.43,3921389.43,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2015Q1,0.10892624298041081,0.13235869497635777,0.13733908848643447,3921389.43,3921389.43,1.0,10
 9,"Otros servicios ,",2015Q1,0.07248682021294002,0.08306017847427694,0.0872318609413895,1391106.9,1391106.9,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2015Q2,0.056052180583232164,0.02097599401020595,0.021305305167952752,740422.14,740422.14,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2015Q2,0.06503761192904868,0.0603073210486878,0.06314547233520139,808471.25,808471.25,1.0,9
@@ -177,7 +177,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2015Q2,0.07803296344006401,0.10277101360347407,0.10811243640393799,4426465.28,4426465.28,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2015Q2,0.08875200365781159,0.11041109702331492,0.11631677181359698,1383320.55,1383320.55,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2015Q2,0.1033671004122267,0.13814878377683643,0.14765331347788627,2368920.62,2368920.62,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2015Q2,0.1087960857811733,0.1351293978438001,0.14001164219278026,3932404.4,3932404.4,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2015Q2,0.10879787943117865,0.13171355450479866,0.1365957988537788,3932404.4,3932404.4,1.0,10
 9,"Otros servicios ,",2015Q2,0.07386628062497959,0.08645351245843284,0.09091008978381632,1416243.13,1416243.13,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2015Q3,0.05647623725231008,0.02168392670769201,0.022091889023136805,709528.15,709528.15,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2015Q3,0.06500402847333688,0.05954188754168232,0.0622094135120069,812527.03,812527.03,1.0,9
@@ -187,7 +187,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2015Q3,0.07800756944113994,0.1031828285640536,0.10853128133666769,4555598.44,4555598.44,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2015Q3,0.0898296982402901,0.11185478395738449,0.11773660322361319,1429050.13,1429050.13,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2015Q3,0.10265743144421882,0.13659501900554127,0.1459550170050777,2391042.17,2391042.17,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2015Q3,0.10853079183284928,0.13518192779885377,0.1401358776072298,3925079.92,3925079.92,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2015Q3,0.10853253032821715,0.13187112145175653,0.13682507126013255,3925079.92,3925079.92,1.0,10
 9,"Otros servicios ,",2015Q3,0.07309773511267612,0.08605101023090045,0.09048441756650107,1436830.37,1436830.37,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2015Q4,0.05484529368522227,0.019912808476351865,0.020184019646371794,779685.77,779685.77,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2015Q4,0.06514029077006339,0.06081693922301678,0.06362175123497922,788385.96,788385.96,1.0,9
@@ -197,7 +197,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2015Q4,0.07823132259228602,0.10312179060835848,0.10850032375382082,4471417.0,4471417.0,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2015Q4,0.08915468815364867,0.11067299856391129,0.1164251920700032,1453920.41,1453920.41,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2015Q4,0.10340991482437793,0.13881829568064133,0.14846493774871247,2413285.06,2413285.06,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2015Q4,0.10968042791898502,0.13702896186279284,0.14210804719919234,4019156.12,4019156.12,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2015Q4,0.10968221024324266,0.13363468738045037,0.13871377271684987,4019156.12,4019156.12,1.0,10
 9,"Otros servicios ,",2015Q4,0.07344976974797972,0.08607887235207577,0.09058200416930257,1434761.78,1434761.78,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2016Q1,0.05548324445618974,0.02172895580120437,0.022219702784223708,777382.2,777382.2,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2016Q1,0.06452800106137864,0.05886290872016631,0.06143172533526179,785705.92,785705.92,1.0,9
@@ -207,7 +207,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2016Q1,0.07804639000348655,0.10267863174422676,0.10803395091902013,4405649.85,4405649.85,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2016Q1,0.08989711417122088,0.1127555586407499,0.11872135230267691,1468721.22,1468721.22,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2016Q1,0.10309427384000944,0.13661600931609025,0.1459900471302376,2409918.41,2409918.41,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2016Q1,0.10983806340690247,0.1362647397088625,0.1410997025057965,4033531.36,4033531.36,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2016Q1,0.10983979359242527,0.13296975870607855,0.13780472150301257,4033531.36,4033531.36,1.0,10
 9,"Otros servicios ,",2016Q1,0.07402868943690778,0.08664220773193841,0.09115401014099493,1421364.03,1421364.03,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2016Q2,0.05561897418208217,0.022137717388044906,0.022627295909796823,760190.17,760190.17,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2016Q2,0.06425474694289468,0.05965799516518394,0.06237797720906616,813342.06,813342.06,1.0,9
@@ -217,7 +217,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2016Q2,0.07783771516681326,0.1021853637357177,0.10743865793667731,4580447.31,4580447.31,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2016Q2,0.0884983963522776,0.10932608919335221,0.11480076706118483,1463811.14,1463811.14,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2016Q2,0.10283699139969085,0.13520330446635065,0.14423241665337996,2419236.23,2419236.23,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2016Q2,0.10984424881492097,0.13584213534438602,0.1406434855958564,4061592.95,4061592.95,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2016Q2,0.10984585755137695,0.13277844304602313,0.1375797932974935,4061592.95,4061592.95,1.0,10
 9,"Otros servicios ,",2016Q2,0.0736623463751512,0.08693463276590627,0.09149059395718749,1441386.96,1441386.96,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2016Q3,0.056064048654914274,0.02180494080480166,0.0221931959414974,743843.63,743843.63,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2016Q3,0.0649882961545388,0.06112215769142051,0.06405959558400691,833994.41,833994.41,1.0,9
@@ -227,7 +227,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2016Q3,0.0773909187190735,0.10159278195614588,0.10674803644258563,4721494.64,4721494.64,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2016Q3,0.08829277272236993,0.1091791183398516,0.11474584411784468,1477068.66,1477068.66,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2016Q3,0.10289528099723462,0.13623367664679012,0.14539385274891714,2455433.36,2455433.36,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2016Q3,0.10915768591057494,0.13586438933056336,0.14083263260287396,4041219.52,4041219.52,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2016Q3,0.1091593943130564,0.13261089214926366,0.13757913542157427,4041219.52,4041219.52,1.0,10
 9,"Otros servicios ,",2016Q3,0.07360435256785135,0.08556922052426784,0.08978244663203153,1449991.05,1449991.05,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2016Q4,0.055692597328793954,0.021537538563150813,0.02193765560457046,816727.91,816727.91,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2016Q4,0.06488103961221531,0.06038112257181955,0.06313189219670745,847058.39,847058.39,1.0,9
@@ -237,7 +237,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2016Q4,0.07725676295239059,0.10100891971037526,0.10612761715430946,4584550.98,4584550.98,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2016Q4,0.0880447966570212,0.1079578821098397,0.11337318686109497,1500912.42,1500912.42,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2016Q4,0.10376629699930708,0.13664173681428315,0.14571469049501387,2461210.7,2461210.7,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2016Q4,0.10946769796624897,0.1354004035027666,0.14017972744565996,4043141.18,4043141.18,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2016Q4,0.10946949473032881,0.13197862969207155,0.1367579536349649,4043141.18,4043141.18,1.0,10
 9,"Otros servicios ,",2016Q4,0.07375405599612897,0.08381996835498438,0.08775780783625943,1443098.79,1443098.79,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2017Q1,0.055914577139578474,0.02281594072266985,0.023380511815261826,847746.05,847746.05,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2017Q1,0.06392565566439601,0.05858784600598419,0.061205569405993004,845261.73,845261.73,1.0,9
@@ -247,7 +247,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2017Q1,0.07736773257711212,0.10091563127602655,0.10601689146289267,4461983.08,4461983.08,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2017Q1,0.08822614895796105,0.10887414895147744,0.11448668924311124,1491662.5,1491662.5,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2017Q1,0.10404838559388846,0.13835806918645316,0.14772141779534176,2476465.29,2476465.29,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2017Q1,0.10953077432997908,0.13514724547737192,0.1398459563721427,4076123.7,4076123.7,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2017Q1,0.10953247870809836,0.13190141232793468,0.1366001232227055,4076123.7,4076123.7,1.0,10
 9,"Otros servicios ,",2017Q1,0.07427604912147773,0.08512466578670318,0.08916460270217072,1431943.2,1431943.2,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2017Q2,0.05599634293429504,0.022748588814470543,0.023308993639324815,832553.53,832553.53,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2017Q2,0.06338049431833513,0.05695197042722187,0.05948044971241481,866169.47,866169.47,1.0,9
@@ -257,7 +257,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2017Q2,0.07768837652483979,0.10191811306364872,0.1071660290287995,4655796.88,4655796.88,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2017Q2,0.0891356490161674,0.11076959316548199,0.11658039759916228,1500016.11,1500016.11,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2017Q2,0.1040207217102157,0.13823882915364327,0.14755349143001353,2488756.13,2488756.13,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2017Q2,0.10922663610600607,0.13406502600446918,0.13866952662034657,4110929.97,4110929.97,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2017Q2,0.10922822721886508,0.1310348962439923,0.1356393968598697,4110929.97,4110929.97,1.0,10
 9,"Otros servicios ,",2017Q2,0.07386121461058545,0.08490519095547736,0.08889933913802574,1455075.09,1455075.09,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2017Q3,0.05643297585224712,0.022350774228925296,0.022744744010265106,777013.22,777013.22,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2017Q3,0.06446522833716332,0.05888906053425979,0.061613943932801965,869019.86,869019.86,1.0,9
@@ -267,7 +267,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2017Q3,0.07774200382734896,0.10246211958265122,0.10777726162243047,4779003.71,4779003.71,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2017Q3,0.0895503563274094,0.1112140056389447,0.11700864287924706,1546049.77,1546049.77,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2017Q3,0.10407220589793706,0.13870433535205776,0.14806880463838049,2513809.18,2513809.18,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2017Q3,0.10908530652081408,0.13532745604622387,0.14023349708024935,4097963.02,4097963.02,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2017Q3,0.10908699548913225,0.13211096946179068,0.13701701049581613,4097963.02,4097963.02,1.0,10
 9,"Otros servicios ,",2017Q3,0.07320248661811367,0.08453767770147419,0.08856050588825708,1510116.08,1510116.08,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2017Q4,0.055452088139991876,0.021847270286936955,0.022268091715904152,820699.12,820699.12,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2017Q4,0.06488224765653106,0.060342727680511236,0.06316455471451436,896105.25,896105.25,1.0,9
@@ -277,7 +277,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2017Q4,0.07757466721022253,0.10242414427863593,0.1078217737443907,4626293.46,4626293.46,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2017Q4,0.0893661062911987,0.11002277728779512,0.11565928633435238,1547922.44,1547922.44,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2017Q4,0.10421339445501229,0.13985627895715674,0.1493727707282851,2473417.67,2473417.67,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2017Q4,0.10934469623169121,0.13529475790505424,0.14007953544642401,4178172.97,4178172.97,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2017Q4,0.10934654164768914,0.13178033094026217,0.13656510848163195,4178172.97,4178172.97,1.0,10
 9,"Otros servicios ,",2017Q4,0.07391491169980931,0.085913282132439,0.09022489348550941,1496854.41,1496854.41,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2018Q1,0.05488697192615824,0.020491074605096207,0.020775648158130145,833772.58,833772.58,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2018Q1,0.06432722698355628,0.05847855388108965,0.06110994700501066,870190.01,870190.01,1.0,9
@@ -287,7 +287,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2018Q1,0.07806664161111165,0.10326396551866392,0.10871163241950164,4492746.17,4492746.17,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2018Q1,0.08824286035838846,0.10704573644928177,0.11229547581714043,1545749.5,1545749.5,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2018Q1,0.10483538647265626,0.1412131902384968,0.1509749712846049,2480214.21,2480214.21,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2018Q1,0.10944640181651819,0.1359671553199394,0.14085910404527519,4221406.14,4221406.14,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2018Q1,0.10944835847530114,0.1322408765863482,0.13713282531168397,4221406.14,4221406.14,1.0,10
 9,"Otros servicios ,",2018Q1,0.07446965828045692,0.08799560614483479,0.0925624462341707,1472054.18,1472054.18,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2018Q2,0.05600954701031557,0.021956976465987346,0.022342659324272405,822453.85,822453.85,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2018Q2,0.06531288923605155,0.060812240268998,0.06367675594936302,861113.32,861113.32,1.0,9
@@ -297,7 +297,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2018Q2,0.07775436342703063,0.10296065834031438,0.10843662486974304,4742511.53,4742511.53,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2018Q2,0.08767158420015467,0.10698315889985904,0.11237489788358966,1552955.64,1552955.64,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2018Q2,0.10458165090853112,0.1402717520881055,0.14986698242881819,2548133.61,2548133.61,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2018Q2,0.10982666310351752,0.13687599073869214,0.141827475921526,4264575.24,4264575.24,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2018Q2,0.10982866505394943,0.13306345817800502,0.13801494336083892,4264575.24,4264575.24,1.0,10
 9,"Otros servicios ,",2018Q2,0.07355237981514696,0.08596084772322234,0.09028127362824198,1475386.17,1475386.17,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2018Q3,0.05699531432446608,0.023262999250453126,0.02375343107135967,768404.08,768404.08,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2018Q3,0.06556574877639058,0.06081086463665097,0.06364568992012176,832000.14,832000.14,1.0,9
@@ -307,7 +307,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2018Q3,0.07783786820951626,0.1032852531865224,0.10877632370535996,4908664.78,4908664.78,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2018Q3,0.08860474652978384,0.10951063988125746,0.11518627957003029,1558176.98,1558176.98,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2018Q3,0.10491397635209329,0.14224578786549197,0.15214518134278515,2574545.23,2574545.23,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2018Q3,0.10940598062043146,0.13653530631189384,0.14152768837149687,4261814.35,4261814.35,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2018Q3,0.1094080656998745,0.13256446210841513,0.13755684416801814,4261814.35,4261814.35,1.0,10
 9,"Otros servicios ,",2018Q3,0.0736757546795849,0.08632215149438169,0.09053972646021205,1490561.5,1490561.5,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2018Q4,0.05587086143074204,0.022301807130198678,0.022738060161163462,825571.08,825571.08,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2018Q4,0.06537008849277658,0.060388177933262475,0.06315193894056008,864947.14,864947.14,1.0,9
@@ -317,7 +317,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2018Q4,0.07766556286862122,0.10189785021527369,0.10723952829635494,4714737.82,4714737.82,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2018Q4,0.08812055211737894,0.10881850521708787,0.11438354078146849,1607101.88,1607101.88,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2018Q4,0.10446535033484836,0.1406956581529953,0.15032349774875392,2593523.24,2593523.24,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2018Q4,0.10984439456197236,0.13625142733100548,0.141028829192253,4379242.63,4379242.63,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2018Q4,0.1098464548835137,0.13232773230005293,0.13710513416130046,4379242.63,4379242.63,1.0,10
 9,"Otros servicios ,",2018Q4,0.0748804801604793,0.08672333591034724,0.09091754449152889,1456144.52,1456144.52,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2019Q1,0.055748785508710694,0.022512203723315444,0.02296038165045551,839681.19,839681.19,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2019Q1,0.06641978799897248,0.06266594473640365,0.06564720355695973,859058.32,859058.32,1.0,9
@@ -327,7 +327,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2019Q1,0.07761836653147372,0.10160497586770295,0.1068316253909232,4600565.82,4600565.82,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2019Q1,0.08793984207092517,0.1080500748926481,0.11344425352092027,1605547.86,1605547.86,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2019Q1,0.10502626187439584,0.1404917820903697,0.1499072913106417,2571661.41,2571661.41,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2019Q1,0.10983714474745417,0.136132385815743,0.14089804162203765,4388965.16,4388965.16,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2019Q1,0.1098392234061209,0.13217376939692413,0.13693942520321878,4388965.16,4388965.16,1.0,10
 9,"Otros servicios ,",2019Q1,0.07487656607711607,0.08678061915579713,0.09089782177950234,1474814.79,1474814.79,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2019Q2,0.05717728387908469,0.023818980431917536,0.024309201593946297,809262.79,809262.79,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2019Q2,0.06563489585758822,0.0595663178854937,0.06215128291532125,892630.2,892630.2,1.0,9
@@ -337,7 +337,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2019Q2,0.07737352468525857,0.10178658252769082,0.10708192473344903,4803735.4,4803735.4,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2019Q2,0.08859344633129379,0.10976400493367718,0.1154130837746203,1640122.1,1640122.1,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2019Q2,0.10443124549589171,0.1399602502393884,0.14936064763771806,2639430.56,2639430.56,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2019Q2,0.11031820001306078,0.13709302214086083,0.1419350990072727,4389268.0,4389268.0,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2019Q2,0.1103202509077088,0.1331872797710625,0.13802935663747437,4389268.0,4389268.0,1.0,10
 9,"Otros servicios ,",2019Q2,0.07599898403641347,0.0898863635761951,0.09445770559901245,1482174.01,1482174.01,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2019Q3,0.05773967823485946,0.024140511188431177,0.02471077972593651,746247.91,746247.91,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2019Q3,0.0650933511411888,0.057986927568662736,0.06037454495614293,920056.56,920056.56,1.0,9
@@ -347,7 +347,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2019Q3,0.07773158325736618,0.10280081229939654,0.10817070404780674,4917570.18,4917570.18,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2019Q3,0.08855035134055067,0.10975565242173191,0.11540255743830365,1632447.97,1632447.97,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2019Q3,0.10397218876570716,0.13954533855628323,0.14892405010470522,2660001.34,2660001.34,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2019Q3,0.1098317489249906,0.13661119896498639,0.14145161467616107,4349536.83,4349536.83,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2019Q3,0.10983374369072219,0.13281234901280273,0.1376527647239774,4349536.83,4349536.83,1.0,10
 9,"Otros servicios ,",2019Q3,0.0763384404860631,0.09103718690567943,0.09568638854505303,1482849.68,1482849.68,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2019Q4,0.05598714405630303,0.021928703979497095,0.02229476493415611,793876.49,793876.49,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2019Q4,0.0656981453535692,0.05990371513113585,0.062477297572131725,907316.35,907316.35,1.0,9
@@ -357,7 +357,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2019Q4,0.07792552737532489,0.1029515225783158,0.10833337486647515,4833004.62,4833004.62,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2019Q4,0.08864613848296439,0.11166687987342841,0.11765216500142534,1657011.31,1657011.31,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2019Q4,0.10413645339806601,0.1396677582867843,0.14903341886530555,2674528.5,2674528.5,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2019Q4,0.11011040823238596,0.13617041979699826,0.1408875154148894,4475829.62,4475829.62,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2019Q4,0.11011233064738064,0.13250935524438168,0.1372264508622728,4475829.62,4475829.62,1.0,10
 9,"Otros servicios ,",2019Q4,0.07750731112706329,0.09267043361024234,0.09741733280447305,1485011.48,1485011.48,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2020Q1,0.05629060173204102,0.02237172794211926,0.022818765246567608,784750.81,784750.81,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2020Q1,0.06615257019819117,0.06186048713083124,0.06469329080448959,904116.41,904116.41,1.0,9
@@ -367,7 +367,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2020Q1,0.07805826754249875,0.10326146771960053,0.10866943651053772,4660659.74,4660659.74,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2020Q1,0.0885221920225036,0.10960421933573869,0.11515080770419406,1630550.66,1630550.66,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2020Q1,0.10407022158416687,0.13939766707009363,0.14872755445695413,2649435.01,2649435.01,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2020Q1,0.11042959009614374,0.13617541537912756,0.14082155254888656,4451774.42,4451774.42,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2020Q1,0.11043157907939365,0.13238757763748984,0.13703371480724885,4451774.42,4451774.42,1.0,10
 9,"Otros servicios ,",2020Q1,0.07746266371927679,0.09267788917449385,0.09748452379921918,1457026.55,1457026.55,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2020Q2,0.05610849571072078,0.022571492920833134,0.02303208530072546,763398.62,763398.62,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2020Q2,0.06722804253931618,0.0635944932115894,0.06650984880486369,860620.05,860620.05,1.0,9
@@ -377,7 +377,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2020Q2,0.07825238976229684,0.10269783377975496,0.10807491125695061,4252833.54,4252833.54,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2020Q2,0.09113043472702297,0.11396812159451086,0.12000580041851999,1580992.87,1580992.87,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2020Q2,0.10485359374623865,0.1403675996894166,0.1496814279361663,2567384.67,2567384.67,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2020Q2,0.11068527952010428,0.1363118569562534,0.14093853448456675,4333388.73,4333388.73,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2020Q2,0.11068723567450273,0.13258653877707097,0.1372132163053843,4333388.73,4333388.73,1.0,10
 9,"Otros servicios ,",2020Q2,0.07773997161422663,0.09340243221047846,0.09821138513689198,1297912.17,1297912.17,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2020Q3,0.05721903725968388,0.02369971082355748,0.02418879097723907,731088.18,731088.18,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2020Q3,0.06665656110852476,0.06381123534334888,0.06691000414111524,845877.96,845877.96,1.0,9
@@ -387,7 +387,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2020Q3,0.07820924870545935,0.10347644269293987,0.10898357440081362,4468202.58,4468202.58,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2020Q3,0.09067226050608122,0.11373191382778511,0.11987974298154573,1596755.85,1596755.85,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2020Q3,0.10471485221173793,0.14046651996989473,0.14991183032505365,2617928.32,2617928.32,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2020Q3,0.10997415278349033,0.13658989631343074,0.14142996280257628,4433712.66,4433712.66,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2020Q3,0.10997624694530052,0.1326017555675966,0.13744182205674213,4433712.66,4433712.66,1.0,10
 9,"Otros servicios ,",2020Q3,0.07698654614641802,0.0929111911618417,0.09771576292615913,1392167.25,1392167.25,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2020Q4,0.05588750394610745,0.02219327313720706,0.022578999517945147,782098.39,782098.39,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2020Q4,0.06623127956290613,0.0639278501364426,0.06702890200705044,841597.27,841597.27,1.0,9
@@ -397,7 +397,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2020Q4,0.07827629116993663,0.1030915849831981,0.10856865539368606,4300787.73,4300787.73,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2020Q4,0.08951078839218,0.11076226391711246,0.11653498466120164,1612373.98,1612373.98,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2020Q4,0.1048181587008192,0.13944146115178271,0.1486325338348734,2702494.96,2702494.96,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2020Q4,0.1098445398702289,0.13587084543080422,0.14056275153628592,4573780.13,4573780.13,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2020Q4,0.10984659183555207,0.13196306405755895,0.13665497016304065,4573780.13,4573780.13,1.0,10
 9,"Otros servicios ,",2020Q4,0.0770301377881878,0.0923803929921213,0.09700474358500225,1398886.89,1398886.89,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2021Q1,0.055605877824829,0.022327980670561264,0.022736033914452725,797936.52,797936.52,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2021Q1,0.06609600534036462,0.06336732554696212,0.06623095669049821,818922.28,818922.28,1.0,9
@@ -407,7 +407,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2021Q1,0.0787942565563853,0.1039777046393631,0.10960937306578385,4180121.91,4180121.91,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2021Q1,0.09039702134714216,0.11185118611878211,0.11779477438327646,1636403.34,1636403.34,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2021Q1,0.10579328490361363,0.13977390139057655,0.148873709167305,2733342.34,2733342.34,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2021Q1,0.11039499093320283,0.13707429195474974,0.14191235346367795,4610919.6,4610919.6,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2021Q1,0.11039677913338963,0.1336688272996442,0.1385068888085724,4610919.6,4610919.6,1.0,10
 9,"Otros servicios ,",2021Q1,0.07618544147173809,0.09068216152502508,0.0950358324748213,1344110.6,1344110.6,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2021Q2,0.055420705616883455,0.022099725584053546,0.022459357623858343,811062.54,811062.54,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2021Q2,0.06690519899885446,0.06434280762482587,0.06724414146008745,828417.0599999999,828417.0599999999,1.0,9
@@ -417,7 +417,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2021Q2,0.07798155018889683,0.10237025891166342,0.10779457680329517,4366474.84,4366474.84,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2021Q2,0.09012436317423934,0.1099023637340038,0.11555814021446643,1650492.02,1650492.02,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2021Q2,0.10560827525421945,0.13942574299091434,0.14852321760264414,2705585.95,2705585.95,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2021Q2,0.11051878100561077,0.13711328900168027,0.14189973858709418,4700833.28,4700833.28,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2021Q2,0.1105206580670648,0.1335385961432544,0.1383250457286683,4700833.28,4700833.28,1.0,10
 9,"Otros servicios ,",2021Q2,0.0764672193770898,0.09122788469376432,0.09574244589430429,1447233.66,1447233.66,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2021Q3,0.057066501406664014,0.024417995094208545,0.02499231523050678,761480.11,761480.11,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2021Q3,0.06481328386931134,0.05876960170875892,0.06105625707001406,838920.53,838920.53,1.0,9
@@ -427,7 +427,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2021Q3,0.07847059772677227,0.10297603793397987,0.1084590366230351,4644171.23,4644171.23,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2021Q3,0.09082604006906463,0.11057388372108165,0.11614073202246208,1699024.19,1699024.19,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2021Q3,0.10421142596031799,0.1386533517183834,0.14798919422439893,2815104.62,2815104.62,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2021Q3,0.10993151859563524,0.13745575467500992,0.14243001727325155,4649115.7,4649115.7,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2021Q3,0.10993332016922841,0.1340248215835118,0.13899908418175347,4649115.7,4649115.7,1.0,10
 9,"Otros servicios ,",2021Q3,0.07644510096678753,0.09120474162461938,0.09575157118435419,1440405.52,1440405.52,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2021Q4,0.05525346927164166,0.021723304346996656,0.02212272142706836,840131.63,840131.63,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2021Q4,0.06522160389124038,0.0594016725861544,0.061777872673961585,864030.56,864030.56,1.0,9
@@ -437,7 +437,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2021Q4,0.07879268965148976,0.10405423680918555,0.10965167495821014,4505907.69,4505907.69,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2021Q4,0.08979223415183434,0.1083840388460415,0.11366072953625622,1787587.37,1787587.37,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2021Q4,0.10486108478596841,0.13869913135061762,0.14789385663741725,2864936.11,2864936.11,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2021Q4,0.11053081078311218,0.13714210658468182,0.1419285408902731,4751934.47,4751934.47,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2021Q4,0.11053257972344879,0.13377332056296157,0.13855975486855285,4751934.47,4751934.47,1.0,10
 9,"Otros servicios ,",2021Q4,0.07815259479323912,0.09454902060464572,0.09935647072260936,1383329.14,1383329.14,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2022Q1,0.05518537337883847,0.0224056675680408,0.02288547248151387,827669.75,827669.75,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2022Q1,0.06555879559429051,0.05942249444061392,0.061943806119414205,851266.5,851266.5,1.0,9
@@ -447,7 +447,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2022Q1,0.07897284325285704,0.10433334515779621,0.11003547334445078,4433271.44,4433271.44,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2022Q1,0.08928116037676298,0.1069761270901753,0.11210818812129084,1813393.34,1813393.34,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2022Q1,0.10546694558631624,0.13943076689441897,0.14859564698496314,2805524.38,2805524.38,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2022Q1,0.11031740670072787,0.13642988972613382,0.1411505610997799,4752638.9,4752638.9,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2022Q1,0.11031917705604091,0.1330584090104413,0.1377790803840874,4752638.9,4752638.9,1.0,10
 9,"Otros servicios ,",2022Q1,0.0776199304208963,0.09340756650365525,0.09819025036647634,1438806.86,1438806.86,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2022Q2,0.05617669371236862,0.023110688944597238,0.023621238344044386,789319.17,789319.17,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2022Q2,0.0640114620733322,0.056709724058395874,0.058915126546196316,894266.69,894266.69,1.0,9
@@ -457,7 +457,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2022Q2,0.07841154308968976,0.10364096949633446,0.10921336755798451,4675652.15,4675652.15,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2022Q2,0.08939362846070081,0.10617210852571973,0.11109753675952908,1825789.42,1825789.42,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2022Q2,0.10536933444617565,0.13843437903442363,0.14744895773318922,2762028.12,2762028.12,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2022Q2,0.11037040306101512,0.13656295896481216,0.14129973361039475,4814283.11,4814283.11,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2022Q2,0.11037231151094097,0.13292848961595827,0.13766526426154085,4814283.11,4814283.11,1.0,10
 9,"Otros servicios ,",2022Q2,0.07824882056223974,0.09315559726730735,0.09773413839535683,1486125.42,1486125.42,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2022Q3,0.057995375868374784,0.024612011524654004,0.025227112306704807,728989.95,728989.95,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2022Q3,0.0656926928143814,0.05982791412760481,0.06227347740124716,888812.3,888812.3,1.0,9
@@ -467,7 +467,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2022Q3,0.07886742229761098,0.10433767547251453,0.11001255983375492,4748257.33,4748257.33,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2022Q3,0.08993950942996182,0.10783135971904706,0.11294229626773895,1853181.03,1853181.03,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2022Q3,0.10540913328599359,0.13969272050248546,0.1488569820024904,2810829.79,2810829.79,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2022Q3,0.10975193553826354,0.13634959653634546,0.14121420333575713,4784902.23,4784902.23,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2022Q3,0.10975372157557503,0.1329482508805674,0.13781285767997906,4784902.23,4784902.23,1.0,10
 9,"Otros servicios ,",2022Q3,0.0782109883615383,0.09391331464254915,0.09864447104164852,1481000.99,1481000.99,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2022Q4,0.057452374845873094,0.024869040032268402,0.0255886488255476,753226.51,753226.51,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2022Q4,0.06456863972896092,0.05806108530234511,0.06036333983991621,904988.57,904988.57,1.0,9
@@ -477,7 +477,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2022Q4,0.07888143165607063,0.10462029174052372,0.11027921729550216,4647418.17,4647418.17,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2022Q4,0.08829066628103967,0.10587324588393765,0.11090651540972635,1865439.76,1865439.76,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2022Q4,0.10520732333748464,0.13906808103120136,0.14818241304628707,2803321.18,2803321.18,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2022Q4,0.10992510082503268,0.136911440665868,0.14192021356223172,4857808.7,4857808.7,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2022Q4,0.10992673736390685,0.1337948011901307,0.13880357408649444,4857808.7,4857808.7,1.0,10
 9,"Otros servicios ,",2022Q4,0.0773045559449904,0.09133395234513851,0.09583854608364693,1434041.88,1434041.88,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2023Q1,0.05671367738205029,0.02339924334751947,0.023926172023635985,748178.45,748178.45,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2023Q1,0.06574907847004223,0.05979118159418755,0.062226428909986684,889065.02,889065.02,1.0,9
@@ -487,7 +487,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2023Q1,0.07834604374566632,0.10385517321719553,0.10948200126199964,4612578.7,4612578.7,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2023Q1,0.08925814060228392,0.10840886434083388,0.11362728512330797,1847224.96,1847224.96,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2023Q1,0.10557628309787613,0.13788942235715285,0.14663734134503106,2789750.72,2789750.72,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2023Q1,0.11035051717496829,0.13700027015614974,0.14195927435689726,4904957.8,4904957.8,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2023Q1,0.11035218923817823,0.13381597781313845,0.13877498201388602,4904957.8,4904957.8,1.0,10
 9,"Otros servicios ,",2023Q1,0.07728588783485173,0.09249323289041457,0.09721263824333146,1461361.02,1461361.02,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2023Q2,0.05641137850619023,0.02226639994400852,0.02274225514457086,776343.85,776343.85,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2023Q2,0.06741269768345612,0.0635646074711835,0.06641258275608473,871361.07,871361.07,1.0,9
@@ -497,7 +497,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2023Q2,0.07802493074932396,0.10261814478828288,0.1080511307353133,4972301.21,4972301.21,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2023Q2,0.08847427928580125,0.10543045615751763,0.11013594471501831,1951207.21,1951207.21,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2023Q2,0.10531357552259006,0.13584795482244125,0.14415215146482505,2987024.24,2987024.24,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2023Q2,0.10994815946831163,0.13608992739773518,0.1409206624649477,4879766.81,4879766.81,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2023Q2,0.10994980662481496,0.1329530676126942,0.1377838026799067,4879766.81,4879766.81,1.0,10
 9,"Otros servicios ,",2023Q2,0.07619830851835546,0.0897867605702419,0.09408276496735613,1546621.02,1546621.02,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2023Q3,0.05823929748907546,0.025057324188287336,0.025780711642173115,724132.9,724132.9,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2023Q3,0.06665098249481083,0.06203226570816002,0.06472375298364401,907027.05,907027.05,1.0,9
@@ -507,7 +507,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2023Q3,0.0773997267901949,0.10108845570383523,0.10642343593231754,5096380.18,5096380.18,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2023Q3,0.08917218841580822,0.10930720121888403,0.11461896980259308,1973385.17,1973385.17,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2023Q3,0.10512988711249545,0.13637214171711542,0.14476537099177067,2979962.21,2979962.21,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2023Q3,0.10934723835596633,0.1357489983342012,0.14059582137727103,4858405.19,4858405.19,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2023Q3,0.10934893882111614,0.13251061707930223,0.13735744012237203,4858405.19,4858405.19,1.0,10
 9,"Otros servicios ,",2023Q3,0.07698896319496873,0.09138484035092542,0.09569374704640095,1549629.74,1549629.74,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2023Q4,0.056824500157103615,0.02382664972160522,0.024443364360182667,793469.48,793469.48,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2023Q4,0.0670969235767729,0.060466409717971244,0.06291299367783877,875134.08,875134.08,1.0,9
@@ -517,7 +517,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2023Q4,0.07754878846317995,0.10138968605085479,0.10672411030505186,4831998.66,4831998.66,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2023Q4,0.08912233281445624,0.10677131360829502,0.11164720631851076,1939327.36,1939327.36,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2023Q4,0.10507900617788686,0.13656036218080148,0.14501067757716646,2998435.49,2998435.49,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2023Q4,0.11026211315473812,0.13677797923589174,0.14155170322017888,4995531.09,4995531.09,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2023Q4,0.11026363278258525,0.13388398618045733,0.13865771016474446,4995531.09,4995531.09,1.0,10
 9,"Otros servicios ,",2023Q4,0.07707180231933446,0.09148852982825793,0.09589601227529009,1531595.07,1531595.07,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2024Q1,0.05709564988110853,0.02508560773354577,0.025792432329621532,765837.66,765837.66,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2024Q1,0.06647467232457588,0.06063146697789832,0.06332153076468683,867239.02,867239.02,1.0,9
@@ -527,7 +527,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2024Q1,0.0775654799378039,0.10178274339447377,0.10714656729107754,4830575.2,4830575.2,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2024Q1,0.09083059792603837,0.11034744479307923,0.11554418160116472,1977175.89,1977175.89,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2024Q1,0.1049324343373401,0.13662464980198646,0.1451296750044547,2924446.63,2924446.63,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2024Q1,0.11081584850573442,0.13620696956511313,0.14072938750706282,5003352.96,5003352.96,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2024Q1,0.11081745855164964,0.1331407835206784,0.13766320146262806,5003352.96,5003352.96,1.0,10
 9,"Otros servicios ,",2024Q1,0.07714602048158106,0.0926226995964025,0.09729575522804221,1505207.67,1505207.67,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2024Q2,0.057034827681142354,0.024786563654365424,0.025375828976036734,771980.16,771980.16,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2024Q2,0.06759977672996499,0.0627169636811963,0.0655566737345802,892498.57,892498.57,1.0,9
@@ -537,7 +537,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2024Q2,0.07810603172106635,0.10356138332661205,0.10910290437444484,4985770.36,4985770.36,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2024Q2,0.0903819914820622,0.1097975401372104,0.11507292198288283,2007344.08,2007344.08,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2024Q2,0.1045379805752981,0.13675383385743214,0.14539273915938236,2974297.89,2974297.89,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2024Q2,0.11052017098349701,0.1349942221630215,0.1393367988063972,5018022.15,5018022.15,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2024Q2,0.11052176432716818,0.13195984402368496,0.13630242066706066,5018022.15,5018022.15,1.0,10
 9,"Otros servicios ,",2024Q2,0.07772234227847251,0.09353109600366558,0.09821657818548885,1559352.62,1559352.62,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2024Q3,0.05861755954243661,0.026683468371526093,0.02742720822627097,733673.61,733673.61,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2024Q3,0.06520000102401628,0.05881255814683608,0.06122617075734303,897682.93,897682.93,1.0,9
@@ -547,7 +547,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2024Q3,0.07804273242928926,0.1030148967540968,0.10847450670559375,5095921.27,5095921.27,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2024Q3,0.08988971567570071,0.10915900407283523,0.11439030467625329,2093112.53,2093112.53,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2024Q3,0.10472807006833278,0.13690515967227607,0.1454861135795671,3001619.77,3001619.77,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2024Q3,0.10956869333201708,0.13541948472348858,0.14006737676448586,4966153.55,4966153.55,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2024Q3,0.10957023193190506,0.13248936114135865,0.1371372531823559,4966153.55,4966153.55,1.0,10
 9,"Otros servicios ,",2024Q3,0.0774883550895503,0.09312348652662353,0.09782038470561862,1540659.05,1540659.05,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2024Q4,0.057646905443693386,0.025426116100777236,0.026136190711344105,736867.76,736867.76,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2024Q4,0.06688515942667694,0.06282519127157421,0.065594881870409,904175.74,904175.74,1.0,9
@@ -557,7 +557,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2024Q4,0.07780357215845013,0.1017462396874332,0.10707982047917705,5009513.74,5009513.74,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2024Q4,0.09049862479205903,0.110427834351566,0.11586980341069059,2075270.08,2075270.08,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2024Q4,0.10517699482253776,0.13663798249006415,0.14513200494117884,3013130.52,3013130.52,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2024Q4,0.110452565484368,0.1354206235342793,0.13990456022947198,5077361.28,5077361.28,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2024Q4,0.1104540707400727,0.13255400091726516,0.13703793761245783,5077361.28,5077361.28,1.0,10
 9,"Otros servicios ,",2024Q4,0.07888205461009767,0.0947378711190069,0.09954058335334653,1546217.51,1546217.51,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2025Q1,0.05812062450173994,0.026171446020764332,0.027027550576162886,761896.47,761896.47,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2025Q1,0.06714912184841192,0.06376621217096143,0.06673259351077802,919943.8,919943.8,1.0,9
@@ -567,7 +567,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2025Q1,0.07867818150138252,0.10447440845087225,0.11018391470771947,4860659.07,4860659.07,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2025Q1,0.0900222780572696,0.10781588261603718,0.11278873202654575,2072243.05,2072243.05,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2025Q1,0.10538505943538422,0.13539202228915986,0.1436275323371361,3059600.57,3059600.57,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2025Q1,0.11096853299115014,0.13547237372970938,0.13990484798903016,5097795.02,5097795.02,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2025Q1,0.11096995263861092,0.1327687842289033,0.1372012584882241,5097795.02,5097795.02,1.0,10
 9,"Otros servicios ,",2025Q1,0.07784828133070922,0.09141966039177434,0.09568379355630448,1518862.78,1518862.78,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2025Q2,0.05884422563027341,0.02736809180848373,0.02823881649143524,764738.32,764738.32,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2025Q2,0.06592151386572684,0.06225570080172778,0.06514307211573893,913666.91,913666.91,1.0,9
@@ -577,7 +577,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2025Q2,0.0781657955069072,0.10307246395262638,0.10863254011878971,5105420.51,5105420.51,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2025Q2,0.0900290145567255,0.10734875109117564,0.11226595751719122,2127873.06,2127873.06,1.0,9
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2025Q2,0.10530369115615505,0.13549974031667045,0.14375262251110507,3107277.94,3107277.94,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2025Q2,0.1103688900783474,0.1346908778909949,0.13913031597037176,5074869.95,5074869.95,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2025Q2,0.11037041090827084,0.13179459559053253,0.13623403366990938,5074869.95,5074869.95,1.0,10
 9,"Otros servicios ,",2025Q2,0.07825213253583636,0.09390114611987418,0.09855478542294402,1558512.79,1558512.79,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2025Q3,0.059398176439325975,0.027826045476806678,0.028645490955648285,747316.68,747316.68,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2025Q3,0.0655340048105766,0.06003111186110102,0.06251033044991373,934414.89,934414.89,1.0,9
@@ -587,7 +587,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2025Q3,0.07807436493277999,0.10293657962169156,0.10844432388742407,5162767.16,5162767.16,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2025Q3,0.09029017306548849,0.10979622344520625,0.1151358447460752,2080573.99,2080573.99,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2025Q3,0.1041318805958502,0.13284657060090882,0.14079677022216713,3193407.71,3193407.71,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2025Q3,0.10968730289226813,0.13471500465568423,0.1392578345713864,5011992.13,5011992.13,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2025Q3,0.1096887762445785,0.13190913915219363,0.1364519690678958,5011992.13,5011992.13,1.0,10
 9,"Otros servicios ,",2025Q3,0.07926342871601767,0.09443141842514097,0.0989013581852497,1564361.62,1564361.62,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2025Q4,0.058202958706879325,0.027147340388945212,0.028049398667439187,780716.43,780716.43,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2025Q4,0.06589741224637079,0.05979616132292752,0.06217421267441304,947768.12,947768.12,1.0,9
@@ -597,7 +597,7 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2025Q4,0.0776521028205416,0.10067790395175062,0.10583751052352057,5068919.82,5068919.82,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2025Q4,0.08955714140872646,0.10696376792682845,0.11190328098832125,2132167.39,2132167.39,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2025Q4,0.1049974761842869,0.13446269378152384,0.14247661532536726,3173038.78,3173038.78,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2025Q4,0.11028775167647155,0.13483404533485543,0.1392107873386313,5184099.63,5184099.63,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2025Q4,0.11028926360933385,0.1319547066783181,0.13633144868209393,5184099.63,5184099.63,1.0,10
 9,"Otros servicios ,",2025Q4,0.07971994151339121,0.09386695058565675,0.098342108221487,1533157.98,1533157.98,1.0,9
 0,"Agricultura, ganadería, silvicultura y pesca ,",2026Q1,0.0576971144825033,0.02671897211264787,0.027512754035874415,793411.29,793411.29,1.0,9
 1,"Industria de la alimentación, textil, cuero, madera y papel ,",2026Q1,0.06621419515224064,0.06079827479812371,0.06328722161780653,968376.42,968376.42,1.0,9
@@ -607,5 +607,5 @@ cnae,industry_name,quarter,observed_exposure_cnae_rf,observed_exposure_cnae_cosi
 5,"Comercio al por mayor y al por menor y sus instalaciones y reparaciones. Reparación de automóviles, hostelería ,",2026Q1,0.07910585510405785,0.10432918680494313,0.10964232354465463,4674423.56,4674423.56,1.0,9
 6,"Transporte y almacenamiento. Información y comunicaciones ,",2026Q1,0.08906487807551548,0.10676638308750129,0.11180866276232958,2032826.9,2032826.9,1.0,8
 7,"Intermediación financiera, seguros, actividades inmobiliarias, servicios profesionales, científicos, administrativos y otros ,",2026Q1,0.10505188579684258,0.13461044521643956,0.14270664501467642,3222033.21,3222033.21,1.0,9
-8,"Administración Pública, educación y actividades sanitarias ,",2026Q1,0.11076072524263117,0.13507747725147656,0.13937569972956002,5212104.83,5212104.83,1.0,10
+8,"Administración Pública, educación y actividades sanitarias ,",2026Q1,0.11076226657302535,0.13214215366858537,0.13644037614666885,5212104.83,5212104.83,1.0,10
 9,"Otros servicios ,",2026Q1,0.07756235414874836,0.09090224774672157,0.09567535440057531,1737880.74,1737880.74,1.0,9
