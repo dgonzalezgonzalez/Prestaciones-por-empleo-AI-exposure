@@ -377,6 +377,43 @@ Generated tracked outputs:
 
 Ridge and Ensemble columns are intentionally absent.
 
+## SEPE CNO4 Monthly Dashboard Scrape
+
+SEPE's occupation page exposes monthly CNO4 dashboard reports through HTML report pages rather than a documented bulk
+download. This repo now includes a resumable scraper/parser for those reports:
+
+```powershell
+py -3 scripts/build_sepe_occupation_dataset.py --embedding-model qwen3-embedding:4b
+```
+
+Smoke-test options:
+
+```powershell
+py -3 scripts/build_sepe_occupation_dataset.py --embedding-model qwen3-embedding:4b --max-occupations 1 --max-reports 1
+```
+
+Outputs:
+
+- `data/processed/sepe_cno4_monthly_long.csv`
+- `data/processed/sepe_cno4_monthly_ai_exposure_long.csv`
+
+The merged output is long format with:
+
+- `period`: monthly period as `YYYY-MM`
+- `cno4`
+- `occupation_title`
+- `measure`: `parados`, `contratos`, or `personas`
+- `dimension`: `total`, `gender`, `age`, `province`, or `geographic_mobility`
+- `category`: e.g. `Total`, `Hombre`, `Mujer`, age band, province, `Permanecen`, `Se mueven`
+- `gender`: `Total` unless the row is gender-disaggregated
+- `value`: level only; monthly and annual variation columns are intentionally ignored
+- `exposure_occupation_title`: CNO4 title from the exposure model source, kept separate from the SEPE title
+- `observed_exposure_rf`, `observed_exposure_cosine_weighted`, `observed_exposure_cosine_nearest`
+
+Raw report HTML is cached under `data/raw/sepe/reports/`, so interrupted runs can resume without re-fetching completed
+report pages. The script reads the existing model bundle and embedding cache to reconstruct CNO4 exposure measures; it
+does not retrain the exposure model.
+
 ## Install
 
 ```powershell
