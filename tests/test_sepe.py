@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import pandas as pd
 
-from src.sepe import parse_report_links_from_listing, parse_sepe_report_html
+from src.sepe import parse_report_links_from_listing, parse_sepe_report_html, sepe_long_to_compact_wide
 
 
 REPORT_HTML = """
@@ -89,3 +89,15 @@ class SepeTests(TestCase):
             (df["dimension"] == "geographic_mobility") & (df["category"] == "Se mueven") & (df["gender"] == "Mujer")
         ].iloc[0]
         self.assertEqual(mobility_women["value"], 2)
+
+    def test_compact_wide_keeps_single_total_row(self):
+        rows = parse_sepe_report_html(REPORT_HTML, "https://example.test/_mensuales_2025_12_1111-x.html")
+        wide = sepe_long_to_compact_wide(pd.DataFrame(rows))
+
+        self.assertNotIn("measure", wide.columns)
+        self.assertIn("contratos", wide.columns)
+        self.assertIn("parados", wide.columns)
+        self.assertEqual(len(wide[wide["category"] == "Total"]), 1)
+        total = wide[wide["dimension"] == "total"].iloc[0]
+        self.assertEqual(total["parados"], 59)
+        self.assertEqual(total["personas"], 7)

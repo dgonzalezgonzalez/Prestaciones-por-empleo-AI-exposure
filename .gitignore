@@ -17,5 +17,6 @@ models/
 !data/processed/*.csv
 !data/processed/*.json
 !data/processed/*.sqlite
+data/processed/sepe_cno4_monthly_ai_exposure.csv
 
 !.gitkeep

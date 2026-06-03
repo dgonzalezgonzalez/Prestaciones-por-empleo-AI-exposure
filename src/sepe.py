@@ -4,12 +4,16 @@ from dataclasses import dataclass
 from pathlib import Path
 import re
 import time
+from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 import joblib
 import pandas as pd
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 from .config import PipelineConfig
 from .embeddings import EmbeddingCache, OllamaEmbeddingClient, embed_texts
@@ -47,6 +51,79 @@ class SepeReportLink:
     url: str
 
 
+def build_sepe_dataset_from_cached_reports(
+    config: PipelineConfig,
+    output_path: Path | None = None,
+    exposure_path: Path | None = None,
+    model_path: Path | None = None,
+    embedding_model: str | None = None,
+    workers: int = 8,
+    progress: Callable[[str], None] | None = None,
+    progress_every: int = 250,
+    batch_size: int = 50,
+) -> pd.DataFrame:
+    config.ensure_dirs()
+    raw_reports = config.raw_dir / "sepe" / "reports"
+    output_path = output_path or config.processed_dir / "sepe_cno4_monthly_ai_exposure.csv"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.unlink(missing_ok=True)
+
+    _progress(progress, "Loading CNO4 AI exposure measures...")
+    exposure = load_cno4_exposure_measures(
+        config,
+        exposure_path=exposure_path,
+        model_path=model_path,
+        embedding_model=embedding_model or config.embedding_model,
+    ).rename(columns={"occupation_title": "exposure_occupation_title"})
+
+    files = sorted(raw_reports.glob("*.html"))
+    if not files:
+        raise FileNotFoundError(f"No SEPE cached report HTML files found in {raw_reports}")
+    _progress(progress, f"Parsing {len(files):,} cached SEPE report files with {workers} workers...")
+
+    total_reports = 0
+    total_rows = 0
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        for batch_start in range(0, len(files), batch_size):
+            file_batch = files[batch_start : batch_start + batch_size]
+            batch_chunks: list[pd.DataFrame] = []
+            for path, rows in executor.map(_parse_cached_report_file, file_batch):
+                chunk = pd.DataFrame(rows)
+                if chunk.empty:
+                    continue
+                batch_chunks.append(sepe_long_to_compact_wide(chunk))
+                total_reports += 1
+                total_rows += len(batch_chunks[-1])
+            if batch_chunks:
+                _append_compact_batch(output_path, batch_chunks, exposure)
+            _progress(progress, f"wrote batch at {total_reports:,}/{len(files):,} reports; rows {total_rows:,}; output {output_path}")
+            if progress_every <= 1 or total_reports % progress_every == 0:
+                last_path = file_batch[-1] if file_batch else ""
+                _progress(progress, f"cached reports {total_reports:,}/{len(files):,}; rows {total_rows:,}; last {last_path}")
+    _progress(progress, f"Wrote {total_rows:,} rows from {total_reports:,} cached reports to {output_path}.")
+    return pd.DataFrame({"rows": [total_rows], "reports": [total_reports], "output": [str(output_path)]})
+
+
+def _append_compact_batch(path: Path, chunks: list[pd.DataFrame], exposure: pd.DataFrame) -> None:
+    batch = pd.concat(chunks, ignore_index=True)
+    batch = batch.merge(exposure, on="cno4", how="left")
+    _append_csv(path, batch)
+
+
+def _parse_cached_report_file(path: Path) -> tuple[Path, list[dict[str, object]]]:
+    match = re.match(r"^(\d{4})_(\d{4}-\d{2})\.html$", path.name)
+    cno4 = match.group(1) if match else ""
+    period = match.group(2) if match else ""
+    source_url = f"cache://sepe/reports/{path.name}"
+    html = path.read_text(encoding="utf-8")
+    rows = parse_sepe_report_html(html, source_url)
+    if cno4 or period:
+        for row in rows:
+            row["cno4"] = cno4 or row["cno4"]
+            row["period"] = period or row["period"]
+    return path, rows
+
+
 def scrape_sepe_monthly_dataset(
     config: PipelineConfig,
     exposure_path: Path | None = None,
@@ -58,33 +135,25 @@ def scrape_sepe_monthly_dataset(
     delay_seconds: float = 0.25,
     max_occupations: int | None = None,
     max_reports: int | None = None,
+    progress: Callable[[str], None] | None = None,
+    resume: bool = False,
+    workers: int = 1,
+    progress_every: int = 25,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     config.ensure_dirs()
     raw = config.raw_dir / "sepe"
     raw.mkdir(parents=True, exist_ok=True)
-    output_path = output_path or config.processed_dir / "sepe_cno4_monthly_long.csv"
-    merged_output_path = merged_output_path or config.processed_dir / "sepe_cno4_monthly_ai_exposure_long.csv"
+    output_path = output_path or config.processed_dir / "sepe_cno4_monthly_ai_exposure.csv"
+    if merged_output_path is not None:
+        output_path = merged_output_path
 
     cno4 = load_cno4_records(config, refresh=False)[["CNO4", "occupation_title"]].drop_duplicates()
     if max_occupations is not None:
         cno4 = cno4.head(max_occupations)
 
-    session = requests.Session()
-    links = discover_sepe_report_links(session, cno4, delay_seconds=delay_seconds, max_reports=max_reports)
-    rows: list[dict[str, object]] = []
-    for idx, link in enumerate(links, start=1):
-        html = fetch_cached_report(session, raw, link, refresh=refresh)
-        rows.extend(parse_sepe_report_html(html, link.url))
-        if delay_seconds and idx < len(links):
-            time.sleep(delay_seconds)
-
-    dataset = pd.DataFrame(rows)
-    if dataset.empty:
-        raise ValueError("SEPE scrape produced no rows.")
-    dataset = dataset.sort_values(["cno4", "period", "measure", "dimension", "category", "gender"]).reset_index(drop=True)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    dataset.to_csv(output_path, index=False)
-
+    if not resume:
+        output_path.unlink(missing_ok=True)
     exposure = load_cno4_exposure_measures(
         config,
         exposure_path=exposure_path,
@@ -92,9 +161,137 @@ def scrape_sepe_monthly_dataset(
         embedding_model=embedding_model or config.embedding_model,
     )
     exposure = exposure.rename(columns={"occupation_title": "exposure_occupation_title"})
-    merged = dataset.merge(exposure, on="cno4", how="left")
-    merged.to_csv(merged_output_path, index=False)
-    return dataset, merged
+
+    session = make_sepe_session()
+    completed = _completed_report_keys(output_path) if resume else set()
+    completed_counts = _completed_counts(completed)
+    total_reports = 0
+    total_rows = 0
+    total_occupations = len(cno4)
+    for occ_idx, (_, occupation) in enumerate(cno4.iterrows(), start=1):
+        if max_reports is not None and total_reports >= max_reports:
+            break
+        occ_df = pd.DataFrame([occupation])
+        remaining = None if max_reports is None else max_reports - total_reports
+        cno4_code = str(occupation["CNO4"]).zfill(4)
+        if resume and completed_counts.get(cno4_code, 0) >= 50:
+            links = parse_report_links_from_listing(_fetch_detail_page(session, cno4_code, 1), cno4_code)
+        else:
+            links = discover_sepe_report_links(session, occ_df, delay_seconds=delay_seconds, max_reports=remaining)
+        links = [link for link in links if (link.cno4, link.period) not in completed]
+        _progress(progress, f"[{occ_idx}/{total_occupations}] CNO4 {occupation['CNO4']}: {len(links)} reports")
+        if workers > 1:
+            with ThreadPoolExecutor(max_workers=workers) as executor:
+                futures = [executor.submit(_fetch_parse_report, raw, link, refresh) for link in links]
+                for future in as_completed(futures):
+                    total_reports, total_rows = _write_report_chunk(
+                        future.result(),
+                        exposure,
+                        output_path,
+                        total_reports,
+                        total_rows,
+                        progress,
+                        progress_every,
+                    )
+                    if max_reports is not None and total_reports >= max_reports:
+                        break
+        else:
+            for link in links:
+                html = fetch_cached_report(session, raw, link, refresh=refresh)
+                total_reports, total_rows = _write_report_chunk(
+                    (link, parse_sepe_report_html(html, link.url)),
+                    exposure,
+                    output_path,
+                    total_reports,
+                    total_rows,
+                    progress,
+                    progress_every,
+                )
+                if delay_seconds:
+                    time.sleep(delay_seconds)
+                if max_reports is not None and total_reports >= max_reports:
+                    break
+    if total_rows == 0:
+        raise ValueError("SEPE scrape produced no rows.")
+    _progress(progress, f"Wrote {total_rows:,} rows from {total_reports:,} reports.")
+    return pd.DataFrame({"rows": [total_rows], "reports": [total_reports]}), pd.DataFrame(
+        {"rows": [total_rows], "reports": [total_reports]}
+    )
+
+
+def _fetch_parse_report(raw_dir: Path, link: SepeReportLink, refresh: bool) -> tuple[SepeReportLink, list[dict[str, object]]]:
+    session = make_sepe_session()
+    html = fetch_cached_report(session, raw_dir, link, refresh=refresh)
+    return link, parse_sepe_report_html(html, link.url)
+
+
+def _write_report_chunk(
+    result: tuple[SepeReportLink, list[dict[str, object]]],
+    exposure: pd.DataFrame,
+    output_path: Path,
+    total_reports: int,
+    total_rows: int,
+    progress: Callable[[str], None] | None,
+    progress_every: int,
+) -> tuple[int, int]:
+    link, rows = result
+    chunk = pd.DataFrame(rows)
+    if chunk.empty:
+        return total_reports, total_rows
+    chunk = sepe_long_to_compact_wide(chunk)
+    merged = chunk.merge(exposure, on="cno4", how="left")
+    _append_csv(output_path, merged)
+    total_reports += 1
+    total_rows += len(chunk)
+    if progress_every <= 1 or total_reports % progress_every == 0:
+        _progress(progress, f"  report {total_reports}: {link.cno4} {link.period}, rows+{len(chunk)}, total rows {total_rows:,}")
+    return total_reports, total_rows
+
+
+def sepe_long_to_compact_wide(long: pd.DataFrame) -> pd.DataFrame:
+    index_columns = ["period", "cno4", "occupation_title", "dimension", "category", "gender", "source_url"]
+    df = long.copy()
+    df["cno4"] = df["cno4"].astype(str).str.zfill(4)
+    total_source = df[df["category"] == "Total"].copy()
+    total_source = total_source.sort_values(["measure", "dimension"]).drop_duplicates(
+        subset=["period", "cno4", "measure"], keep="first"
+    )
+    total_source["dimension"] = "total"
+    total_source["category"] = "Total"
+    total_source["gender"] = "Total"
+    detail = df[(df["dimension"] != "total") & (df["category"] != "Total")].copy()
+    compact_long = pd.concat([detail, total_source], ignore_index=True)
+    wide = (
+        compact_long.pivot_table(
+            index=index_columns,
+            columns="measure",
+            values="value",
+            aggfunc="first",
+        )
+        .reset_index()
+        .rename_axis(None, axis=1)
+    )
+    for column in ["contratos", "parados", "personas"]:
+        if column not in wide.columns:
+            wide[column] = pd.NA
+    columns = [*index_columns, "contratos", "parados", "personas"]
+    return wide[columns].sort_values(["cno4", "period", "dimension", "category", "gender"]).reset_index(drop=True)
+
+
+def make_sepe_session() -> requests.Session:
+    session = requests.Session()
+    retry = Retry(
+        total=4,
+        connect=4,
+        read=4,
+        backoff_factor=1.0,
+        status_forcelist=(429, 500, 502, 503, 504),
+        allowed_methods=("GET", "POST"),
+    )
+    adapter = HTTPAdapter(max_retries=retry, pool_connections=8, pool_maxsize=8)
+    session.mount("https://", adapter)
+    session.mount("http://", adapter)
+    return session
 
 
 def discover_sepe_report_links(
@@ -214,13 +411,13 @@ def _fetch_detail_page(session: requests.Session, cno4: str, page: int) -> str:
         response = session.post(
             SEPE_RESULTS_ENDPOINT,
             data={"list-mode": "detail", "ocupacion-id": cno4, "year-busc": "", "month-busc": ""},
-            timeout=90,
+            timeout=(10, 25),
         )
     else:
         response = session.get(
             SEPE_RESULTS_ENDPOINT,
             params={"list-mode": "detail", "ocupacion-id": cno4, "page-pr": page},
-            timeout=90,
+            timeout=(10, 25),
         )
     response.raise_for_status()
     return response.text
@@ -231,10 +428,36 @@ def fetch_cached_report(session: requests.Session, raw_dir: Path, link: SepeRepo
     if path.exists() and not refresh:
         return path.read_text(encoding="utf-8")
     path.parent.mkdir(parents=True, exist_ok=True)
-    response = session.get(link.url, timeout=90)
+    response = session.get(link.url, timeout=(10, 25))
     response.raise_for_status()
     path.write_text(response.text, encoding="utf-8")
     return response.text
+
+
+def _append_csv(path: Path, frame: pd.DataFrame) -> None:
+    frame.to_csv(path, index=False, mode="a", header=not path.exists())
+
+
+def _completed_report_keys(path: Path) -> set[tuple[str, str]]:
+    if not path.exists():
+        return set()
+    keys: set[tuple[str, str]] = set()
+    for chunk in pd.read_csv(path, usecols=["cno4", "period"], dtype={"cno4": "string", "period": "string"}, chunksize=250_000):
+        chunk["cno4"] = chunk["cno4"].astype(str).str.zfill(4)
+        keys.update((str(row.cno4), str(row.period)) for row in chunk.drop_duplicates().itertuples(index=False))
+    return keys
+
+
+def _completed_counts(keys: set[tuple[str, str]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for cno4, _period in keys:
+        counts[cno4] = counts.get(cno4, 0) + 1
+    return counts
+
+
+def _progress(callback: Callable[[str], None] | None, message: str) -> None:
+    if callback is not None:
+        callback(message)
 
 
 def _parse_gender_age_table(
