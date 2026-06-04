@@ -1,0 +1,22 @@
+\begin{table}[!htbp]\centering
+\caption{AI exposure and unemployment growth by occupation}
+\label{tab:ai_exposure_unemployment_growth}
+\begin{tabular}{lccc}
+\toprule
+ & (1) & (2) & (3) \\
+ & RF & Cosine weighted & Cosine nearest \\
+\midrule
+AI exposure & 3.411*** & 0.912*** & 0.747*** \\
+ & (0.425) & (0.203) & (0.181) \\
+\midrule
+Observations & 502 & 502 & 502 \\
+$R^2$ & 0.113 & 0.044 & 0.033 \\
+Mean dep. var. & -0.692 & -0.692 & -0.692 \\
+CNO unit & Yes & Yes & Yes \\
+\bottomrule
+\end{tabular}
+\vspace{0.25em}
+\begin{minipage}{0.96\linewidth}
+Notes: Unit of observation is CNO occupation. Dependent variable is average monthly log growth in registered unemployed from 2021-01 to 2026-01, in percentage points. Only aggregate rows with dimension=total, category=Total, and gender=Total are used. Each column reports a separate OLS regression with HC1 robust standard errors (one observation per CNO, so CNO clustering is not applicable for this cross-section) in parentheses. *** $p<0.01$, ** $p<0.05$, * $p<0.10$.
+\end{minipage}
+\end{table}

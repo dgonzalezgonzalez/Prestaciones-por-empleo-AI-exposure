@@ -1,0 +1,53 @@
+{
+  "data_path": "C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\data\\processed\\sepe_cno4_monthly_ai_exposure.csv",
+  "output_dir": "C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs",
+  "filters": {
+    "dimension": "total",
+    "category": "Total",
+    "gender": "Total"
+  },
+  "panel": {
+    "period_min": "2021-01",
+    "period_max": "2026-03",
+    "n_periods": 63,
+    "n_cno": 502,
+    "n_rows": 31626
+  },
+  "ols": {
+    "start": "2021-01",
+    "end": "2026-01",
+    "outcome": "average monthly log growth in parados, percentage points",
+    "n_cno": 502,
+    "dropped_zero_endpoint_cno": 0
+  },
+  "event_studies": {
+    "intervention_period_used": "2022-09",
+    "baseline_event_period": -1,
+    "outcomes": {
+      "unemployment": {
+        "source_column": "parados",
+        "regression_column": "event_unemployment",
+        "transform": "log1p",
+        "subfolder": "C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\event_studies\\unemployment",
+        "figures_subfolder": "C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\Graficos\\unemployment"
+      },
+      "contracts": {
+        "source_column": "contratos",
+        "regression_column": "event_contracts",
+        "transform": "levels",
+        "subfolder": "C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\event_studies\\contracts",
+        "figures_subfolder": "C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\Graficos\\contracts"
+      }
+    },
+    "estimator": "TWFE OLS with CNO and period fixed effects included explicitly",
+    "standard_errors": "clustered by CNO",
+    "figure_style": "AIReF: 14.5 cm x 7.25 cm, burgundy main series, gray axes/grid, SVG/PDF/PNG outputs, no in-plot title.",
+    "date_note": "User requested September 2022. ChatGPT's public release date was November 30, 2022; this run preserves the requested September 2022 intervention."
+  },
+  "latex": {
+    "compiled": true,
+    "compiler_command": "C:\\Users\\dgonzalez\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\dgonzalez\\.codex\\plugins\\cache\\openai-bundled\\latex\\0.2.2\\scripts\\compile_latex.py C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\tables\\ols_growth_regressions_document.tex --compiler tectonic",
+    "stdout_tail": "Root: C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\tables\\ols_growth_regressions_document.tex\nCompiler: tectonic\nCommand: C:\\Users\\dgonzalez\\.codex\\plugins\\cache\\openai-bundled\\latex\\0.2.2\\bin\\tectonic.exe -X compile --outdir C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\tables --outfmt pdf --print --untrusted ols_growth_regressions_document.tex\nExit code: 0\nPDF: C:\\Users\\dgonzalez\\Desktop\\Diego González\\Prestaciones por empleo AI exposure\\analysis\\econometrics_outputs\\tables\\ols_growth_regressions_document.pdf\n\nAttempts:\n- tectonic: passed (exit 0)\n",
+    "stderr_tail": ""
+  }
+}

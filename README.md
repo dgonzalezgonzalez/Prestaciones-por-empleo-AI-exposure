@@ -425,6 +425,63 @@ Raw report HTML is cached under `data/raw/sepe/reports/`, so interrupted runs ca
 report pages. The script reads the existing model bundle and embedding cache to reconstruct CNO4 exposure measures; it
 does not retrain the exposure model.
 
+## SEPE CNO4 Econometric Analysis
+
+The SEPE econometric analysis is run from one script:
+
+```powershell
+py -3 scripts/run_ai_exposure_econometrics.py
+```
+
+Input:
+
+- `data/processed/sepe_cno4_monthly_ai_exposure.csv`
+
+The script uses only aggregate CNO4-month rows:
+
+```text
+dimension == total
+category == Total
+gender == Total
+```
+
+OLS output:
+
+- Unit of analysis: CNO4 occupation.
+- Outcome: average monthly log growth in registered unemployed (`parados`) from `2021-01` to `2026-01`, in percentage points.
+- Regressors: `observed_exposure_rf`, `observed_exposure_cosine_weighted`, and `observed_exposure_cosine_nearest`.
+- Outputs:
+  - `analysis/econometrics_outputs/tables/ols_growth_regressions.tex`
+  - `analysis/econometrics_outputs/tables/ols_growth_regressions_document.pdf`
+  - `analysis/econometrics_outputs/tables/ols_growth_regressions.csv`
+
+Event-study output:
+
+- Intervention period: `2022-09`, preserving the requested dating in the analysis.
+- Estimator: TWFE OLS with CNO4 and period fixed effects.
+- Standard errors: clustered by CNO4 occupation.
+- Baseline event month: `-1`.
+- Outcomes:
+  - unemployment: `log1p(parados)`
+  - contracts: `contratos` in levels, with no log transform because many observations are zero
+- Specifications for each outcome:
+  - continuous treatment using each of the three AI exposure measures
+  - top exposure quartile vs zero exposure, for cosine weighted and cosine nearest
+  - top exposure quartile vs bottom exposure quartile, for all three AI exposure measures
+
+Event-study outputs are split by outcome:
+
+- `analysis/econometrics_outputs/event_studies/unemployment/`
+- `analysis/econometrics_outputs/event_studies/contracts/`
+- combined outcome file: `analysis/econometrics_outputs/event_studies/event_study_coefficients_all_outcomes.csv`
+
+AIReF-style event-study figures are split by outcome:
+
+- `analysis/econometrics_outputs/Graficos/unemployment/`
+- `analysis/econometrics_outputs/Graficos/contracts/`
+
+Each figure folder contains SVG, PDF, PNG, and XLSX source-data exports for each event-study specification.
+
 ## Install
 
 ```powershell
@@ -439,6 +496,9 @@ Required Python packages:
 - `joblib`
 - `openpyxl`
 - `pypdf`
+- `beautifulsoup4`
+- `matplotlib`
+- `scipy`
 
 Install and start Ollama separately:
 
