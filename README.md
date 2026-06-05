@@ -511,6 +511,8 @@ Additional DiD outputs:
 
 `contdid` is run through R. If `Rscript` is not on `PATH`, pass `--rscript` or set `R_SCRIPT`.
 
+Current committed SDID and `contdid` outputs use 100 bootstrap/placebo replications.
+
 ## Install
 
 ```powershell

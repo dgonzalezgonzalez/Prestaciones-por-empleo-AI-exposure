@@ -15,7 +15,7 @@ INPUT_DIR <- file.path(OUT_DIR, "inputs")
 FIG_DIR <- file.path(OUT_DIR, "Graficos")
 RLIB_DIR <- file.path(ROOT, ".r_libs")
 INTERVENTION_PERIOD <- "2022-09"
-BOOTSTRAPS <- 5
+BOOTSTRAPS <- 100
 
 dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
 dir.create(INPUT_DIR, recursive = TRUE, showWarnings = FALSE)

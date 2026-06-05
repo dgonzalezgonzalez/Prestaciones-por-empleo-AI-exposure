@@ -1,12 +1,12 @@
 
 Overall ATT:  
       ATT    Std. Error     [ 95%  Conf. Int.]  
- 415.9617       85.9132   247.5749    584.3484 *
+ 415.9617      182.9823    57.3229    774.6004 *
 
 
 Overall ACRT:  
-      ACRT    Std. Error     [ 95%  Conf. Int.]  
- -3160.076      993.2033  -5106.719   -1213.433 *
+      ACRT    Std. Error     [ 95%  Conf. Int.] 
+ -3160.076      2179.872  -7432.546    1112.394 
 ---
 Signif. codes: `*' confidence band does not cover 0
 

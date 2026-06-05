@@ -23,7 +23,7 @@ OUTPUT_DIR = ROOT / "analysis" / "econometrics_outputs" / "sdid"
 FIG_DIR = OUTPUT_DIR / "Graficos"
 INTERVENTION_PERIOD = "2022-09"
 RANDOM_SEED = 20260604
-PLACEBO_REPS = 10
+PLACEBO_REPS = 100
 BASE_EVENT_PERIOD = -1
 AIREF_COLORS = {
     "burgundy": "#83082A",
