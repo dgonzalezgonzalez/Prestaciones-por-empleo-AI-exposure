@@ -1,0 +1,12 @@
+
+Overall ATT:  
+    ATT    Std. Error     [ 95%  Conf. Int.]  
+ 0.0383        0.0116     0.0156      0.0609 *
+
+
+Overall ACRT:  
+   ACRT    Std. Error     [ 95%  Conf. Int.]  
+ 0.8297        0.1386     0.5581      1.1014 *
+---
+Signif. codes: `*' confidence band does not cover 0
+

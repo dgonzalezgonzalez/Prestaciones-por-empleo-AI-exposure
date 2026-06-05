@@ -4,6 +4,7 @@ __pycache__/
 .mypy_cache/
 .tmp_tests/
 test_artifacts/
+.r_libs/
 
 data/raw/
 data/interim/

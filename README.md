@@ -433,6 +433,28 @@ The SEPE econometric analysis is run from one script:
 py -3 scripts/run_ai_exposure_econometrics.py
 ```
 
+It can also be launched from the main pipeline entry point:
+
+```powershell
+py -3 main.py --analysis-only --run-sepe-econometrics
+```
+
+Run all SEPE analysis modules from `main.py`:
+
+```powershell
+py -3 main.py --analysis-only --run-all-analyses --rscript "C:\Users\dgonzalez\AppData\Local\Programs\R\R-4.5.2\bin\Rscript.exe"
+```
+
+Available analysis flags:
+
+- `--run-sepe-econometrics`: OLS and TWFE event studies.
+- `--run-sdid`: synthetic difference-in-differences smoke-test estimates and diagnostic figures.
+- `--run-contdid`: continuous-treatment `contdid` event-study and dose-aggregation estimates.
+- `--run-all-analyses`: run all three analysis modules.
+- `--analysis-only`: skip the exposure build and run only requested analysis modules. With no specific analysis flag, this runs all analysis modules.
+
+Without `--analysis-only`, these flags run after the regular exposure pipeline completes.
+
 Input:
 
 - `data/processed/sepe_cno4_monthly_ai_exposure.csv`
@@ -481,6 +503,13 @@ AIReF-style event-study figures are split by outcome:
 - `analysis/econometrics_outputs/Graficos/contracts/`
 
 Each figure folder contains SVG, PDF, PNG, and XLSX source-data exports for each event-study specification.
+
+Additional DiD outputs:
+
+- `analysis/econometrics_outputs/sdid/`: synthetic DiD estimates, SDID gap/event-style figures, and treated-vs-synthetic level figures.
+- `analysis/econometrics_outputs/contdid/`: continuous-treatment `contdid` estimates using RF, cosine weighted, and cosine nearest AI exposure as dose variables. This folder contains event-study ACRT plots plus dose-aggregation `ATT(d)` and `ACRT(d)` plots following Case 1 of the `contdid` README.
+
+`contdid` is run through R. If `Rscript` is not on `PATH`, pass `--rscript` or set `R_SCRIPT`.
 
 ## Install
 

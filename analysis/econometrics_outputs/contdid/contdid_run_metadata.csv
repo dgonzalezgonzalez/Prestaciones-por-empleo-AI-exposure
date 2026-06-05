@@ -1,0 +1,7 @@
+"spec","outcome","exposure","design","control_rule","n_units","n_periods","q25","q50","q75","bootstraps"
+"unemployment_rf_continuous","unemployment","rf","continuous dose; positive/higher-dose CNOs adopt in 2022-09","bottom-quartile CNOs set as zero-dose baseline",494,63,0.0426366144047619,0.0722305000396826,0.116821062638889,5
+"unemployment_cosine_weighted_continuous","unemployment","cosine_weighted","continuous dose; positive/higher-dose CNOs adopt in 2022-09","zero-dose CNOs",494,63,0,0.016657104621015,0.119663874269979,5
+"unemployment_cosine_nearest_continuous","unemployment","cosine_nearest","continuous dose; positive/higher-dose CNOs adopt in 2022-09","zero-dose CNOs",494,63,0,0,0.115575,5
+"contracts_rf_continuous","contracts","rf","continuous dose; positive/higher-dose CNOs adopt in 2022-09","bottom-quartile CNOs set as zero-dose baseline",494,63,0.0426366144047619,0.0722305000396826,0.116821062638889,5
+"contracts_cosine_weighted_continuous","contracts","cosine_weighted","continuous dose; positive/higher-dose CNOs adopt in 2022-09","zero-dose CNOs",494,63,0,0.016657104621015,0.119663874269979,5
+"contracts_cosine_nearest_continuous","contracts","cosine_nearest","continuous dose; positive/higher-dose CNOs adopt in 2022-09","zero-dose CNOs",494,63,0,0,0.115575,5

@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -49,6 +53,36 @@ def parse_args() -> argparse.Namespace:
         choices=["cno4", "metadata"],
         help="Use parsed 4-digit CNO records or legacy metadata occupation labels.",
     )
+    parser.add_argument(
+        "--analysis-only",
+        action="store_true",
+        help="Skip the exposure build and run only the requested SEPE analysis scripts.",
+    )
+    parser.add_argument(
+        "--run-sepe-econometrics",
+        action="store_true",
+        help="Run the SEPE OLS and TWFE event-study analysis script.",
+    )
+    parser.add_argument(
+        "--run-sdid",
+        action="store_true",
+        help="Run the SEPE synthetic difference-in-differences analysis script.",
+    )
+    parser.add_argument(
+        "--run-contdid",
+        action="store_true",
+        help="Run the SEPE continuous-treatment contdid analysis script.",
+    )
+    parser.add_argument(
+        "--run-all-analyses",
+        action="store_true",
+        help="Run all SEPE analysis scripts after the exposure build, or by themselves with --analysis-only.",
+    )
+    parser.add_argument(
+        "--rscript",
+        default=None,
+        help="Path to Rscript for --run-contdid. Defaults to R_SCRIPT env var or Rscript on PATH.",
+    )
     return parser.parse_args()
 
 
@@ -80,10 +114,53 @@ def _load_ine_data(config: PipelineConfig, args: argparse.Namespace) -> tuple[pd
     return pd.concat(frames, ignore_index=True), metadata_path
 
 
+def _resolve_rscript(args: argparse.Namespace) -> str:
+    rscript = args.rscript or os.environ.get("R_SCRIPT")
+    if rscript:
+        return rscript
+    found = shutil.which("Rscript")
+    if found:
+        return found
+    raise RuntimeError(
+        "Rscript is required for --run-contdid. Pass --rscript or set the R_SCRIPT environment variable."
+    )
+
+
+def _run_checked(command: list[str], cwd: Path) -> None:
+    print(f"Running: {' '.join(command)}")
+    subprocess.run(command, cwd=cwd, check=True)
+
+
+def _run_requested_analyses(args: argparse.Namespace) -> None:
+    run_sepe = args.run_sepe_econometrics or args.run_all_analyses
+    run_sdid = args.run_sdid or args.run_all_analyses
+    run_contdid = args.run_contdid or args.run_all_analyses
+
+    if args.analysis_only and not any([run_sepe, run_sdid, run_contdid]):
+        run_sepe = True
+        run_sdid = True
+        run_contdid = True
+
+    if not any([run_sepe, run_sdid, run_contdid]):
+        return
+
+    root = Path(__file__).resolve().parent
+    if run_sepe:
+        _run_checked([sys.executable, "scripts/run_ai_exposure_econometrics.py"], root)
+    if run_sdid:
+        _run_checked([sys.executable, "scripts/run_sdid_estimates.py"], root)
+    if run_contdid:
+        _run_checked([_resolve_rscript(args), "scripts/run_contdid_analysis.R"], root)
+
+
 def main() -> None:
     args = parse_args()
     config = _config_from_args(args)
     config.ensure_dirs()
+
+    if args.analysis_only:
+        _run_requested_analyses(args)
+        return
 
     anthropic_path = download_anthropic_job_exposure(config, refresh=args.refresh)
     anthropic = load_anthropic_job_exposure(anthropic_path)
@@ -214,6 +291,8 @@ def main() -> None:
     print(f"Wrote {weighted_matches_out}")
     print(f"Wrote {nearest_matches_out}")
     print(f"Wrote {config.db_path}")
+
+    _run_requested_analyses(args)
 
 
 if __name__ == "__main__":
