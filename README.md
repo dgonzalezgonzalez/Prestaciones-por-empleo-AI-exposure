@@ -448,10 +448,12 @@ py -3 main.py --analysis-only --run-all-analyses --rscript "C:\Users\dgonzalez\A
 Available analysis flags:
 
 - `--run-sepe-econometrics`: OLS and TWFE event studies.
-- `--run-sdid`: synthetic difference-in-differences smoke-test estimates and diagnostic figures.
+- `--run-sdid`: Stata synthetic difference-in-differences estimates and diagnostic figures using `sdid` and `sdid_event`.
 - `--run-contdid`: continuous-treatment `contdid` event-study and dose-aggregation estimates.
 - `--run-all-analyses`: run all three analysis modules.
 - `--analysis-only`: skip the exposure build and run only requested analysis modules. With no specific analysis flag, this runs all analysis modules.
+- `--stata-exe`: optional path to StataMP for `--run-sdid`. Defaults to `STATA_EXE`, `PATH`, or common StataNow install paths.
+- `--sdid-reps`: bootstrap replications for Stata `sdid` and `sdid_event`; default is `100`.
 
 Without `--analysis-only`, these flags run after the regular exposure pipeline completes.
 
@@ -506,12 +508,13 @@ Each figure folder contains SVG, PDF, PNG, and XLSX source-data exports for each
 
 Additional DiD outputs:
 
-- `analysis/econometrics_outputs/sdid/`: synthetic DiD estimates, SDID gap/event-style figures, and treated-vs-synthetic level figures.
+- `analysis/econometrics_outputs/sdid/`: Stata `sdid` synthetic DiD estimates, `sdid_event` event-study figures, and `sdid` treated-vs-synthetic level figures. Event-study figures use `t=-1` as the reference period with estimate zero and no confidence interval. AIReF-formatted figures are exported as SVG, PDF, PNG, GPH, and XLSX workbooks with source data.
 - `analysis/econometrics_outputs/contdid/`: continuous-treatment `contdid` estimates using RF, cosine weighted, and cosine nearest AI exposure as dose variables. This folder contains event-study ACRT plots plus dose-aggregation `ATT(d)` and `ACRT(d)` plots following Case 1 of the `contdid` README.
 
 `contdid` is run through R. If `Rscript` is not on `PATH`, pass `--rscript` or set `R_SCRIPT`.
+SDID is run through StataMP. If Stata is not on `PATH`, pass `--stata-exe` or set `STATA_EXE`. The wrapper prepends the Stata executable directory to the subprocess `PATH` for reproducibility.
 
-Current committed SDID and `contdid` outputs use 100 bootstrap/placebo replications.
+Current committed SDID and `contdid` outputs use 100 bootstrap replications.
 
 ## Install
 

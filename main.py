@@ -83,6 +83,17 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Path to Rscript for --run-contdid. Defaults to R_SCRIPT env var or Rscript on PATH.",
     )
+    parser.add_argument(
+        "--stata-exe",
+        default=None,
+        help="Path to StataMP executable for --run-sdid. Defaults to STATA_EXE, PATH, or common StataNow install paths.",
+    )
+    parser.add_argument(
+        "--sdid-reps",
+        type=int,
+        default=100,
+        help="Bootstrap replications for Stata sdid and sdid_event.",
+    )
     return parser.parse_args()
 
 
@@ -126,6 +137,24 @@ def _resolve_rscript(args: argparse.Namespace) -> str:
     )
 
 
+def _resolve_stata(args: argparse.Namespace) -> str:
+    stata_exe = args.stata_exe or os.environ.get("STATA_EXE")
+    if stata_exe:
+        return stata_exe
+    for name in ["StataMP-64.exe", "StataMP.exe", "StataSE-64.exe", "StataBE-64.exe"]:
+        found = shutil.which(name)
+        if found:
+            return found
+    for path in [
+        Path(r"C:\Program Files\StataNow19\StataMP-64.exe"),
+        Path(r"C:\Program Files\Stata19\StataMP-64.exe"),
+        Path(r"C:\Program Files\Stata18\StataMP-64.exe"),
+    ]:
+        if path.exists():
+            return str(path)
+    raise RuntimeError("StataMP is required for --run-sdid. Pass --stata-exe or set STATA_EXE.")
+
+
 def _run_checked(command: list[str], cwd: Path) -> None:
     print(f"Running: {' '.join(command)}")
     subprocess.run(command, cwd=cwd, check=True)
@@ -148,7 +177,17 @@ def _run_requested_analyses(args: argparse.Namespace) -> None:
     if run_sepe:
         _run_checked([sys.executable, "scripts/run_ai_exposure_econometrics.py"], root)
     if run_sdid:
-        _run_checked([sys.executable, "scripts/run_sdid_estimates.py"], root)
+        _run_checked(
+            [
+                sys.executable,
+                "scripts/run_sdid_estimates.py",
+                "--stata-exe",
+                _resolve_stata(args),
+                "--reps",
+                str(args.sdid_reps),
+            ],
+            root,
+        )
     if run_contdid:
         _run_checked([_resolve_rscript(args), "scripts/run_contdid_analysis.R"], root)
 
