@@ -1,0 +1,13 @@
+spec_id,estimator,panel,restriction,command_template,notes
+spec1,TWFE,total/age,high_vs_zero,"reghdfe OUTCOME did_post if binary_sample == 1, absorb(unit_id ym cno2_ym) vce(cluster cno4_id)","CNO4 FE, month FE, CNO2-by-month FE."
+spec1,TWFE,province,high_vs_zero,"reghdfe OUTCOME did_post if binary_sample == 1, absorb(unit_id ym cno2_ym province_ym) vce(cluster cno4_id)","CNO4-by-province FE, month FE, CNO2-by-month FE, province-by-month FE."
+spec2,TWFE,total/age,high_vs_zero_and_cno2_identifying,"reghdfe OUTCOME did_post if binary_sample == 1 & cno2_identifying == 1, absorb(unit_id ym cno2_ym) vce(cluster cno4_id)","Spec1 restricted to CNO2 groups with both high- and zero-exposure occupations."
+spec2,TWFE,province,high_vs_zero_and_cno2_identifying,"reghdfe OUTCOME did_post if binary_sample == 1 & cno2_identifying == 1, absorb(unit_id ym cno2_ym province_ym) vce(cluster cno4_id)","Province version of Spec2."
+spec3,TWFE,total/age,high_vs_zero,"reghdfe OUTCOME did_post if binary_sample == 1, absorb(unit_id ym cno1_ym) vce(cluster cno4_id)","CNO4 FE, month FE, CNO1-by-month FE."
+spec3,TWFE,province,high_vs_zero,"reghdfe OUTCOME did_post if binary_sample == 1, absorb(unit_id ym cno1_ym province_ym) vce(cluster cno4_id)","CNO4-by-province FE, month FE, CNO1-by-month FE, province-by-month FE."
+spec4,TWFE,total/age,high_vs_zero_and_cno1_identifying,"reghdfe OUTCOME did_post if binary_sample == 1 & cno1_identifying == 1, absorb(unit_id ym cno1_ym) vce(cluster cno4_id)","Spec3 restricted to CNO1 groups with both high- and zero-exposure occupations."
+spec4,TWFE,province,high_vs_zero_and_cno1_identifying,"reghdfe OUTCOME did_post if binary_sample == 1 & cno1_identifying == 1, absorb(unit_id ym cno1_ym province_ym) vce(cluster cno4_id)","Province version of Spec4."
+sdid_spec1,SDID,total/province/each_age_group,high_vs_zero_unrestricted,"sdid OUTCOME unit_id ym did_post if binary_sample == 1, vce(placebo) method(sdid)","No CNO1/CNO2 identifying restriction is applied."
+sc_spec1,Synthetic control,total/province/each_age_group,high_vs_zero_unrestricted,"sdid OUTCOME unit_id ym did_post if binary_sample == 1, vce(placebo) method(sc)","Synthetic control is run through sdid method(sc)."
+sdid_event_spec1,SDID event,total/province/each_age_group,high_vs_zero_unrestricted,"sdid_event OUTCOME unit_id ym did_post, vce(placebo) brep(50) method(sdid)","Balanced high-vs-zero panel; no CNO1/CNO2 identifying restriction."
+sc_event_spec1,SC event,total/province/each_age_group,high_vs_zero_unrestricted,"sdid_event OUTCOME unit_id ym did_post, vce(placebo) brep(50) method(sc)","Balanced high-vs-zero panel; no CNO1/CNO2 identifying restriction."

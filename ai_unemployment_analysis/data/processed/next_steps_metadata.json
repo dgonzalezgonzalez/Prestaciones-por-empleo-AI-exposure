@@ -1,0 +1,32 @@
+{
+  "subgroup_rows": 18,
+  "province_specs": 2,
+  "rate_proxy_specs": 2,
+  "timing_specs": 12,
+  "validation_queue_rows": 124,
+  "cno2_month_fe_specs": 5,
+  "cno2_month_fe_event_rows": 63,
+  "cno2_month_fe_pretrend_p_value": 0.10977716961039019,
+  "cno2_decomposition_rows": 60,
+  "within_cno2_family_rows": 13,
+  "age3039_cno2_month_fe_specs": 3,
+  "age3039_cno2_month_fe_pretrend_p_value": 0.4936525920112391,
+  "honestdid_smoothness_rows": 3,
+  "honestdid_relative_magnitude_rows": 3,
+  "outputs": {
+    "subgroup": "output/tables/table_next_step_subgroup_heterogeneity.csv",
+    "province": "output/tables/table_next_step_province_fe.csv",
+    "rate_proxy": "output/tables/table_next_step_cno2_rate_proxy.csv",
+    "timing_continuous_contracts": "output/tables/table_next_step_timing_continuous_contracts.csv",
+    "validation_queue": "output/tables/table_next_step_exposure_validation_queue.csv",
+    "validation_queue_v1": "output/tables/table_v1_exposure_match_validation_queue.csv",
+    "cno2_month_fe": "output/tables/table_v1_cno2_month_fe_specifications.csv",
+    "cno2_month_fe_event_study": "output/tables/table_v1_cno2_month_fe_event_study.csv",
+    "cno2_fwl_decomposition": "output/tables/table_recommended_cno2_fwl_decomposition.csv",
+    "within_cno2_family_did": "output/tables/table_recommended_within_cno2_family_did.csv",
+    "age3039_cno2_month_fe": "output/tables/table_recommended_age3039_cno2_month_fe.csv",
+    "age3039_cno2_month_fe_event_study": "output/tables/table_recommended_age3039_cno2_month_fe_event_study.csv",
+    "honestdid_smoothness": "output/tables/table_recommended_honestdid_smoothness.csv",
+    "honestdid_relative_magnitude": "output/tables/table_recommended_honestdid_relative_magnitude.csv"
+  }
+}

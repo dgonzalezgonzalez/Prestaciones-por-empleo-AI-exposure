@@ -1,0 +1,20 @@
+{
+  "raw_csv": "C:\\Users\\ngonzalezp\\OneDrive - AIREF\\Escritorio\\Unempolyment_Benefits\\ai_unemployment_analysis\\data\\raw\\sepe_cno4_monthly_ai_exposure.csv",
+  "rows": 31626,
+  "occupations": 502,
+  "periods": 63,
+  "period_min": "2021-01",
+  "period_max": "2026-03",
+  "thresholds": {
+    "nearest": 0.1169,
+    "weighted": 0.1202184990266389,
+    "rf": 0.1181166291269841
+  },
+  "event_month": "2022-09",
+  "post_definition": "period month_id > event month_id; main post starts 2022-10",
+  "python": "3.12.13",
+  "packages": {
+    "pandas": "3.0.1",
+    "numpy": "2.3.5"
+  }
+}

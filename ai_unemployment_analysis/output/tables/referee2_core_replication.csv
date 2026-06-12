@@ -1,0 +1,2 @@
+audit,nobs,clusters,threshold_p75,beta_fwl,beta_main_table,beta_abs_diff,se_cluster_fwl_corrected,se_cluster_fwl_uncorrected,se_main_table,se_abs_diff_corrected,method_note
+referee2_core_fwl,23734,377,0.1169,0.08909484566304704,0.0890948456630706,2.3564483697668948e-14,0.02067125193686733,0.020451998086114326,0.0206712519368672,1.2836953722228372e-16,FWL residualization with explicit FE dummies; cluster SE computed manually for one residualized regressor.

@@ -1,0 +1,13 @@
+{
+  "focus_cno2": [
+    "27",
+    "38",
+    "24",
+    "59"
+  ],
+  "summary": "output/tables/table_research_move_focus_cno2_summary.csv",
+  "profiles": "output/tables/table_research_move_focus_cno2_occupation_profiles.csv",
+  "event_summary": "output/tables/table_research_move_focus_cno2_event_summary.csv",
+  "denominator_inventory": "output/tables/table_research_move_denominator_inventory.csv",
+  "note": "Focus families are from the previous FWL decomposition and memo recommendation."
+}

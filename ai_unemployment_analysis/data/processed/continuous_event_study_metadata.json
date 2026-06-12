@@ -1,0 +1,6 @@
+{
+  "summary": "output/tables/table_continuous_event_study_summary.csv",
+  "coefficients": "output/tables/table_continuous_event_study_all_samples.csv",
+  "unavailable": "output/tables/table_continuous_event_study_unavailable_samples.csv",
+  "note": "Continuous-treatment event studies use exposure per 10pp interacted with event-month indicators, unit FE, and month FE. This is the estimable TWFE analogue to contdid in this same-treatment-timing setting."
+}

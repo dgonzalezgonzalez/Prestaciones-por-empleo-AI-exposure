@@ -1,0 +1,31 @@
+{
+  "figures": [
+    "output/figures/figure_memo_v1_indexed_total_all_ln_parados.png",
+    "output/figures/figure_memo_v1_indexed_total_all_ln_contratos.png",
+    "output/figures/figure_memo_v1_indexed_total_all_ln_parados_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_18_24_ln_parados.png",
+    "output/figures/figure_memo_v1_indexed_age_25_29_ln_parados.png",
+    "output/figures/figure_memo_v1_indexed_age_30_39_ln_parados.png",
+    "output/figures/figure_memo_v1_indexed_age_40_44_ln_parados.png",
+    "output/figures/figure_memo_v1_indexed_age_lt18_ln_parados.png",
+    "output/figures/figure_memo_v1_indexed_age_gt44_ln_parados.png",
+    "output/figures/figure_memo_v1_indexed_age_18_24_ln_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_25_29_ln_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_30_39_ln_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_40_44_ln_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_lt18_ln_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_gt44_ln_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_18_24_ln_parados_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_25_29_ln_parados_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_30_39_ln_parados_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_40_44_ln_parados_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_lt18_ln_parados_contratos.png",
+    "output/figures/figure_memo_v1_indexed_age_gt44_ln_parados_contratos.png"
+  ],
+  "tables": [
+    "output/tables/table_memo_v1_indexed_inputs_total.csv",
+    "output/tables/table_memo_v1_indexed_inputs_age.csv"
+  ],
+  "threshold_p75": 0.1169,
+  "note": "Indexed outcomes are relative to each exposure group's Jan-Aug 2022 mean."
+}

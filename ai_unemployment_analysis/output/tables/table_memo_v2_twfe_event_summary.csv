@@ -1,0 +1,7 @@
+sample,label,outcome,nobs,clusters,units,periods,pretrend_wald_chi2,pretrend_df,pretrend_p_value,figure
+total_cno4,Total CNO4,ln_parados,23734,377,377,63,73.82498057167946,19,2.1035108987987883e-08,output/figures/figure_memo_v2_twfe_event_total_cno4.png
+age3_lt18_to_29,Age <18 to 29,ln_parados,23016,377,377,62,34.3095377027407,19,0.016891244469353417,output/figures/figure_memo_v2_twfe_event_age3_lt18_to_29.png
+age3_30_39,Age 30-39,ln_parados,23199,377,377,62,32.45441882068341,19,0.02776264497055092,output/figures/figure_memo_v2_twfe_event_age3_30_39.png
+age3_40_to_gt44,Age 40 to >44,ln_parados,23357,377,377,62,67.60717155134365,19,2.287837033154716e-07,output/figures/figure_memo_v2_twfe_event_age3_40_to_gt44.png
+gender_hombre,Men,ln_parados,23712,377,377,63,45.12240424171665,19,0.0006588608566824306,output/figures/figure_memo_v2_twfe_event_gender_hombre.png
+gender_mujer,Women,ln_parados,23504,376,376,63,37.10580724001794,19,0.007696641492922818,output/figures/figure_memo_v2_twfe_event_gender_mujer.png

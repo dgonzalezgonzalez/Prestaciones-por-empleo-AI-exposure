@@ -1,0 +1,5 @@
+sample,status,outcome,unit_fe,time_fe,cluster,nobs,clusters,units,periods,pretrend_wald_chi2,pretrend_df,pretrend_p_value,note
+sample1_total_ocup4d,estimated,ln_parados,unit,period,cno4,31605,502,502,63,64.16536063887115,19,8.33836033886648e-07,National total CNO4 panel.
+sample2_province_ocup4d,estimated,ln_parados_p1,unit,period,cno4,1617962,502,26606,62,96.3916249055023,19,2.3979707108878756e-12,Province-CNO4 panel; log(+1) because province cells often contain zeros.
+sample3_gender_ocup4d,estimated,ln_parados,unit,period,cno4,62865,502,1003,63,47.746024128359174,19,0.0002791070640105753,Gender-CNO4 panel.
+sample4_age_ocup4d,estimated,ln_parados,unit,period,cno4,167198,502,2921,62,53.15720022544026,19,4.4320023273480835e-05,Age-band-CNO4 panel.

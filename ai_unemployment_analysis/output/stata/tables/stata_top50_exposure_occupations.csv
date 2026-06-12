@@ -1,0 +1,51 @@
+cno4,occupation_title,contratos,parados,exposure_nearest,exposure_weighted,exposure_rf,treat_high,mean_parados,mean_contratos,exposure_rank
+3820,Programadores informáticos,2812,5307,.74510002,.57028949,.26022968,1,5213.5713,2754.8889,1
+4301,Grabadores de datos,1679,6417,.67070001,.42453578,.12542857,1,4770.6826,1677.2063,2
+3510,Agentes y representantes comerciales,6506,41366,.6279,.6279,.31499195,1,30545.031,7313.0952,3
+2613,Analistas financieros,325,396,.57160002,.28585997,.27666315,1,325.68253,342.14285,4
+2719,Analistas y diseñadores de software y multimedia no clasificados bajo otros epígrafes,252,1037,.51950002,.51950002,.20688324,1,919.15875,353.4762,5
+4113,"Empleados de oficina de servicios estadísticos, financieros y bancarios",2241,6998,.50989997,.50989997,.16384278,1,6002.5239,2060.6033,6
+2729,Especialistas en bases de datos y en redes informáticas no clasificados bajo otros epígrafes,476,209,.48590001,.48590001,.22393848,1,222.04762,579.42859,7
+3814,Técnicos de la web,201,259,.48019999,.48019999,.15363488,1,270.25397,193.5238,8
+3812,Técnicos en asistencia al usuario de tecnologías de la información,689,10468,.46849999,.46849999,.23194647,1,8307.8574,713.5238,9
+2652,Profesionales de relaciones públicas,115,2184,.45300001,.45300001,.19929981,1,1574.5555,332.69843,10
+3535,Portavoces y agentes de relaciones públicas,24,116,.45300001,.45300001,.202259,1,74.634918,97.825394,11
+4500,Empleados administrativos con tareas de atención al público no clasificados bajo otros epígrafes,22000,3177,.45280001,.45280001,.14171246,1,2775.8572,25432.412,12
+3613,Asistentes de dirección y administrativos,3736,37490,.45280001,.23420608,.15537627,1,29129.016,4296.0317,13
+4309,Empleados administrativos sin tareas de atención al público no clasificados bajo otros epígrafes,15245,263451,.45280001,.45280001,.17432232,1,202789.89,15612.19,14
+2822,"Filósofos, historiadores y profesionales en ciencias políticas",66,2763,.45199999,.24412426,.15189575,1,2067.2856,62.476189,15
+3401,"Profesionales de apoyo e intermediarios de cambio, bolsa y finanzas",52,1639,.4413,.31205252,.2449028,1,1409.1111,67.761902,16
+4411,Empleados de información al usuario,1301,7396,.43380001,.43380001,.17788856,1,6632.3652,1920.238,17
+4412,Recepcionistas (excepto de hoteles),2487,37616,.43380001,.43380001,.16215065,1,28441.555,4614.0161,18
+4430,Agentes de encuestas,1019,1411,.4316,.40893435,.216277,1,1002.6031,1204.3334,19
+2923,"Filólogos, intérpretes y traductores",1291,6841,.43040001,.43040001,.2149675,1,5327.397,1001.3492,20
+5823,Acompañantes turísticos,66,588,.40540001,.40540001,.064949363,1,339.7619,296.07938,21
+5825,Guías de turismo,273,4508,.40540001,.40540001,.071813524,1,2624.4919,893.2381,22
+4421,Empleados de agencias de viajes,132,6184,.40540001,.32685816,.14955261,1,4084.7778,840.11108,23
+2630,Técnicos de empresas y actividades turísticas,454,4377,.40540001,.40540001,.13605009,1,2743.5239,583.85712,24
+4223,Empleados de servicio de personal,225,287,.40459999,.40459999,.088594422,1,238.63492,360.20636,25
+4112,Empleados de control de personal y nóminas,443,2203,.40459999,.22740392,.12361861,1,1576.6984,546.31744,26
+1211,Directores financieros,284,2243,.39070001,.39070001,.17739058,1,1726.6825,304.57144,27
+1327,"Directores de sucursales de bancos, de servicios financieros y de seguros",15,1405,.39070001,.39070001,.13780867,1,1225.4762,17.253969,28
+2411,Físicos y astrónomos,140,669,.3849,.33027095,.074789539,1,525.5238,149.61905,29
+5895,"Astrólogos, adivinadores y afines",1,12,.3849,.3849,.13816173,1,10.158731,1.4126984,30
+2821,"Sociólogos, geógrafos, antropólogos, arqueólogos y afines",178,3530,.38330001,.18925691,.18170452,1,2512.4602,185.36508,31
+1223,Directores de investigación y desarrollo,178,701,.3777,.061299998,.13210498,1,622.60315,192.22223,32
+2484,Diseñadores gráficos y multimedia,507,13201,.36719999,.36266935,.18347175,1,9953,569.25397,33
+3614,Secretarios de centros médicos o clínicas,83,198,.36230001,.41875377,.18939033,1,171.42857,64.714287,34
+2931,Artistas de artes plásticas y visuales,682,4874,.3565,.3565,.11915916,1,3661.3491,1013.127,35
+3739,Otros técnicos y profesionales de apoyo de actividades culturales y artísticas,3398,877,.3565,.3565,.12985544,1,714.7619,10012.683,36
+2939,Artistas creativos e interpretativos no clasificados bajo otros epígrafes,2024,841,.3565,.3565,.061149135,1,289.4762,8220.3965,37
+2612,Asesores financieros y en inversiones,111,1330,.3504,.21371002,.2028808,1,1157.0159,124.53968,38
+2611,Especialistas en contabilidad,544,4423,.34779999,.20609812,.20598423,1,3167.2856,635.57141,39
+2722,Administradores de sistemas y redes,304,924,.3373,.25416985,.18260892,1,696.39685,357.09525,40
+3811,Técnicos en operaciones de sistemas informáticos,2188,1255,.3373,.3373,.12367728,1,1099.3651,2197.7302,41
+2721,Diseñadores y administradores de bases de datos,115,1448,.33149999,.45400655,.19633709,1,1563.6349,121.66666,42
+5300,Comerciantes propietarios de tiendas,6,615,.3222,.3222,.12393457,1,513.39685,12.396826,43
+5220,Vendedores en tiendas y almacenes,58957,458157,.3222,.3222,.10140169,1,326744.41,70640.766,44
+3521,Mediadores y agentes de seguros,155,1790,.3188,.17510952,.096609861,1,1401.0159,217.11111,45
+3160,"Técnicos de control de calidad de las ciencias físicas, químicas y de las ingenierías",1142,4520,.31479999,.31479999,.087775283,1,3491.127,1072.6031,46
+3129,"Otros técnicos de las ciencias físicas, químicas, medioambientales y de las ingenierías",819,9004,.31479999,0,.074109964,1,6410.7461,1007.5873,47
+3127,Técnicos y analistas de laboratorio en química industrial,1077,3718,.31479999,.31479999,.12209578,1,2768.9841,1035.8889,48
+3121,Técnicos en ciencias físicas y químicas,180,652,.31479999,.084529772,.1122929,1,454.53967,189.84126,49
+2513,Jueces y magistrados,1,81,.3109,.3081758,.12317175,1,83.349205,13.444445,50

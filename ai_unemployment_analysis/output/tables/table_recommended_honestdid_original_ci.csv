@@ -1,0 +1,2 @@
+target,lb,ub,method,window
+average_event_0_to_12,-0.009908158139708459,0.0387261498946466,Original parallel trends,event_time -12 to +12

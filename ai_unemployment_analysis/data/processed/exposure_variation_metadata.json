@@ -1,0 +1,8 @@
+{
+  "table": "output/tables/table_exposure_variation_within_cno2.csv",
+  "figure": "output/figures/figure_exposure_variation_within_cno2.png",
+  "exposure": "exposure_nearest",
+  "high_exposure_threshold_p75": 0.1169,
+  "high_exposure_threshold_source": "data/processed/analysis_panel.csv",
+  "interpretation": "Variation is computed across unique CNO4 occupations inside each 2-digit CNO2 family."
+}

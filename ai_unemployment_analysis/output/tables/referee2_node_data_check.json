@@ -1,0 +1,10 @@
+{
+  "audit": "referee2_node_data_check",
+  "rows": 31626,
+  "occupations": 502,
+  "periods": 63,
+  "threshold_p75": 0.1169,
+  "high_rows": 7812,
+  "zero_rows": 15939,
+  "note": "Pure Node.js CSV parse of processed panel; verifies counts and treatment threshold independently of pandas."
+}

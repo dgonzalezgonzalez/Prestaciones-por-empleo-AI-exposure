@@ -1,0 +1,3 @@
+sample,status,reason
+sample5_province_age_ocup4d,not_available,Current SEPE CSV has province and age as separate dimensions; no joint province-by-age CNO4 cells.
+sample6_gender_age_ocup4d,not_available,Current SEPE CSV has gender and age as separate dimensions; no joint gender-by-age CNO4 cells.

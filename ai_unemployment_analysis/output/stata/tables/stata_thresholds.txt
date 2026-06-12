@@ -1,0 +1,2 @@
+Main high exposure threshold (total panel p75):  0.116900
+Post definition: ym > September 2022, so post starts October 2022.

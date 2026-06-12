@@ -1,0 +1,31 @@
+{
+  "figures": [
+    "output/figures/figure_memo_v2_indexed_total_all_ln_parados.png",
+    "output/figures/figure_memo_v2_indexed_total_all_ln_contratos.png",
+    "output/figures/figure_memo_v2_indexed_total_all_ln_parados_contratos.png",
+    "output/figures/figure_memo_v2_indexed_age3_30_39_ln_parados.png",
+    "output/figures/figure_memo_v2_indexed_age3_40_to_gt44_ln_parados.png",
+    "output/figures/figure_memo_v2_indexed_age3_lt18_to_29_ln_parados.png",
+    "output/figures/figure_memo_v2_indexed_age3_30_39_ln_contratos.png",
+    "output/figures/figure_memo_v2_indexed_age3_40_to_gt44_ln_contratos.png",
+    "output/figures/figure_memo_v2_indexed_age3_lt18_to_29_ln_contratos.png",
+    "output/figures/figure_memo_v2_indexed_age3_30_39_ln_parados_contratos.png",
+    "output/figures/figure_memo_v2_indexed_age3_40_to_gt44_ln_parados_contratos.png",
+    "output/figures/figure_memo_v2_indexed_age3_lt18_to_29_ln_parados_contratos.png"
+  ],
+  "tables": [
+    "output/tables/table_memo_v2_indexed_inputs_total.csv",
+    "output/tables/table_memo_v2_indexed_inputs_age3.csv",
+    "output/tables/table_memo_v2_age3_twfe.csv"
+  ],
+  "age_buckets": {
+    "<18": "<18 to 29",
+    "18-24": "<18 to 29",
+    "25-29": "<18 to 29",
+    "30-39": "30-39",
+    "40-44": "40 to >44",
+    ">44": "40 to >44"
+  },
+  "threshold_p75": 0.1169,
+  "note": "Age rows are summed into three buckets before logs are computed. Indexed outcomes are relative to each exposure group's Jan-Aug 2022 mean."
+}

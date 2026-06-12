@@ -1,0 +1,6 @@
+{
+  "results": "output/tables/table_synthetic_did_control_results.csv",
+  "weights": "output/tables/table_synthetic_donor_weights.csv",
+  "paths": "output/tables/table_synthetic_paths.csv",
+  "notes": "Synthetic control and SDID-style estimators use high-exposure treated aggregate and zero-exposure donor units. Province-age 30-39 is not observed in the current SEPE CSV."
+}

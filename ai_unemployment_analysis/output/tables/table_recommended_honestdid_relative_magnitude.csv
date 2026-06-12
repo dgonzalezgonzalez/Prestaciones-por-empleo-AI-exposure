@@ -1,0 +1,4 @@
+target,lb,ub,method,Delta,Mbar,accepted_grid_points,grid_points
+average_event_0_to_12,-0.15390886619493566,0.172754849810642,Conditional-LF,DeltaRM,0.5,53,80
+average_event_0_to_12,-0.24813878427346767,0.24813878427346767,Conditional-LF,DeltaRM,1.0,80,80
+average_event_0_to_12,-0.24813878427346767,0.24813878427346767,Conditional-LF,DeltaRM,2.0,80,80

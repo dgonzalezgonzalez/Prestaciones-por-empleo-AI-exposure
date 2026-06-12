@@ -1,0 +1,5 @@
+cno2,status,treated_occupations,control_occupations,clusters,reason,nobs,pretrend_wald_chi2,pretrend_df,pretrend_p_value
+27,skipped,8,0,8,Insufficient treated/control occupations for a within-family event study.,,,,
+38,estimated,5,2,7,,441.0,4537837934307.41,19.0,0.0
+24,estimated,6,14,20,,1260.0,11424.472399923892,19.0,0.0
+59,estimated,3,8,11,,691.0,-14564651421358.867,19.0,1.0

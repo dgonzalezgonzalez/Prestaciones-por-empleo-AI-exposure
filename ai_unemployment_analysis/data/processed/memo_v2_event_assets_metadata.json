@@ -1,0 +1,25 @@
+{
+  "figures": [
+    "output/figures/figure_memo_v2_twfe_event_total_cno4.png",
+    "output/figures/figure_memo_v2_sdid_event_total_cno4.png",
+    "output/figures/figure_memo_v2_sdid_event_province_cno4.png",
+    "output/figures/figure_memo_v2_twfe_event_age3_lt18_to_29.png",
+    "output/figures/figure_memo_v2_sdid_event_age3_lt18_to_29.png",
+    "output/figures/figure_memo_v2_twfe_event_age3_30_39.png",
+    "output/figures/figure_memo_v2_sdid_event_age3_30_39.png",
+    "output/figures/figure_memo_v2_twfe_event_age3_40_to_gt44.png",
+    "output/figures/figure_memo_v2_sdid_event_age3_40_to_gt44.png",
+    "output/figures/figure_memo_v2_twfe_event_gender_hombre.png",
+    "output/figures/figure_memo_v2_sdid_event_gender_hombre.png",
+    "output/figures/figure_memo_v2_twfe_event_gender_mujer.png",
+    "output/figures/figure_memo_v2_sdid_event_gender_mujer.png"
+  ],
+  "tables": [
+    "output/tables/table_memo_v2_twfe_event_coefficients.csv",
+    "output/tables/table_memo_v2_twfe_event_summary.csv",
+    "output/tables/table_memo_v2_sdid_event_paths.csv",
+    "output/tables/table_memo_v2_sdid_event_summary.csv"
+  ],
+  "threshold_p75": 0.1169,
+  "note": "Traditional graphs are TWFE event studies. SDID event graphs are centered treated-synthetic gaps using SDID-style unit and time weights."
+}

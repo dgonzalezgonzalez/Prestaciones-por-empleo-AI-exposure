@@ -1,0 +1,8 @@
+{
+  "tables": [
+    "output/tables/table_contdid_results_index.csv",
+    "output/tables/table_contdid_object_details.csv",
+    "output/tables/table_contdid_failures.csv"
+  ],
+  "note": "contdid uses exposure_10pp as dose, positive exposure as treated from the first post-Sep-2022 month, and zero exposure as never-treated controls. Set CONTDID_INCLUDE_PROVINCE=1 to rerun the long province-CNO4 panel."
+}

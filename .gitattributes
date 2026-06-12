@@ -1,0 +1,4 @@
+ai_unemployment_analysis/**/*.dta filter=lfs diff=lfs merge=lfs -text
+ai_unemployment_analysis/data/raw/*.csv filter=lfs diff=lfs merge=lfs -text
+ai_unemployment_analysis/data/processed/province_panel_high_vs_zero.csv filter=lfs diff=lfs merge=lfs -text
+ai_unemployment_analysis/summary.zip filter=lfs diff=lfs merge=lfs -text

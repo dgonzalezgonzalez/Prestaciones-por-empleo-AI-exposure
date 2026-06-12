@@ -1,0 +1,6 @@
+﻿"Path","SizeMB","GitHubRegularLimit"
+"output\stata\data\stata_master_clean.dta","916,01","exceeds_100MB"
+"output\stata\data\panel_province_cno4.dta","753,73","exceeds_100MB"
+"data\raw\sepe_cno4_monthly_ai_exposure.csv","430,79","exceeds_100MB"
+"data\processed\province_panel_high_vs_zero.csv","304,62","exceeds_100MB"
+"summary.zip","138,12","exceeds_100MB"

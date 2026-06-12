@@ -1,0 +1,19 @@
+\begin{tabular}{llllllrrl}
+\toprule
+spec & estimand & beta\_log\_points & se\_cluster\_cno4 & p\_value & effect\_pct & nobs & clusters & notes \\
+\midrule
+1. Main DiD & High exposure (>p75) vs zero exposure, post Sep 2022 & 0.0891 & 0.0207 & 0.0000 & 9.3184 & 23734 & 377 &  \\
+2. Main + occupation trends & High exposure (>p75) vs zero exposure, post Sep 2022 & -0.0032 & 0.0120 & 0.7898 & -0.3199 & 23734 & 377 & Adds CNO4-specific linear trends \\
+3. log(parados + 1) & High exposure (>p75) vs zero exposure, post Sep 2022 & 0.0936 & 0.0211 & 0.0000 & 9.8154 & 23751 & 377 & Keeps zero-parados rows \\
+4. Weighted by pre parados & High exposure (>p75) vs zero exposure, post Sep 2022 & 0.0431 & 0.0259 & 0.0964 & 4.4030 & 23734 & 377 & Occupation weights are pre-Sep-2022 mean parados \\
+5. Event Nov 2022 & High exposure (>p75) vs zero exposure, post Nov 2022 & 0.0912 & 0.0209 & 0.0000 & 9.5475 & 23734 & 377 & Post starts Dec 2022 \\
+6. Top decile & High exposure (>p90) vs zero exposure, post Sep 2022 & 0.0801 & 0.0309 & 0.0096 & 8.3369 & 19080 & 303 &  \\
+7. Continuous exposure & Exposure x post Sep 2022, all occupations, per 10pp exposure & 0.0265 & 0.0066 & 0.0001 & 2.6898 & 31605 & 502 &  \\
+8. Cosine weighted exposure & High exposure (>p75) vs zero exposure, post Sep 2022 & 0.0997 & 0.0213 & 0.0000 & 10.4886 & 21343 & 339 &  \\
+9. RF exposure & RF top quartile vs RF bottom quartile, post Sep 2022 & 0.1505 & 0.0206 & 0.0000 & 16.2415 & 15797 & 251 & RF exposure has no zero-exposure occupations \\
+10. Nearest bottom quartile control & High exposure (>p75) vs bottom exposure quartile, post Sep 2022 & 0.0891 & 0.0207 & 0.0000 & 9.3184 & 23734 & 377 &  \\
+11. 2022 onward sample & High exposure (>p75) vs zero exposure, post Sep 2022 & 0.0927 & 0.0204 & 0.0000 & 9.7081 & 19214 & 377 & Drops 2021 recovery period \\
+12. Pre-period placebo & Fake post Jan 2022, actual post-AI months excluded & -0.0052 & 0.0112 & 0.6404 & -0.5218 & 7909 & 377 & Uses only months through Sep 2022 \\
+13. Contracts outcome & High exposure (>p75) vs zero exposure, post Sep 2022 & 0.1234 & 0.0301 & 0.0000 & 13.1344 & 23751 & 377 & Proxy for hiring/labor demand, not unemployment \\
+\bottomrule
+\end{tabular}

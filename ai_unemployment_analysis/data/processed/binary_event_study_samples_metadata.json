@@ -1,0 +1,5 @@
+{
+  "summary": "output/tables/table_binary_event_study_summary.csv",
+  "coefficients": "output/tables/table_binary_event_study_all_samples.csv",
+  "unavailable": "output/tables/table_binary_event_study_unavailable_samples.csv"
+}

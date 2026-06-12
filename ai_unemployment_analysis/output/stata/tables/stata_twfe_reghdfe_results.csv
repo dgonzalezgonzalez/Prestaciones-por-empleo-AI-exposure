@@ -1,0 +1,97 @@
+sample,subgroup,outcome,spec,restriction,absorb,beta,se,p_value,ci95_low,ci95_high,effect_pct,nobs,r2,status
+total_cno4,all,ln_parados,spec1_cno2_month,1,unit_id ym cno2_ym,.0018896776251563,.042831555,.9648338,-.082337908,.086117268,.18914641,23039,.99610907,ok
+total_cno4,all,ln_parados,spec2_cno2_month_restricted,cno2_identifying == 1,unit_id ym cno2_ym,.0018896776251562,.042539392,.96461099,-.081976324,.085755676,.18914641,13094,.99435741,ok
+total_cno4,all,ln_parados,spec3_cno1_month,1,unit_id ym cno1_ym,.0284679457757866,.029274538,.33145323,-.029094381,.086030275,2.8877029,23734,.99516827,ok
+total_cno4,all,ln_parados,spec4_cno1_month_restricted,cno1_identifying == 1,unit_id ym cno1_ym,.0284679457757866,.029245021,.3312591,-.029123511,.086059406,2.8877029,16178,.99424505,ok
+total_cno4,all,ln_contratos,spec1_cno2_month,1,unit_id ym cno2_ym,.045755342587852,.044326413,.30264479,-.041411862,.13292255,4.6818266,22791,.97784281,ok
+total_cno4,all,ln_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,unit_id ym cno2_ym,.0457553425878523,.044032644,.29995966,-.041054592,.13256527,4.6818266,12903,.9753266,ok
+total_cno4,all,ln_contratos,spec3_cno1_month,1,unit_id ym cno1_ym,.0408036060554552,.031849302,.20093195,-.02182146,.10342867,4.1647511,23486,.97510123,ok
+total_cno4,all,ln_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,unit_id ym cno1_ym,.0408036060554552,.031818286,.20086415,-.021855311,.10346252,4.1647511,15969,.9768241,ok
+total_cno4,all,parados_contratos,spec1_cno2_month,1,unit_id ym cno2_ym,-.0512002735093541,.057928231,.37735519,-.16511525,.062714696,,22789,.94306564,ok
+total_cno4,all,parados_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,unit_id ym cno2_ym,-.0512002735093546,.057543922,.37462771,-.16464756,.062247019,,12903,.93593699,ok
+total_cno4,all,parados_contratos,spec3_cno1_month,1,unit_id ym cno1_ym,-.0154687700267668,.041895792,.71217149,-.097848184,.066910647,,23484,.93212998,ok
+total_cno4,all,parados_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,unit_id ym cno1_ym,-.0154687700267669,.041854944,.71200061,-.09789262,.066955082,,15969,.93076241,ok
+province_cno4,all,ln_parados,spec1_cno2_month_plus_province_m,1,unit_id ym cno2_ym province_ym,.0023630164235828,.025304656,.92564929,-.047393356,.052119389,.23658106,1004900,.97419721,ok
+province_cno4,all,ln_parados,spec2_cno2_month_plus_province_m,cno2_identifying == 1,unit_id ym cno2_ym province_ym,.0022622832511182,.025381941,.92906505,-.047777969,.052302539,.22648442,547342,.96624166,ok
+province_cno4,all,ln_parados,spec3_cno1_month_plus_province_m,1,unit_id ym cno1_ym province_ym,.0083902867694177,.021970453,.70275903,-.034810066,.05159064,.84255838,1004900,.97328115,ok
+province_cno4,all,ln_parados,spec4_cno1_month_plus_province_m,cno1_identifying == 1,unit_id ym cno1_ym province_ym,.0084456672920887,.021994872,.70130944,-.034868259,.051759597,.84814328,687131,.97268844,ok
+province_cno4,all,ln_contratos,spec1_cno2_month_plus_province_m,1,unit_id ym cno2_ym province_ym,.0624516577410514,.027578225,.024110448,.0082247788,.11667854,6.4443002,777780,.89697534,ok
+province_cno4,all,ln_contratos,spec2_cno2_month_plus_province_m,cno2_identifying == 1,unit_id ym cno2_ym province_ym,.0620620688043176,.027630594,.02575154,.0075886184,.11653552,6.4028387,409543,.86677629,ok
+province_cno4,all,ln_contratos,spec3_cno1_month_plus_province_m,1,unit_id ym cno1_ym province_ym,.0564190520774029,.022797568,.013771924,.011592348,.10124575,5.8040967,777780,.89316541,ok
+province_cno4,all,ln_contratos,spec4_cno1_month_plus_province_m,cno1_identifying == 1,unit_id ym cno1_ym province_ym,.0556000823852649,.022797184,.015412118,.010706183,.10049398,5.7174816,531254,.90204364,ok
+province_cno4,all,parados_contratos,spec1_cno2_month_plus_province_m,1,unit_id ym cno2_ym province_ym,-.0606151178514059,.035793714,.091196708,-.13099605,.0097658187,,729937,.8085233,ok
+province_cno4,all,parados_contratos,spec2_cno2_month_plus_province_m,cno2_identifying == 1,unit_id ym cno2_ym province_ym,-.0600030393486879,.035964664,.096750468,-.13090703,.010900952,,382140,.78815293,ok
+province_cno4,all,parados_contratos,spec3_cno1_month_plus_province_m,1,unit_id ym cno1_ym province_ym,-.0499872750377414,.033382155,.13512169,-.11562638,.015651833,,729937,.79986501,ok
+province_cno4,all,parados_contratos,spec4_cno1_month_plus_province_m,cno1_identifying == 1,unit_id ym cno1_ym province_ym,-.0491369277874068,.033407144,.1425595,-.11492474,.016650885,,498001,.80517554,ok
+age_cno4,18-24,ln_parados,spec1_cno2_month,1,cno4_id ym cno2_ym,.004673545117352,.058110546,.93594337,-.109601,.11894809,.46844831,21462,.97573406,ok
+age_cno4,18-24,ln_parados,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0046735451173517,.05773044,.93555629,-.10914146,.11848855,.46844831,12065,.97069907,ok
+age_cno4,18-24,ln_parados,spec3_cno1_month,1,cno4_id ym cno1_ym,.0326062074218801,.045174334,.4708758,-.056220546,.12143296,3.3143616,22146,.97263628,ok
+age_cno4,18-24,ln_parados,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0326062074218802,.045128398,.47063383,-.056263965,.12147638,3.3143616,14993,.97270596,ok
+age_cno4,18-24,ln_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,.0765915663984379,.064755782,.23767005,-.050750852,.20393398,7.960104,21360,.96053874,ok
+age_cno4,18-24,ln_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0765915663984384,.064397939,.23567176,-.050371971,.20355511,7.960104,11888,.95427603,ok
+age_cno4,18-24,ln_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0691568254784392,.043445282,.11226899,-.016270075,.15458372,7.1604252,22053,.95680296,ok
+age_cno4,18-24,ln_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0691568254784389,.043433771,.11257046,-.01637776,.15469141,7.1604252,14842,.95891494,ok
+age_cno4,18-24,parados_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,-.0927890691178054,.084494643,.27286428,-.25895262,.073374473,,20485,.87352717,ok
+age_cno4,18-24,parados_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.0927890691178064,.08400581,.27064705,-.25841522,.072837077,,11319,.85168689,ok
+age_cno4,18-24,parados_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,-.0411705188577993,.062007036,.50712383,-.16309877,.08075773,,21200,.85049844,ok
+age_cno4,18-24,parados_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,-.0411705188577987,.061989892,.50719982,-.16325247,.080911435,,14246,.83717889,ok
+age_cno4,25-29,ln_parados,spec1_cno2_month,1,cno4_id ym cno2_ym,-.0012253257491575,.064122297,.98476446,-.12732199,.12487134,-.12245753,21992,.98139828,ok
+age_cno4,25-29,ln_parados,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.0012253257491577,.063682623,.9846673,-.126775,.12432435,-.12245753,12455,.97848225,ok
+age_cno4,25-29,ln_parados,spec3_cno1_month,1,cno4_id ym cno1_ym,.0283117044294031,.047379307,.55049807,-.06485071,.12147412,2.871629,22676,.97914612,ok
+age_cno4,25-29,ln_parados,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0283117044294032,.047328833,.55024105,-.064891733,.12151514,2.871629,15461,.97970039,ok
+age_cno4,25-29,ln_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,.054379031945445,.0498574,.2761322,-.043666579,.15242465,5.5884743,21778,.96505255,ok
+age_cno4,25-29,ln_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.054379031945444,.049566418,.27388722,-.043346293,.15210436,5.5884743,12275,.96161592,ok
+age_cno4,25-29,ln_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0600149338960559,.035906885,.095478229,-.01058975,.13061962,6.1852403,22457,.96171546,ok
+age_cno4,25-29,ln_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.060014933896058,.035896853,.095781021,-.010678446,.13070831,6.1852403,15239,.96500903,ok
+age_cno4,25-29,parados_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,-.0751862992812797,.078531414,.33900407,-.22962281,.079250216,,21243,.89446431,ok
+age_cno4,25-29,parados_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.0751862992812799,.078058422,.33658481,-.22909105,.078718446,,11962,.87959939,ok
+age_cno4,25-29,parados_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,-.0341842881499917,.058338027,.55825156,-.14889793,.080529362,,21925,.87491173,ok
+age_cno4,25-29,parados_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,-.0341842881499906,.058318887,.55828953,-.14903662,.08066804,,14909,.86615878,ok
+age_cno4,30-39,ln_parados,spec1_cno2_month,1,cno4_id ym cno2_ym,.0242173495861656,.065446332,.71157199,-.10448185,.15291655,2.451297,22515,.98839641,ok
+age_cno4,30-39,ln_parados,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0242173495861643,.06499546,.70982689,-.10392057,.15235527,2.451297,12797,.98585868,ok
+age_cno4,30-39,ln_parados,spec3_cno1_month,1,cno4_id ym cno1_ym,.0534568566850551,.045471266,.24049124,-.035952985,.1428667,5.491148,23199,.98672652,ok
+age_cno4,30-39,ln_parados,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0534568566850557,.045424461,.24035652,-.035996348,.14291006,5.491148,15826,.98628241,ok
+age_cno4,30-39,ln_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,.0268381246998177,.042724136,.53028381,-.057178229,.11085448,2.7201512,22103,.97047323,ok
+age_cno4,30-39,ln_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0268381246998165,.042454731,.5279808,-.056860968,.11053722,2.7201512,12498,.96518713,ok
+age_cno4,30-39,ln_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0373637620705921,.032888975,.25665614,-.027305609,.10203313,3.8070562,22780,.96746343,ok
+age_cno4,30-39,ln_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.037363762070595,.03286694,.25667697,-.027360246,.10208777,3.8070562,15474,.96917838,ok
+age_cno4,30-39,parados_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,-.0199223563345038,.077663042,.79769152,-.17264554,.13280082,,21991,.92125869,ok
+age_cno4,30-39,parados_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.0199223563345035,.077163242,.79652101,-.17204894,.13220423,,12450,.90928775,ok
+age_cno4,30-39,parados_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0065202469170092,.052268267,.90079147,-.09625449,.10929499,,22668,.90704578,ok
+age_cno4,30-39,parados_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0065202469170095,.052231979,.90075415,-.096338823,.10937932,,15420,.90127432,ok
+age_cno4,40-44,ln_parados,spec1_cno2_month,1,cno4_id ym cno2_ym,.0425382354843295,.051760148,.41170806,-.0592473,.14432377,4.3455954,22389,.9874804,ok
+age_cno4,40-44,ln_parados,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0425382354843279,.0514086,.40893286,-.058813326,.1438898,4.3455954,12698,.98573554,ok
+age_cno4,40-44,ln_parados,spec3_cno1_month,1,cno4_id ym cno1_ym,.0651530450354,.039556179,.10037263,-.012626005,.1429321,6.7322359,23073,.98537117,ok
+age_cno4,40-44,ln_parados,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0651530450353999,.039516136,.10042123,-.012665051,.14297114,6.7322359,15706,.9859311,ok
+age_cno4,40-44,ln_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,.0121146917796776,.045140833,.78856277,-.076655686,.10088507,1.2188371,21700,.96306598,ok
+age_cno4,40-44,ln_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0121146917796775,.044880465,.7874825,-.076369241,.10059863,1.2188371,12216,.9524284,ok
+age_cno4,40-44,ln_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0041865576731613,.035317264,.90570235,-.065258741,.073631853,.41953334,22360,.9597671,ok
+age_cno4,40-44,ln_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0041865576731611,.035305053,.90569955,-.065340057,.073713169,.41953334,15156,.96026272,ok
+age_cno4,40-44,parados_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,.0185640774211385,.064008892,.77196395,-.10731073,.14443889,,21566,.91227412,ok
+age_cno4,40-44,parados_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0185640774211383,.063633353,.77078283,-.10689206,.14402021,,12149,.90327591,ok
+age_cno4,40-44,parados_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0579728884468499,.0522427,.26784819,-.04475335,.16069913,,22226,.89793336,ok
+age_cno4,40-44,parados_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.05797288844685,.052224066,.26801029,-.044872519,.16081829,,15071,.89932287,ok
+age_cno4,<18,ln_parados,spec1_cno2_month,1,cno4_id ym cno2_ym,-.0292278043924333,.12970984,.82187796,-.28450888,.22605328,-2.8804803,11198,.94579691,ok
+age_cno4,<18,ln_parados,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.0292278043924333,.1285345,.82043016,-.28321368,.22475807,-2.8804803,5353,.92783123,ok
+age_cno4,<18,ln_parados,spec3_cno1_month,1,cno4_id ym cno1_ym,-.0902014300291841,.069401935,.19468334,-.22676685,.046363994,-8.625289,12059,.94030488,ok
+age_cno4,<18,ln_parados,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,-.0902014300291842,.069309391,.19463068,-.22688502,.046482164,-8.625289,7850,.94416392,ok
+age_cno4,<18,ln_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,.0330517890310786,.088705093,.70971984,-.14154583,.20764942,3.3604066,9873,.88924569,ok
+age_cno4,<18,ln_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.0330517890310784,.088790685,.71028227,-.14251435,.20861793,3.3604066,4108,.88436544,ok
+age_cno4,<18,ln_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0250765472595063,.063504323,.69320434,-.099879064,.15003216,2.5393608,10722,.87758851,ok
+age_cno4,<18,ln_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0250765472595063,.063660376,.6940769,-.10047471,.15062781,2.5393608,6334,.90137839,ok
+age_cno4,<18,parados_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,-.1018280652645553,.22615142,.65294725,-.54744208,.34378594,,7308,.85085022,ok
+age_cno4,<18,parados_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.1018280652645552,.22275299,.64857596,-.5438183,.34016219,,3103,.8313511,ok
+age_cno4,<18,parados_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,-.1368553901621233,.11705294,.24347869,-.3674233,.093712501,,8264,.80734807,ok
+age_cno4,<18,parados_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,-.1368553901621236,.11725575,.24505134,-.36859328,.094882503,,5106,.81431389,ok
+age_cno4,>44,ln_parados,spec1_cno2_month,1,cno4_id ym cno2_ym,-.0231749220097056,.038449883,.54706222,-.098786026,.052436184,-2.2908447,22670,.99653059,ok
+age_cno4,>44,ln_parados,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.0231749220097052,.038187191,.54459769,-.0984606,.052110758,-2.2908447,12886,.99510455,ok
+age_cno4,>44,ln_parados,spec3_cno1_month,1,cno4_id ym cno1_ym,.0025796248134539,.026235573,.92172623,-.049007203,.054166455,.25829548,23354,.99577701,ok
+age_cno4,>44,ln_parados,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0025796248134538,.026209075,.92167193,-.049033221,.054192469,.25829548,15921,.99510437,ok
+age_cno4,>44,ln_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,.0250441173277503,.049417574,.61261207,-.072135665,.12222391,2.5360355,22084,.97070825,ok
+age_cno4,>44,ln_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,.02504411732775,.049109902,.61062497,-.071778342,.12186658,2.5360355,12441,.96197164,ok
+age_cno4,>44,ln_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,.0097352061657312,.034165669,.77584648,-.057445094,.076915503,.97827476,22764,.96796608,ok
+age_cno4,>44,ln_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,.0097352061657311,.034138642,.77574784,-.05749438,.076964796,.97827476,15421,.96820962,ok
+age_cno4,>44,parados_contratos,spec1_cno2_month,1,cno4_id ym cno2_ym,-.035461219306257,.05464929,.51682055,-.1429292,.072006755,,22079,.93862176,ok
+age_cno4,>44,parados_contratos,spec2_cno2_month_restricted,cno2_identifying == 1,cno4_id ym cno2_ym,-.0354612193062571,.054308068,.51450747,-.14253211,.071609676,,12441,.92913121,ok
+age_cno4,>44,parados_contratos,spec3_cno1_month,1,cno4_id ym cno1_ym,-.0010532971338567,.040750958,.97939301,-.081182316,.079075724,,22759,.92864728,ok
+age_cno4,>44,parados_contratos,spec4_cno1_month_restricted,cno1_identifying == 1,cno4_id ym cno1_ym,-.0010532971338568,.040718596,.97938311,-.081240863,.079134271,,15421,.9297958,ok

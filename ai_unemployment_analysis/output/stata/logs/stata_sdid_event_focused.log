@@ -1,0 +1,1064 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benef
+> its/ai_unemployment_analysis/output/stata/logs/stata_sdid_event_focused.log
+  log type:  text
+ opened on:   5 Jun 2026, 20:17:14
+
+. 
+. display as text "Focused sdid_event run started"
+Focused sdid_event run started
+
+. display as text "Stata version: " c(stata_version)
+Stata version: 19.5
+
+. 
+. cap which sdid
+
+. if _rc ssc install sdid, replace
+
+. 
+. cap which sdid_event
+
+. if _rc ssc install sdid_event, replace
+
+. 
+. cap which distinct
+
+. if _rc ssc install distinct, replace
+
+. 
+. capture program drop keep_balanced_panel
+
+. program define keep_balanced_panel, rclass
+  1.     syntax, OUTCOME(name)
+  2. 
+.     keep if binary_sample == 1
+  3.     keep if !missing(`outcome', did_post, unit_id, ym)
+  4.     duplicates drop unit_id ym, force
+  5. 
+.     quietly levelsof ym, local(allmonths)
+  6.     local T : word count `allmonths'
+  7.     bysort unit_id: egen n_months_unit = count(ym)
+  8.     keep if n_months_unit == `T'
+  9. 
+.     bysort unit_id: egen ever_treated = max(treat_high)
+ 10.     bysort unit_id: egen ever_zero = max(treat_zero)
+ 11.     keep if ever_treated == 1 | ever_zero == 1
+ 12. 
+.     quietly distinct unit_id if ever_treated == 1
+ 13.     return scalar treated_units = r(ndistinct)
+ 14.     quietly distinct unit_id if ever_zero == 1
+ 15.     return scalar control_units = r(ndistinct)
+ 16.     quietly distinct unit_id
+ 17.     return scalar units = r(ndistinct)
+ 18.     quietly distinct ym
+ 19.     return scalar periods = r(ndistinct)
+ 20.     quietly count
+ 21.     return scalar nobs = r(N)
+ 22. end
+
+. 
+. capture program drop export_event_results
+
+. program define export_event_results
+  1.     syntax, SAMPLE(string) SUBGROUP(string) TAG(string) OUTCOME(name) ESTI
+> MATOR(string) EFFECTS(integer) PLACEBOS(integer) VCE(string)
+  2. 
+.     matrix H = e(H)
+  3.     clear
+  4.     svmat double H
+  5.     gen row = _n
+  6.     drop if row == 1
+  7. 
+.     gen int event_time = .
+  8.     replace event_time = _n - 1 if _n <= `effects'
+  9.     replace event_time = -(_n - `effects') if _n > `effects'
+ 10. 
+.     capture confirm variable H1
+ 11.     if _rc {
+ 12.         capture rename h1 H1
+ 13.         capture rename h2 H2
+ 14.         capture rename h3 H3
+ 15.         capture rename h4 H4
+ 16.         capture rename h5 H5
+ 17.     }
+ 18.     rename H1 estimate
+ 19.     capture rename H2 se
+ 20.     capture rename H3 ci_low
+ 21.     capture rename H4 ci_high
+ 22.     capture rename H5 p_value
+ 23.     capture confirm variable se
+ 24.     if _rc gen se = .
+ 25.     capture confirm variable ci_low
+ 26.     if _rc gen ci_low = .
+ 27.     capture confirm variable ci_high
+ 28.     if _rc gen ci_high = .
+ 29.     capture confirm variable p_value
+ 30.     if _rc gen p_value = .
+ 31. 
+.     gen str40 sample = "`sample'"
+ 32.     gen str80 subgroup = "`subgroup'"
+ 33.     gen str32 outcome = "`outcome'"
+ 34.     gen str12 estimator = "`estimator'"
+ 35.     gen str20 vce = "`vce'"
+ 36.     order sample subgroup outcome estimator vce event_time estimate se ci_
+> low ci_high p_value
+ 37.     sort event_time
+ 38. 
+.     local tablefile "$STTAB/sdid_event_focused_`estimator'_`tag'_`outcome'.cs
+> v"
+ 39.     export delimited using "`tablefile'", replace
+ 40. 
+.     local estimator_label = upper("`estimator'")
+ 41.     if "`estimator'" == "sc" {
+ 42.         local estimator_label "SC"
+ 43.     }
+ 44.     local graphfile "$STFIG/sdid_event_focused_`estimator'_`tag'_`outcome'
+> .png"
+ 45. 
+.     twoway ///
+>         (rarea ci_low ci_high event_time if !missing(ci_low, ci_high), color(
+> gs12%45) lcolor(gs10)) ///
+>         (scatter estimate event_time, mcolor(navy) msymbol(circle) msize(smal
+> l)) ///
+>         (line estimate event_time, lcolor(navy) lwidth(medthin)), ///
+>         yline(0, lcolor(gs9)) ///
+>         xline(0, lcolor(gs6) lpattern(dash)) ///
+>         title("`estimator_label' sdid_event: `sample'") ///
+>         subtitle("`subgroup'; outcome: `outcome'; vce(`vce')") ///
+>         note("Event 0 is first post month. Produced with Stata sdid_event.", 
+> size(vsmall)) ///
+>         xtitle("Periods relative to first post-treatment month") ///
+>         ytitle("Event-study estimate") ///
+>         legend(off) ///
+>         graphregion(color(white)) plotregion(color(white))
+ 46.     graph export "`graphfile'", replace width(1600)
+ 47. 
+.     c_local tablefile "`tablefile'"
+ 48.     c_local graphfile "`graphfile'"
+ 49. end
+
+. 
+. capture program drop run_sdid_event_one
+
+. program define run_sdid_event_one
+  1.     syntax, SAMPLE(string) SUBGROUP(string) TAG(string) OUTCOME(name) ESTI
+> MATOR(string) VCE(string)
+  2. 
+.     preserve
+  3.         keep_balanced_panel, outcome(`outcome')
+  4.         local nobs = r(nobs)
+  5.         local units = r(units)
+  6.         local periods = r(periods)
+  7.         local treated_units = r(treated_units)
+  8.         local control_units = r(control_units)
+  9. 
+.         if `nobs' == 0 | `treated_units' == 0 | `control_units' == 0 | `perio
+> ds' < 2 {
+ 10.             post SDIDEVENT ("`sample'") ("`subgroup'") ("`outcome'") ("`es
+> timator'") ("`vce'") ///
+>                 (.) (.) (.) (`nobs') (`units') (`periods') (`treated_units') 
+> (`control_units') ///
+>                 ("not_enough_balanced_data") ("") ("")
+ 11.             restore
+ 12.             exit
+ 13.         }
+ 14. 
+.         quietly distinct ym if post_sep2022 == 1
+ 15.         local effects = r(ndistinct)
+ 16.         quietly distinct ym if post_sep2022 == 0
+ 17.         local placebos = r(ndistinct) - 1
+ 18.         if `placebos' < 0 {
+ 19.             local placebos = 0
+ 20.         }
+ 21. 
+.         display as text "Running sdid_event: sample=`sample' subgroup=`subgro
+> up' outcome=`outcome' estimator=`estimator'"
+ 22.         display as text "  nobs=`nobs' units=`units' periods=`periods' tre
+> ated=`treated_units' controls=`control_units' effects=`effects' placebos=`pla
+> cebos'"
+ 23. 
+.         local vceopt "vce(off)"
+ 24.         if "`vce'" == "placebo" {
+ 25.             local vceopt "vce(placebo) brep($SDID_EVENT_REPS)"
+ 26.         }
+ 27.         capture noisily sdid_event `outcome' unit_id ym did_post, effects(
+> `effects') placebo(`placebos') `vceopt' method(`estimator')
+ 28.         if _rc {
+ 29.             local rc = _rc
+ 30.             display as error "sdid_event failed with rc=`rc'"
+ 31.             post SDIDEVENT ("`sample'") ("`subgroup'") ("`outcome'") ("`es
+> timator'") ("`vce'") ///
+>                 (`effects') (`placebos') (.) (`nobs') (`units') (`periods') (
+> `treated_units') (`control_units') ///
+>                 ("sdid_event_rc_`rc'") ("") ("")
+ 32.             restore
+ 33.             exit
+ 34.         }
+ 35. 
+.         matrix H_att = e(H)
+ 36.         local att = H_att[1,1]
+ 37.         export_event_results, sample("`sample'") subgroup("`subgroup'") ta
+> g("`tag'") outcome(`outcome') estimator("`estimator'") effects(`effects') pla
+> cebos(`placebos') vce("`vce'")
+ 38.         post SDIDEVENT ("`sample'") ("`subgroup'") ("`outcome'") ("`estima
+> tor'") ("`vce'") ///
+>             (`effects') (`placebos') (`att') (`nobs') (`units') (`periods') (
+> `treated_units') (`control_units') ///
+>             ("ok") ("`tablefile'") ("`graphfile'")
+ 39.     restore
+ 40. end
+
+. 
+. capture program drop make_gender_panel
+
+. program define make_gender_panel
+  1.     use "$STDTA/stata_master_clean.dta", clear
+  2.     keep if lower(dimension) == "gender"
+  3.     gen gender_group = category
+  4.     egen unit_id = group(cno4)
+  5.     save "$STDTA/panel_gender_cno4_for_sdid_event.dta", replace
+  6. end
+
+. 
+. capture program drop make_age3_panel
+
+. program define make_age3_panel
+  1.     use "$STDTA/panel_age_cno4.dta", clear
+  2.     gen str20 age3_group = ""
+  3.     replace age3_group = "<18 to 29" if inlist(age_group, "<18", "18-24", 
+> "25-29")
+  4.     replace age3_group = "30-39" if age_group == "30-39"
+  5.     replace age3_group = "40 to >44" if inlist(age_group, "40-44", ">44")
+  6.     keep if age3_group != ""
+  7. 
+.     collapse (sum) parados contratos ///
+>         (firstnm) exposure_nearest exposure_weighted exposure_rf treat_high t
+> reat_zero binary_sample post_sep2022 did_post cno2 cno1d event_time_sep2022, 
+> ///
+>         by(age3_group cno4 ym period occupation_title)
+  8. 
+.     gen ln_parados = ln(parados) if parados > 0
+  9.     gen ln_contratos = ln(contratos) if contratos > 0
+ 10.     gen parados_contratos = parados / contratos if contratos > 0 & parados
+>  < .
+ 11.     capture drop cno4_id cno2_id cno1_id unit_id
+ 12.     egen cno4_id = group(cno4)
+ 13.     egen cno2_id = group(cno2)
+ 14.     egen cno1_id = group(cno1d)
+ 15.     egen unit_id = group(cno4)
+ 16.     save "$STDTA/panel_age3_cno4_for_sdid_event.dta", replace
+ 17. end
+
+. 
+. tempfile sdidevent
+
+. postfile SDIDEVENT str40 sample str80 subgroup str32 outcome str12 estimator 
+> str20 vce ///
+>     double effects placebos att nobs units periods treated_units control_unit
+> s ///
+>     str60 status str244 table_file str244 graph_file using `sdidevent', repla
+> ce
+(file C:\Users\NGONZA~2\AppData\Local\Temp\ST_1374_000001.tmp not found)
+
+. 
+. * Total CNO4: actual sdid_event command with placebo inference.
+. use "$STDTA/panel_total_cno4.dta", clear
+
+. run_sdid_event_one, sample("total_cno4") subgroup("all") tag("total_cno4") ou
+> tcome(ln_parados) estimator("sdid") vce("placebo")
+(7,875 observations deleted)
+(17 observations deleted)
+
+Duplicates in terms of unit_id ym
+
+(0 observations are duplicates)
+(298 observations deleted)
+(0 observations deleted)
+Running sdid_event: sample=total_cno4 subgroup=all outcome=ln_parados estimator
+> =sdid
+  nobs=23436 units=372 periods=63 treated=122 controls=250 effects=42 placebos=
+> 20
+Synthetic Difference-in-differences
+
+Boostrap replications (50), placebo mode.
+|0% ----------------------------------------- 100%|
+|.................................................|
+
+
+             |  Estimate         SE      LB CI      UB CI  Switchers 
+-------------+------------------------------------------------------
+         ATT |  .0810196   .0163569   .0489601    .113079        122 
+    Effect_1 |  .0098476   .0071956  -.0042557    .023951        122 
+    Effect_2 |  .0080019   .0083779  -.0084188   .0244227        122 
+    Effect_3 |  .0102186     .00936   -.008127   .0285642        122 
+    Effect_4 |  .0107438   .0117666  -.0123187   .0338063        122 
+    Effect_5 |  .0176893    .012646  -.0070968   .0424753        122 
+    Effect_6 |  .0300352   .0127309   .0050825   .0549878        122 
+    Effect_7 |   .035312   .0115217   .0127296   .0578945        122 
+    Effect_8 |  .0409397   .0118093   .0177935    .064086        122 
+    Effect_9 |  .0495735   .0114492    .027133    .072014        122 
+   Effect_10 |  .0603949   .0140175   .0329205   .0878692        122 
+   Effect_11 |  .0668929    .014147   .0391647    .094621        122 
+   Effect_12 |  .0733689   .0145912     .04477   .1019677        122 
+   Effect_13 |  .0712748   .0147333   .0423975    .100152        122 
+   Effect_14 |  .0719671    .015296    .041987   .1019473        122 
+   Effect_15 |    .06803   .0143116   .0399792   .0960808        122 
+   Effect_16 |  .0633299   .0159241   .0321188   .0945411        122 
+   Effect_17 |   .061642   .0164223   .0294542   .0938298        122 
+   Effect_18 |  .0623105   .0168244   .0293347   .0952864        122 
+   Effect_19 |  .0694839   .0167966   .0365625   .1024053        122 
+   Effect_20 |  .0699363   .0172719   .0360834   .1037893        122 
+   Effect_21 |  .0689854   .0177124    .034269   .1037017        122 
+   Effect_22 |  .0761899   .0196723   .0376322   .1147476        122 
+   Effect_23 |  .0840967   .0198454   .0451996   .1229937        122 
+   Effect_24 |  .0819791   .0213109   .0402098   .1237484        122 
+   Effect_25 |  .0848877   .0235698   .0386909   .1310845        122 
+   Effect_26 |  .0908613    .024023   .0437763   .1379464        122 
+   Effect_27 |  .0842196   .0221069   .0408901   .1275492        122 
+   Effect_28 |  .0860294   .0249431    .037141   .1349178        122 
+   Effect_29 |  .1025843   .0249457   .0536906   .1514779        122 
+   Effect_30 |  .1040343   .0259258   .0532197   .1548489        122 
+   Effect_31 |  .1051855   .0249208   .0563408   .1540302        122 
+   Effect_32 |   .113591    .025139   .0643185   .1628634        122 
+   Effect_33 |  .1198814   .0228077   .0751784   .1645844        122 
+   Effect_34 |  .1330201   .0243147   .0853634   .1806768        122 
+   Effect_35 |  .1352447   .0257636   .0847479   .1857414        122 
+   Effect_36 |  .1417332   .0277559   .0873317   .1961347        122 
+   Effect_37 |  .1370706   .0307276   .0768446   .1972966        122 
+   Effect_38 |  .1401264   .0305796   .0801905   .2000624        122 
+   Effect_39 |  .1232153    .028659   .0670436    .179387        122 
+   Effect_40 |   .134271   .0307575   .0739862   .1945557        122 
+   Effect_41 |  .1439817   .0301627   .0848628   .2031005        122 
+   Effect_42 |    .16064   .0297857     .10226     .21902        122 
+   Placebo_1 |  .0023046    .002758   -.003101   .0077102        122 
+   Placebo_2 |  .0006543   .0066754  -.0124294    .013738        122 
+   Placebo_3 | -.0037742   .0079647  -.0193849   .0118365        122 
+   Placebo_4 |  -.019358   .0072023  -.0334746  -.0052414        122 
+   Placebo_5 | -.0228395   .0088799   -.040244  -.0054349        122 
+   Placebo_6 | -.0235684   .0084071  -.0400463  -.0070905        122 
+   Placebo_7 | -.0154865   .0096928  -.0344844   .0035114        122 
+   Placebo_8 | -.0098692   .0097678  -.0290141   .0092758        122 
+   Placebo_9 | -.0085272   .0098631   -.027859   .0108046        122 
+  Placebo_10 | -.0236571    .009663  -.0425967  -.0047176        122 
+  Placebo_11 | -.0047758   .0092023  -.0228122   .0132606        122 
+  Placebo_12 | -.0065058   .0086864  -.0235311   .0105194        122 
+  Placebo_13 |  .0014821   .0090458  -.0162477   .0192118        122 
+  Placebo_14 |  .0001762   .0115646  -.0224905   .0228428        122 
+  Placebo_15 | -.0012202   .0107574  -.0223047   .0198644        122 
+  Placebo_16 | -.0083671   .0096843  -.0273484   .0106141        122 
+  Placebo_17 | -.0143265   .0080653  -.0301345   .0014814        122 
+  Placebo_18 | -.0130046   .0082568   -.029188   .0031787        122 
+  Placebo_19 | -.0036011   .0092428   -.021717   .0145148        122 
+  Placebo_20 | -.0123828   .0104668  -.0328979   .0081322        122 
+number of observations will be reset to 63
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 63.
+(1 observation deleted)
+(62 missing values generated)
+(42 real changes made)
+(20 real changes made)
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/sdid_event_focused_sdid_total_cno4_l
+> n_parados.csv saved
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/figures/sdid_event_focused_sdid_total_cno4_ln_parados.png saved as
+    PNG format
+
+. 
+. * Province-CNO4: actual sdid_event command. Placebo inference is very slow on
+>  this 800k-row balanced panel.
+. use "$STDTA/panel_province_cno4.dta", clear
+
+. run_sdid_event_one, sample("province_cno4") subgroup("all") tag("province_cno
+> 4") outcome(ln_parados) estimator("sdid") vce("off")
+(402,917 observations deleted)
+(210,018 observations deleted)
+
+Duplicates in terms of unit_id ym
+
+(0 observations are duplicates)
+(202,933 observations deleted)
+(0 observations deleted)
+Running sdid_event: sample=province_cno4 subgroup=all outcome=ln_parados estima
+> tor=sdid
+  nobs=802094 units=12937 periods=62 treated=4388 controls=8549 effects=41 plac
+> ebos=20
+Synthetic Difference-in-differences
+
+             |  Estimate         SE  Switchers 
+-------------+--------------------------------
+         ATT |  .0517947          .       4388 
+    Effect_1 |  .0086891          .       4388 
+    Effect_2 |  .0090648          .       4388 
+    Effect_3 |  .0121888          .       4388 
+    Effect_4 |  .0151331          .       4388 
+    Effect_5 |  .0148158          .       4388 
+    Effect_6 |  .0211658          .       4388 
+    Effect_7 |  .0131397          .       4388 
+    Effect_8 |  .0164964          .       4388 
+    Effect_9 |  .0239612          .       4388 
+   Effect_10 |  .0462337          .       4388 
+   Effect_11 |  .0568803          .       4388 
+   Effect_12 |  .0630654          .       4388 
+   Effect_13 |  .0562935          .       4388 
+   Effect_14 |  .0560904          .       4388 
+   Effect_15 |  .0481417          .       4388 
+   Effect_16 |  .0376614          .       4388 
+   Effect_17 |  .0248944          .       4388 
+   Effect_18 |  .0201456          .       4388 
+   Effect_19 |  .0196945          .       4388 
+   Effect_20 |  .0330554          .       4388 
+   Effect_21 |  .0487246          .       4388 
+   Effect_22 |  .0628481          .       4388 
+   Effect_23 |  .0590309          .       4388 
+   Effect_24 |  .0527864          .       4388 
+   Effect_25 |  .0638097          .       4388 
+   Effect_26 |  .0584236          .       4388 
+   Effect_27 |  .0579116          .       4388 
+   Effect_28 |  .0616117          .       4388 
+   Effect_29 |  .0566519          .       4388 
+   Effect_30 |  .0533254          .       4388 
+   Effect_31 |  .0503983          .       4388 
+   Effect_32 |  .0669915          .       4388 
+   Effect_33 |  .0826644          .       4388 
+   Effect_34 |  .0953358          .       4388 
+   Effect_35 |  .1008667          .       4388 
+   Effect_36 |  .0921928          .       4388 
+   Effect_37 |  .0942776          .       4388 
+   Effect_38 |  .0799293          .       4388 
+   Effect_39 |  .0912484          .       4388 
+   Effect_40 |  .0974615          .       4388 
+   Effect_41 |  .1002824          .       4388 
+   Placebo_1 |  .0061934          .       4388 
+   Placebo_2 |  .0074821          .       4388 
+   Placebo_3 |  .0045903          .       4388 
+   Placebo_4 | -.0046629          .       4388 
+   Placebo_5 |  -.012326          .       4388 
+   Placebo_6 | -.0063868          .       4388 
+   Placebo_7 | -.0090261          .       4388 
+   Placebo_8 |  .0006153          .       4388 
+   Placebo_9 | -.0010472          .       4388 
+  Placebo_10 | -.0131158          .       4388 
+  Placebo_11 | -.0013764          .       4388 
+  Placebo_12 | -.0027352          .       4388 
+  Placebo_13 |  .0058083          .       4388 
+  Placebo_14 |  .0061344          .       4388 
+  Placebo_15 |  .0070859          .       4388 
+  Placebo_16 | -.0039855          .       4388 
+  Placebo_17 |  -.004366          .       4388 
+  Placebo_18 | -.0058968          .       4388 
+  Placebo_19 | -.0046609          .       4388 
+  Placebo_20 | -.0042839          .       4388 
+number of observations will be reset to 62
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 62.
+(1 observation deleted)
+(61 missing values generated)
+(41 real changes made)
+(20 real changes made)
+(61 missing values generated)
+(61 missing values generated)
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/sdid_event_focused_sdid_province_cno
+> 4_ln_parados.csv saved
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/figures/sdid_event_focused_sdid_province_cno4_ln_parados.png saved
+    as PNG format
+
+. 
+. * Age buckets requested in memo v2.
+. make_age3_panel
+(186,630 missing values generated)
+(93,315 real changes made)
+(31,105 real changes made)
+(62,210 real changes made)
+(0 observations deleted)
+(931 missing values generated)
+(2,440 missing values generated)
+(2,440 missing values generated)
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/data/panel_age3_cno4_for_sdid_event.dta saved
+
+. use "$STDTA/panel_age3_cno4_for_sdid_event.dta", clear
+
+. keep if age3_group == "<18 to 29"
+(62,210 observations deleted)
+
+. run_sdid_event_one, sample("age3_cno4") subgroup("<18 to 29") tag("age3_lt18_
+> to_29") outcome(ln_parados) estimator("sdid") vce("placebo")
+(7,746 observations deleted)
+(343 observations deleted)
+
+Duplicates in terms of unit_id ym
+
+(0 observations are duplicates)
+(1,936 observations deleted)
+(0 observations deleted)
+Running sdid_event: sample=age3_cno4 subgroup=<18 to 29 outcome=ln_parados esti
+> mator=sdid
+  nobs=21080 units=340 periods=62 treated=111 controls=229 effects=41 placebos=
+> 20
+Synthetic Difference-in-differences
+
+Boostrap replications (50), placebo mode.
+|0% ----------------------------------------- 100%|
+|.................................................|
+
+
+             |  Estimate         SE      LB CI      UB CI  Switchers 
+-------------+------------------------------------------------------
+         ATT |  .1119804      .0281   .0569043   .1670564        111 
+    Effect_1 |     .0403   .0263394  -.0113253   .0919252        111 
+    Effect_2 |  .0387853   .0259642  -.0121045   .0896752        111 
+    Effect_3 |  .0325181    .026392  -.0192102   .0842465        111 
+    Effect_4 |  .0013539   .0295982  -.0566585   .0593664        111 
+    Effect_5 |  .0163413   .0299424  -.0423459   .0750284        111 
+    Effect_6 |  .0247441   .0340889  -.0420702   .0915584        111 
+    Effect_7 |  .0136719   .0389832  -.0627351   .0900788        111 
+    Effect_8 |  .0232149   .0385972  -.0524357   .0988654        111 
+    Effect_9 |  .0242227   .0326106  -.0396941   .0881395        111 
+   Effect_10 |  .0751989   .0313702   .0137133   .1366846        111 
+   Effect_11 |  .1198759   .0313503   .0584293   .1813225        111 
+   Effect_12 |  .1077819   .0336483   .0418313   .1737326        111 
+   Effect_13 |   .116428   .0307212   .0562145   .1766415        111 
+   Effect_14 |  .1189625    .037522   .0454194   .1925057        111 
+   Effect_15 |  .0920369   .0367931   .0199224   .1641514        111 
+   Effect_16 |  .0869558   .0341584   .0200053   .1539063        111 
+   Effect_17 |  .0748926   .0376028   .0011911    .148594        111 
+   Effect_18 |  .0763478   .0358942   .0059952   .1467004        111 
+   Effect_19 |  .0653599   .0426189  -.0181731    .148893        111 
+   Effect_20 |  .0963869   .0440131   .0101212   .1826527        111 
+   Effect_21 |  .1297066   .0481836   .0352668   .2241464        111 
+   Effect_22 |  .1106602   .0432621   .0258665    .195454        111 
+   Effect_23 |  .1290208   .0400245   .0505726   .2074689        111 
+   Effect_24 |  .1374672   .0388597   .0613022   .2136321        111 
+   Effect_25 |  .1378333   .0442145   .0511729   .2244938        111 
+   Effect_26 |  .1358334   .0445675   .0484811   .2231856        111 
+   Effect_27 |  .1268671   .0479934   .0328001   .2209342        111 
+   Effect_28 |  .1395696    .048478   .0445527   .2345865        111 
+   Effect_29 |  .1487136   .0432843   .0638764   .2335507        111 
+   Effect_30 |  .1284303   .0416788   .0467398   .2101207        111 
+   Effect_31 |  .1215219   .0473777   .0286615   .2143823        111 
+   Effect_32 |  .1588987   .0464641   .0678289   .2499684        111 
+   Effect_33 |  .2098391   .0485265   .1147271    .304951        111 
+   Effect_34 |  .2060436   .0466476   .1146143   .2974729        111 
+   Effect_35 |  .2227682    .050267   .1242449   .3212915        111 
+   Effect_36 |  .2004754   .0445855   .1130878   .2878631        111 
+   Effect_37 |  .1847094   .0472994   .0920026   .2774161        111 
+   Effect_38 |  .1504613   .0430459   .0660913   .2348314        111 
+   Effect_39 |  .1733862   .0452039   .0847866   .2619858        111 
+   Effect_40 |   .184609   .0452111   .0959953   .2732227        111 
+   Effect_41 |  .2090014   .0457957   .1192419    .298761        111 
+   Placebo_1 |  .0078848   .0156045     -.0227   .0384696        111 
+   Placebo_2 |  .0161047   .0201354  -.0233607   .0555701        111 
+   Placebo_3 | -.0021487   .0225425   -.046332   .0420347        111 
+   Placebo_4 | -.0224785   .0223678  -.0663193   .0213624        111 
+   Placebo_5 | -.0194342   .0326182  -.0833658   .0444974        111 
+   Placebo_6 |  -.022525   .0257667  -.0730277   .0279777        111 
+   Placebo_7 | -.0067466   .0209861  -.0478794   .0343862        111 
+   Placebo_8 |  .0011123    .018562  -.0352692   .0374938        111 
+   Placebo_9 |  .0119596   .0224626  -.0320671   .0559864        111 
+  Placebo_10 |  .0060138   .0234473  -.0399429   .0519704        111 
+  Placebo_11 |  .0217182   .0246574  -.0266102   .0700466        111 
+  Placebo_12 |  .0426158   .0300586   -.016299   .1015306        111 
+  Placebo_13 |  .0471419   .0274272  -.0066155   .1008992        111 
+  Placebo_14 |  .0447135   .0268873  -.0079856   .0974126        111 
+  Placebo_15 |  .0211136   .0259886   -.029824   .0720513        111 
+  Placebo_16 |  .0248028   .0232422  -.0207519   .0703574        111 
+  Placebo_17 | -.0125529   .0226234  -.0568948    .031789        111 
+  Placebo_18 |  .0179127   .0216915  -.0246027   .0604281        111 
+  Placebo_19 |  .0191423   .0217171  -.0234233   .0617079        111 
+  Placebo_20 |  .0131349   .0230184  -.0319811    .058251        111 
+number of observations will be reset to 62
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 62.
+(1 observation deleted)
+(61 missing values generated)
+(41 real changes made)
+(20 real changes made)
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/sdid_event_focused_sdid_age3_lt18_to
+> _29_ln_parados.csv saved
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/figures/sdid_event_focused_sdid_age3_lt18_to_29_ln_parados.png
+    saved as PNG format
+
+. 
+. use "$STDTA/panel_age3_cno4_for_sdid_event.dta", clear
+
+. keep if age3_group == "30-39"
+(62,210 observations deleted)
+
+. run_sdid_event_one, sample("age3_cno4") subgroup("30-39") tag("age3_30_39") o
+> utcome(ln_parados) estimator("sdid") vce("placebo")
+(7,746 observations deleted)
+(160 observations deleted)
+
+Duplicates in terms of unit_id ym
+
+(0 observations are duplicates)
+(1,003 observations deleted)
+(0 observations deleted)
+Running sdid_event: sample=age3_cno4 subgroup=30-39 outcome=ln_parados estimato
+> r=sdid
+  nobs=22196 units=358 periods=62 treated=117 controls=241 effects=41 placebos=
+> 20
+Synthetic Difference-in-differences
+
+Boostrap replications (50), placebo mode.
+|0% ----------------------------------------- 100%|
+|.................................................|
+
+
+             |  Estimate         SE      LB CI      UB CI  Switchers 
+-------------+------------------------------------------------------
+         ATT |  .1602837    .032724   .0961446   .2244228        117 
+    Effect_1 |  .0239962   .0162479  -.0078496    .055842        117 
+    Effect_2 |  .0169398   .0203922   -.023029   .0569086        117 
+    Effect_3 |  .0041328   .0213301  -.0376742   .0459399        117 
+    Effect_4 |  .0299897   .0210948  -.0113562   .0713355        117 
+    Effect_5 |  .0451166   .0220633   .0018725   .0883608        117 
+    Effect_6 |  .0478305   .0239342   .0009194   .0947416        117 
+    Effect_7 |  .0719822   .0195061   .0337503   .1102141        117 
+    Effect_8 |  .0892045   .0253274   .0395627   .1388462        117 
+    Effect_9 |  .0870597   .0291284   .0299681   .1441513        117 
+   Effect_10 |  .1157523   .0330123   .0510482   .1804565        117 
+   Effect_11 |  .1155878   .0299864   .0568143   .1743612        117 
+   Effect_12 |  .1097063   .0299669   .0509711   .1684414        117 
+   Effect_13 |  .1193807   .0298892   .0607978   .1779636        117 
+   Effect_14 |  .1181742   .0296824   .0599967   .1763518        117 
+   Effect_15 |  .1253394   .0293895   .0677359   .1829429        117 
+   Effect_16 |  .1298135   .0301979   .0706256   .1890013        117 
+   Effect_17 |  .1316285   .0332586   .0664417   .1968153        117 
+   Effect_18 |  .1529367   .0381901   .0780841   .2277893        117 
+   Effect_19 |  .1680374    .039353   .0909056   .2451692        117 
+   Effect_20 |  .1698641   .0402104   .0910517   .2486765        117 
+   Effect_21 |  .1805247     .04381   .0946571   .2663923        117 
+   Effect_22 |  .1882527   .0461295   .0978389   .2786665        117 
+   Effect_23 |   .196689   .0480406   .1025294   .2908486        117 
+   Effect_24 |  .1668344   .0470245   .0746663   .2590024        117 
+   Effect_25 |  .2005857   .0485552   .1054175   .2957538        117 
+   Effect_26 |  .1834956   .0480618   .0892945   .2776967        117 
+   Effect_27 |  .1957389   .0527604   .0923285   .2991493        117 
+   Effect_28 |  .2154136    .052144   .1132114   .3176158        117 
+   Effect_29 |  .2170423    .054499   .1102244   .3238603        117 
+   Effect_30 |  .2240558   .0540618   .1180946    .330017        117 
+   Effect_31 |   .222211   .0474723   .1291652   .3152568        117 
+   Effect_32 |  .2281224   .0477717     .13449   .3217549        117 
+   Effect_33 |   .247532   .0461972   .1569855   .3380786        117 
+   Effect_34 |   .245473   .0510863   .1453438   .3456023        117 
+   Effect_35 |  .2623234    .053499   .1574653   .3671815        117 
+   Effect_36 |    .24867   .0535389   .1437338   .3536062        117 
+   Effect_37 |  .2516198   .0527694   .1481918   .3550478        117 
+   Effect_38 |   .222735   .0572974   .1104321   .3350379        117 
+   Effect_39 |  .2370581   .0630632   .1134543    .360662        117 
+   Effect_40 |  .2694417   .0561902   .1593089   .3795744        117 
+   Effect_41 |  .2953394   .0593322   .1790482   .4116305        117 
+   Placebo_1 |  .0251067   .0082222   .0089911   .0412222        117 
+   Placebo_2 |  .0038453    .012829  -.0212996   .0289902        117 
+   Placebo_3 |  .0024764    .015823  -.0285368   .0334895        117 
+   Placebo_4 |  -.012925   .0144945  -.0413342   .0154842        117 
+   Placebo_5 |  -.016929    .013931  -.0442337   .0103757        117 
+   Placebo_6 | -.0389347   .0164184  -.0711148  -.0067545        117 
+   Placebo_7 | -.0340459    .019349    -.07197   .0038782        117 
+   Placebo_8 | -.0188502   .0193788  -.0568327   .0191323        117 
+   Placebo_9 | -.0165885   .0179738  -.0518171   .0186401        117 
+  Placebo_10 | -.0104914   .0208913  -.0514384   .0304557        117 
+  Placebo_11 |  .0002934    .020149  -.0391986   .0397854        117 
+  Placebo_12 | -.0050761    .018832  -.0419868   .0318345        117 
+  Placebo_13 |  .0184838   .0178953  -.0165911   .0535586        117 
+  Placebo_14 |  .0095257   .0216866  -.0329801   .0520315        117 
+  Placebo_15 |   .021631   .0177087  -.0130781   .0563401        117 
+  Placebo_16 |  .0031883   .0174185  -.0309519   .0373285        117 
+  Placebo_17 | -.0065132   .0144507  -.0348366   .0218102        117 
+  Placebo_18 | -.0198666    .017919  -.0549879   .0152547        117 
+  Placebo_19 |  -.000462   .0232474   -.046027   .0451029        117 
+  Placebo_20 | -.0057272   .0240451  -.0528555   .0414012        117 
+number of observations will be reset to 62
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 62.
+(1 observation deleted)
+(61 missing values generated)
+(41 real changes made)
+(20 real changes made)
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/sdid_event_focused_sdid_age3_30_39_l
+> n_parados.csv saved
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/figures/sdid_event_focused_sdid_age3_30_39_ln_parados.png saved as
+    PNG format
+
+. 
+. use "$STDTA/panel_age3_cno4_for_sdid_event.dta", clear
+
+. keep if age3_group == "40 to >44"
+(62,210 observations deleted)
+
+. run_sdid_event_one, sample("age3_cno4") subgroup("40 to >44") tag("age3_40_to
+> _gt44") outcome(ln_parados) estimator("sdid") vce("placebo")
+(7,746 observations deleted)
+(2 observations deleted)
+
+Duplicates in terms of unit_id ym
+
+(0 observations are duplicates)
+(293 observations deleted)
+(0 observations deleted)
+Running sdid_event: sample=age3_cno4 subgroup=40 to >44 outcome=ln_parados esti
+> mator=sdid
+  nobs=23064 units=372 periods=62 treated=122 controls=250 effects=41 placebos=
+> 20
+Synthetic Difference-in-differences
+
+Boostrap replications (50), placebo mode.
+|0% ----------------------------------------- 100%|
+|.................................................|
+
+
+             |  Estimate         SE      LB CI      UB CI  Switchers 
+-------------+------------------------------------------------------
+         ATT |  .0470942     .01478   .0181253   .0760631        122 
+    Effect_1 |  .0005139   .0050613  -.0094063    .010434        122 
+    Effect_2 | -.0014697   .0062069  -.0136353   .0106958        122 
+    Effect_3 |  .0030197   .0073437   -.011374   .0174134        122 
+    Effect_4 |  .0007813    .007472  -.0138638   .0154265        122 
+    Effect_5 |  .0054648   .0079077  -.0100343   .0209639        122 
+    Effect_6 |  .0156139   .0077815   .0003623   .0308656        122 
+    Effect_7 |  .0206077   .0078732   .0051763   .0360391        122 
+    Effect_8 |   .028662   .0083169   .0123609   .0449631        122 
+    Effect_9 |  .0335687    .009348   .0152467   .0518907        122 
+   Effect_10 |  .0402501   .0122775   .0161862   .0643139        122 
+   Effect_11 |  .0465383   .0120008   .0230167   .0700599        122 
+   Effect_12 |  .0400124   .0109021   .0186443   .0613805        122 
+   Effect_13 |  .0343535   .0110609   .0126741   .0560328        122 
+   Effect_14 |  .0227005   .0118717  -.0005681    .045969        122 
+   Effect_15 |   .029579   .0112667   .0074963   .0516618        122 
+   Effect_16 |  .0238406   .0122538  -.0001768    .047858        122 
+   Effect_17 |  .0255456   .0137855   -.001474   .0525651        122 
+   Effect_18 |  .0266611   .0164786  -.0056369   .0589592        122 
+   Effect_19 |  .0392272   .0159429   .0079791   .0704754        122 
+   Effect_20 |    .03655   .0163126   .0045774   .0685227        122 
+   Effect_21 |  .0446986   .0191033   .0072562   .0821411        122 
+   Effect_22 |   .049945   .0202086   .0103361   .0895538        122 
+   Effect_23 |  .0438059   .0199879   .0046297   .0829822        122 
+   Effect_24 |  .0418997   .0191806   .0043056   .0794938        122 
+   Effect_25 |   .045278    .021107   .0039084   .0866477        122 
+   Effect_26 |  .0391309   .0226472  -.0052576   .0835194        122 
+   Effect_27 |  .0433171   .0222424  -.0002779   .0869122        122 
+   Effect_28 |   .061902   .0230353   .0167527   .1070513        122 
+   Effect_29 |  .0627538   .0241219   .0154749   .1100327        122 
+   Effect_30 |  .0662668   .0251739    .016926   .1156075        122 
+   Effect_31 |   .075587   .0258004   .0250182   .1261558        122 
+   Effect_32 |  .0810371   .0260067    .030064   .1320101        122 
+   Effect_33 |  .0848099   .0270491   .0317937    .137826        122 
+   Effect_34 |  .0934734   .0278666    .038855   .1480919        122 
+   Effect_35 |  .0929771   .0272491   .0395688   .1463854        122 
+   Effect_36 |  .0890997   .0270755   .0360317   .1421677        122 
+   Effect_37 |  .0906914   .0271768   .0374248    .143958        122 
+   Effect_38 |  .0747606   .0275818   .0207002   .1288211        122 
+   Effect_39 |  .0825317    .029111    .025474   .1395893        122 
+   Effect_40 |  .0913273   .0274891   .0374486   .1452059        122 
+   Effect_41 |  .1035496   .0281627   .0483508   .1587485        122 
+   Placebo_1 | -.0002685    .001512  -.0032319    .002695        122 
+   Placebo_2 |  .0056982   .0050212  -.0041433   .0155398        122 
+   Placebo_3 |  .0038016   .0061082  -.0081704   .0157736        122 
+   Placebo_4 | -.0103074   .0070917  -.0242073   .0035924        122 
+   Placebo_5 | -.0197105   .0065172  -.0324842  -.0069368        122 
+   Placebo_6 | -.0210746   .0079157  -.0365894  -.0055599        122 
+   Placebo_7 | -.0142028   .0072411  -.0283953  -.0000103        122 
+   Placebo_8 | -.0076579   .0069022  -.0211863   .0058705        122 
+   Placebo_9 | -.0068329   .0075534  -.0216375   .0079717        122 
+  Placebo_10 | -.0183379   .0084651  -.0349295  -.0017463        122 
+  Placebo_11 | -.0117674   .0070623  -.0256094   .0020747        122 
+  Placebo_12 | -.0129375   .0072322  -.0271126   .0012377        122 
+  Placebo_13 | -.0072527   .0082377  -.0233987   .0088933        122 
+  Placebo_14 |  7.52e-06   .0077634  -.0152087   .0152237        122 
+  Placebo_15 |  .0041906   .0071569  -.0098369   .0182181        122 
+  Placebo_16 | -.0031463   .0071424  -.0171455   .0108529        122 
+  Placebo_17 | -.0135657   .0080098  -.0292649   .0021335        122 
+  Placebo_18 | -.0137333   .0084459  -.0302873   .0028206        122 
+  Placebo_19 | -.0048616   .0092711  -.0230328   .0133097        122 
+  Placebo_20 |  -.016787   .0091624  -.0347453   .0011714        122 
+number of observations will be reset to 62
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 62.
+(1 observation deleted)
+(61 missing values generated)
+(41 real changes made)
+(20 real changes made)
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/sdid_event_focused_sdid_age3_40_to_g
+> t44_ln_parados.csv saved
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/figures/sdid_event_focused_sdid_age3_40_to_gt44_ln_parados.png
+    saved as PNG format
+
+. 
+. * Gender subgroups.
+. make_gender_panel
+(2,024,612 observations deleted)
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/data/panel_gender_cno4_for_sdid_event.dta saved
+
+. use "$STDTA/panel_gender_cno4_for_sdid_event.dta", clear
+
+. keep if gender_group == "Hombre"
+(31,607 observations deleted)
+
+. run_sdid_event_one, sample("gender_cno4") subgroup("Hombre") tag("gender_homb
+> re") outcome(ln_parados) estimator("sdid") vce("placebo")
+(7,871 observations deleted)
+(24 observations deleted)
+
+Duplicates in terms of unit_id ym
+
+(0 observations are duplicates)
+(339 observations deleted)
+(0 observations deleted)
+Running sdid_event: sample=gender_cno4 subgroup=Hombre outcome=ln_parados estim
+> ator=sdid
+  nobs=23373 units=371 periods=63 treated=121 controls=250 effects=42 placebos=
+> 20
+Synthetic Difference-in-differences
+
+Boostrap replications (50), placebo mode.
+|0% ----------------------------------------- 100%|
+|.................................................|
+
+
+             |  Estimate         SE      LB CI      UB CI  Switchers 
+-------------+------------------------------------------------------
+         ATT |  .0962411   .0257079   .0458535   .1466286        121 
+    Effect_1 |  .0306606   .0104488    .010181   .0511402        121 
+    Effect_2 |  .0320928   .0119925   .0085875   .0555981        121 
+    Effect_3 |  .0311869   .0122513   .0071744   .0551994        121 
+    Effect_4 |  .0293803   .0137842   .0023633   .0563972        121 
+    Effect_5 |  .0407441   .0130849   .0150977   .0663906        121 
+    Effect_6 |  .0432491   .0148489   .0141452    .072353        121 
+    Effect_7 |  .0441453   .0157049   .0133637    .074927        121 
+    Effect_8 |  .0454946   .0162808   .0135842   .0774049        121 
+    Effect_9 |  .0556529   .0179014   .0205662   .0907396        121 
+   Effect_10 |  .0751858   .0191303   .0376904   .1126813        121 
+   Effect_11 |  .0762152   .0207296   .0355852   .1168453        121 
+   Effect_12 |  .0860863   .0222536   .0424692   .1297033        121 
+   Effect_13 |  .0712364   .0235208   .0251356   .1173372        121 
+   Effect_14 |  .0760957   .0245319   .0280131   .1241782        121 
+   Effect_15 |  .0755596   .0227421    .030985   .1201342        121 
+   Effect_16 |  .0683626   .0235152   .0222727   .1144524        121 
+   Effect_17 |  .0730808   .0249143   .0242488   .1219128        121 
+   Effect_18 |  .0671696   .0256981   .0168014   .1175378        121 
+   Effect_19 |  .0802219   .0264478   .0283842   .1320596        121 
+   Effect_20 |  .0863203    .028612   .0302407   .1423999        121 
+   Effect_21 |   .085802   .0304973   .0260272   .1455767        121 
+   Effect_22 |  .0939233   .0338684   .0275412   .1603054        121 
+   Effect_23 |   .101963   .0369243   .0295914   .1743346        121 
+   Effect_24 |  .0969595   .0344754   .0293878   .1645312        121 
+   Effect_25 |  .0982392   .0341836   .0312393   .1652391        121 
+   Effect_26 |  .1005982   .0330209   .0358773   .1653191        121 
+   Effect_27 |  .0992334   .0330734   .0344095   .1640573        121 
+   Effect_28 |  .0980909   .0341358   .0311847   .1649971        121 
+   Effect_29 |  .1333737   .0350591   .0646579   .2020895        121 
+   Effect_30 |  .1252756   .0348277   .0570134   .1935379        121 
+   Effect_31 |   .120202    .033054   .0554161   .1849878        121 
+   Effect_32 |   .127455   .0338036   .0611999     .19371        121 
+   Effect_33 |  .1412301   .0374158   .0678951    .214565        121 
+   Effect_34 |  .1520486   .0391795   .0752567   .2288405        121 
+   Effect_35 |  .1508384   .0400366   .0723667   .2293101        121 
+   Effect_36 |  .1652803   .0384713   .0898766   .2406839        121 
+   Effect_37 |  .1578135   .0390618   .0812523   .2343746        121 
+   Effect_38 |  .1587579    .038769   .0827708   .2347451        121 
+   Effect_39 |  .1435212   .0383557    .068344   .2186985        121 
+   Effect_40 |  .1553403   .0397269   .0774755   .2332051        121 
+   Effect_41 |  .1655999   .0420184   .0832438    .247956        121 
+   Effect_42 |  .1824375   .0420552   .1000092   .2648657        121 
+   Placebo_1 |  .0231085   .0075352   .0083395   .0378774        121 
+   Placebo_2 |  .0109421   .0089792   -.006657   .0285413        121 
+   Placebo_3 |  .0133965   .0087739  -.0038003   .0305933        121 
+   Placebo_4 | -.0075909    .008254  -.0237686   .0085869        121 
+   Placebo_5 | -.0116578   .0098139  -.0308931   .0075775        121 
+   Placebo_6 | -.0091444   .0095263  -.0278159   .0095271        121 
+   Placebo_7 |  .0024157   .0075704  -.0124223   .0172536        121 
+   Placebo_8 |  .0047539   .0076221  -.0101854   .0196932        121 
+   Placebo_9 |  .0075933   .0089218  -.0098935   .0250801        121 
+  Placebo_10 | -.0048178   .0079064  -.0203142   .0106786        121 
+  Placebo_11 |  .0085463   .0071888  -.0055438   .0226364        121 
+  Placebo_12 |   .007351   .0075811   -.007508     .02221        121 
+  Placebo_13 |  .0191071   .0094148   .0006541   .0375601        121 
+  Placebo_14 |  .0137065   .0117328  -.0092898   .0367028        121 
+  Placebo_15 |   .021556   .0118902  -.0017489   .0448609        121 
+  Placebo_16 |  .0088458   .0099593  -.0106744    .028366        121 
+  Placebo_17 |  .0089906   .0096918  -.0100053   .0279865        121 
+  Placebo_18 |  .0063817   .0101903  -.0135912   .0263546        121 
+  Placebo_19 |   .011943   .0107535  -.0091339   .0330199        121 
+  Placebo_20 |  .0001772   .0118815  -.0231104   .0234649        121 
+number of observations will be reset to 63
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 63.
+(1 observation deleted)
+(62 missing values generated)
+(42 real changes made)
+(20 real changes made)
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/sdid_event_focused_sdid_gender_hombr
+> e_ln_parados.csv saved
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/figures/sdid_event_focused_sdid_gender_hombre_ln_parados.png saved
+    as PNG format
+
+. 
+. use "$STDTA/panel_gender_cno4_for_sdid_event.dta", clear
+
+. keep if gender_group == "Mujer"
+(31,607 observations deleted)
+
+. run_sdid_event_one, sample("gender_cno4") subgroup("Mujer") tag("gender_mujer
+> ") outcome(ln_parados) estimator("sdid") vce("placebo")
+(7,871 observations deleted)
+(232 observations deleted)
+
+Duplicates in terms of unit_id ym
+
+(0 observations are duplicates)
+(635 observations deleted)
+(0 observations deleted)
+Running sdid_event: sample=gender_cno4 subgroup=Mujer outcome=ln_parados estima
+> tor=sdid
+  nobs=22869 units=363 periods=63 treated=122 controls=241 effects=42 placebos=
+> 20
+Synthetic Difference-in-differences
+
+Boostrap replications (50), placebo mode.
+|0% ----------------------------------------- 100%|
+|.................................................|
+
+
+             |  Estimate         SE      LB CI      UB CI  Switchers 
+-------------+------------------------------------------------------
+         ATT |  .0751571   .0261228   .0239564   .1263578        122 
+    Effect_1 |  .0049149   .0118679  -.0183462    .028176        122 
+    Effect_2 |  .0049579    .014653   -.023762   .0336777        122 
+    Effect_3 |  .0094059   .0180029  -.0258799   .0446916        122 
+    Effect_4 |  .0036136   .0191455  -.0339116   .0411389        122 
+    Effect_5 |  .0107714   .0229135   -.034139   .0556819        122 
+    Effect_6 |  .0281794   .0226641  -.0162423    .072601        122 
+    Effect_7 |  .0373899   .0218334  -.0054035   .0801833        122 
+    Effect_8 |  .0424295   .0214426    .000402   .0844569        122 
+    Effect_9 |  .0366553   .0213451  -.0051811   .0784916        122 
+   Effect_10 |  .0524262   .0191838   .0148258   .0900265        122 
+   Effect_11 |  .0677322   .0178861   .0326753    .102789        122 
+   Effect_12 |  .0653889   .0240158   .0183178   .1124599        122 
+   Effect_13 |  .0641972   .0250062    .015185   .1132094        122 
+   Effect_14 |  .0709534   .0229519   .0259676   .1159392        122 
+   Effect_15 |  .0681488   .0224979   .0240528   .1122447        122 
+   Effect_16 |  .0692349   .0236141   .0229512   .1155186        122 
+   Effect_17 |  .0568616   .0246387   .0085698   .1051534        122 
+   Effect_18 |  .0674575   .0265994   .0153226   .1195924        122 
+   Effect_19 |  .0699008   .0286661   .0137152   .1260864        122 
+   Effect_20 |  .0638848   .0303691   .0043614   .1234082        122 
+   Effect_21 |  .0650358   .0303581   .0055339   .1245378        122 
+   Effect_22 |  .0777655   .0336663   .0117795   .1437514        122 
+   Effect_23 |  .0850507   .0322464   .0218478   .1482537        122 
+   Effect_24 |   .073914   .0385837  -.0017099    .149538        122 
+   Effect_25 |  .0798694   .0384855   .0044377   .1553011        122 
+   Effect_26 |  .0828721   .0356016   .0130929   .1526512        122 
+   Effect_27 |   .074934   .0340983   .0081013   .1417667        122 
+   Effect_28 |  .0745879   .0362866   .0034661   .1457097        122 
+   Effect_29 |  .0902434   .0391253   .0135578    .166929        122 
+   Effect_30 |  .0967145   .0428273   .0127731   .1806559        122 
+   Effect_31 |  .1069526   .0412187   .0261639   .1877412        122 
+   Effect_32 |  .1079613   .0388174   .0318792   .1840435        122 
+   Effect_33 |  .1134355   .0369416     .04103    .185841        122 
+   Effect_34 |  .1181219   .0399744   .0397721   .1964717        122 
+   Effect_35 |  .1200577   .0412657    .039177   .2009384        122 
+   Effect_36 |  .1229811   .0442822    .036188   .2097743        122 
+   Effect_37 |  .1204891   .0456632   .0309892    .209989        122 
+   Effect_38 |   .128355   .0430254   .0440252   .2126848        122 
+   Effect_39 |  .1224615    .040044   .0439754   .2009477        122 
+   Effect_40 |  .1267347   .0460878   .0364025   .2170668        122 
+   Effect_41 |  .1268615   .0461564   .0363949   .2173281        122 
+   Effect_42 |  .1466952   .0518527   .0450639   .2483265        122 
+   Placebo_1 |  .0039717   .0074596  -.0106491   .0185925        122 
+   Placebo_2 |  .0174341   .0125566  -.0071768    .042045        122 
+   Placebo_3 |  .0018626   .0116041  -.0208814   .0246067        122 
+   Placebo_4 | -.0133255     .01124  -.0353559    .008705        122 
+   Placebo_5 | -.0093317   .0118965  -.0326489   .0139855        122 
+   Placebo_6 | -.0074602   .0098868  -.0268384   .0119179        122 
+   Placebo_7 |  .0017268   .0081463    -.01424   .0176937        122 
+   Placebo_8 | -.0026877   .0113185   -.024872   .0194967        122 
+   Placebo_9 | -.0005563   .0118652   -.023812   .0226994        122 
+  Placebo_10 | -.0077909   .0131893   -.033642   .0180602        122 
+  Placebo_11 |  .0045462     .01397  -.0228349   .0319273        122 
+  Placebo_12 |  .0076413   .0158509  -.0234264    .038709        122 
+  Placebo_13 |  .0076369   .0154806   -.022705   .0379789        122 
+  Placebo_14 |  .0210441    .015553  -.0094398   .0515281        122 
+  Placebo_15 |  .0119696   .0156754  -.0187542   .0426934        122 
+  Placebo_16 | -.0003968   .0168284  -.0333804   .0325869        122 
+  Placebo_17 | -.0128608   .0123565  -.0370795   .0113579        122 
+  Placebo_18 | -.0087216   .0137531  -.0356776   .0182345        122 
+  Placebo_19 |  .0050554   .0119677  -.0184012    .028512        122 
+  Placebo_20 | -.0113055     .01077  -.0324147   .0098037        122 
+number of observations will be reset to 63
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 63.
+(1 observation deleted)
+(62 missing values generated)
+(42 real changes made)
+(20 real changes made)
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/sdid_event_focused_sdid_gender_mujer
+> _ln_parados.csv saved
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/figures/sdid_event_focused_sdid_gender_mujer_ln_parados.png saved
+    as PNG format
+
+. 
+. postclose SDIDEVENT
+
+. use `sdidevent', clear
+
+. export delimited using "$STTAB/stata_sdid_event_focused_index.csv", replace
+file C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/ai_u
+> nemployment_analysis/output/stata/tables/stata_sdid_event_focused_index.csv s
+> aved
+
+. save "$STDTA/stata_sdid_event_focused_index.dta", replace
+file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata/data/stata_sdid_event_focused_index.dta saved
+
+. 
+. display as text "Focused sdid_event run completed."
+Focused sdid_event run completed.
+
+. display as text "Index:   $STTAB/stata_sdid_event_focused_index.csv"
+Index:   C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/
+> ai_unemployment_analysis/output/stata/tables/stata_sdid_event_focused_index.c
+> sv
+
+. display as text "Figures: $STFIG/sdid_event_focused_*.png"
+Figures: C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/
+> ai_unemployment_analysis/output/stata/figures/sdid_event_focused_*.png
+
+. display as text "Tables:  $STTAB/sdid_event_focused_*.csv"
+Tables:  C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benefits/
+> ai_unemployment_analysis/output/stata/tables/sdid_event_focused_*.csv
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benef
+> its/ai_unemployment_analysis/output/stata/logs/stata_sdid_event_focused.log
+  log type:  text
+ closed on:   5 Jun 2026, 20:31:59
+-------------------------------------------------------------------------------

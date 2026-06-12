@@ -1,0 +1,81 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring 21 Jan 2027
+Serial number: 501909354015
+  Licensed to: Airef
+               Airef
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do code\stata_smoke_test.do 
+
+. clear all
+
+. set more off
+
+. 
+. global ROOT "C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Ben
+> efits/ai_unemployment_analysis"
+
+. 
+. log using "$ROOT/output/stata_smoke_test.log", replace text
+(file C:/Users/ngonzalezp/OneDrive -
+    AIREF/Escritorio/Unempolyment_Benefits/ai_unemployment_analysis/output/st
+    > ata_smoke_test.log not found)
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benef
+> its/ai_unemployment_analysis/output/stata_smoke_test.log
+  log type:  text
+ opened on:   5 Jun 2026, 15:54:29
+
+. 
+. display "Stata smoke test started"
+Stata smoke test started
+
+. display "c(stata_version) = " c(stata_version)
+c(stata_version) = 19.5
+
+. display "c(flavor) = " c(flavor)
+c(flavor) = IC
+
+. sysuse auto, clear
+(1978 automobile data)
+
+. count
+  74
+
+. summarize price mpg
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       price |         74    6165.257    2949.496       3291      15906
+         mpg |         74     21.2973    5.785503         12         41
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:/Users/ngonzalezp/OneDrive - AIREF/Escritorio/Unempolyment_Benef
+> its/ai_unemployment_analysis/output/stata_smoke_test.log
+  log type:  text
+ closed on:   5 Jun 2026, 15:54:29
+-------------------------------------------------------------------------------
+
+. exit, clear
+
+end of do-file

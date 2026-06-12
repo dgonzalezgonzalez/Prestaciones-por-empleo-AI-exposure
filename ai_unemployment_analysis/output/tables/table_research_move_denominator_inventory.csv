@@ -1,0 +1,5 @@
+source,url,granularity,usable_for,limitations,status
+INE EPA table 65134,https://www.ine.es/jaxiT3/files/t/csv_bdsc/65134.csv,National CNO2-quarter occupied workers by sex,CNO2 national denominator proxy,"Not CNO4, not monthly, not province-age joint.",implemented_proxy
+INE EPA table 66075,https://www.ine.es/jaxiT3/Tabla.htm?L=0&t=66075,"Occupation by sex and autonomous community, but search result indicates CNO-94/historical structure",Not directly used for CNO4/CNO2 2021-2026 design,Classification/history mismatch; needs manual API validation before use.,screened_not_used
+EPA microdata,https://www.ine.es/,"Potentially individual-level occupation, age, region, quarter",Best candidate for true occupation-age-region denominators,Requires microdata extraction and disclosure-aware aggregation; likely CNO2/CNO3 rather than CNO4.,recommended_next_data_task
+Administrative affiliation / Social Security records,,Potential employment stocks by occupation if available internally,Best candidate for monthly administrative denominators,Not available in current project folder.,not_available_current_project
