@@ -450,7 +450,8 @@ Available analysis flags:
 - `--run-sepe-econometrics`: OLS and TWFE event studies.
 - `--run-sdid`: Stata synthetic difference-in-differences estimates and diagnostic figures using `sdid` and `sdid_event`.
 - `--run-contdid`: continuous-treatment `contdid` event-study and dose-aggregation estimates.
-- `--run-all-analyses`: run all three analysis modules.
+- `--run-unemployment-source-check`: generate a quarterly data-quality figure comparing EPA unemployed persons with scraped SEPE registered unemployment. Requires `--ine-manifest`.
+- `--run-all-analyses`: run all SEPE analysis modules plus the unemployment source check when `--ine-manifest` is provided.
 - `--analysis-only`: skip the exposure build and run only requested analysis modules. With no specific analysis flag, this runs all analysis modules.
 - `--stata-exe`: optional path to StataMP for `--run-sdid`. Defaults to `STATA_EXE`, `PATH`, or common StataNow install paths.
 - `--sdid-reps`: bootstrap replications for Stata `sdid` and `sdid_event`; default is `100`.
@@ -515,6 +516,21 @@ Additional DiD outputs:
 SDID is run through StataMP. If Stata is not on `PATH`, pass `--stata-exe` or set `STATA_EXE`. The wrapper prepends the Stata executable directory to the subprocess `PATH` for reproducibility.
 
 Current committed SDID and `contdid` outputs use 100 bootstrap replications.
+### EPA vs SEPE unemployment source check
+
+The source-check diagnostic can be run from `main.py` without rebuilding exposure estimates:
+
+```powershell
+py -3 main.py --analysis-only --run-unemployment-source-check --ine-manifest ine_manifest.csv
+```
+
+It aggregates both sources to quarterly frequency, using EPA quarterly survey-weighted unemployed persons (`AOI` codes `05` and `06`) and the quarterly average of monthly scraped SEPE registered unemployed totals. Outputs:
+
+- `analysis/econometrics_outputs/Graficos/data_quality/epa_vs_sepe_unemployment_quarterly.csv`
+- `analysis/econometrics_outputs/Graficos/data_quality/epa_vs_sepe_unemployment_quarterly.xlsx`
+- `analysis/econometrics_outputs/Graficos/data_quality/epa_vs_sepe_unemployment_quarterly.svg`
+- `analysis/econometrics_outputs/Graficos/data_quality/epa_vs_sepe_unemployment_quarterly.pdf`
+- `analysis/econometrics_outputs/Graficos/data_quality/epa_vs_sepe_unemployment_quarterly.png`
 
 ## Install
 

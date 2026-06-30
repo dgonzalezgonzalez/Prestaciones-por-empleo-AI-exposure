@@ -74,6 +74,11 @@ def parse_args() -> argparse.Namespace:
         help="Run the SEPE continuous-treatment contdid analysis script.",
     )
     parser.add_argument(
+        "--run-unemployment-source-check",
+        action="store_true",
+        help="Generate EPA-vs-SEPE quarterly unemployment source-check figure.",
+    )
+    parser.add_argument(
         "--run-all-analyses",
         action="store_true",
         help="Run all SEPE analysis scripts after the exposure build, or by themselves with --analysis-only.",
@@ -164,16 +169,33 @@ def _run_requested_analyses(args: argparse.Namespace) -> None:
     run_sepe = args.run_sepe_econometrics or args.run_all_analyses
     run_sdid = args.run_sdid or args.run_all_analyses
     run_contdid = args.run_contdid or args.run_all_analyses
+    run_source_check = args.run_unemployment_source_check or args.run_all_analyses
 
-    if args.analysis_only and not any([run_sepe, run_sdid, run_contdid]):
+    if args.analysis_only and not any([run_sepe, run_sdid, run_contdid, run_source_check]):
         run_sepe = True
         run_sdid = True
         run_contdid = True
+        run_source_check = True
 
-    if not any([run_sepe, run_sdid, run_contdid]):
+    if not any([run_sepe, run_sdid, run_contdid, run_source_check]):
         return
 
     root = Path(__file__).resolve().parent
+    if run_source_check:
+        if args.ine_manifest is None:
+            if args.run_unemployment_source_check:
+                raise ValueError("--run-unemployment-source-check requires --ine-manifest.")
+            print("Skipping unemployment source check because --ine-manifest was not provided.")
+        else:
+            command = [
+                sys.executable,
+                "scripts/compare_epa_sepe_unemployment.py",
+                "--ine-manifest",
+                str(args.ine_manifest),
+            ]
+            if args.refresh:
+                command.append("--refresh")
+            _run_checked(command, root)
     if run_sepe:
         _run_checked([sys.executable, "scripts/run_ai_exposure_econometrics.py"], root)
     if run_sdid:
