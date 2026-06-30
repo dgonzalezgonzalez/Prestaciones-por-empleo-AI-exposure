@@ -31,6 +31,12 @@ The dated implementation log is in `docs/2026-05-29-cno4-cosine-update.md`.
   - URL: <https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/main/labor_market_impacts>
   - Required columns: `occ_code`, `title`, `observed_exposure`
 
+- Anthropic Economic Index country usage release
+  - Local path: `data/raw/anthropic/release-2026-06-26.zip`
+  - URL used by code: <https://economic-research.anthropic.com/releases/econ-index/release-2026-06-26.zip>
+  - Used file: `aei_claude_ai_2026-06-26.csv`
+  - Filter for the Spain-US job-group table: `geo_id in {ESP, USA}`, `category_name == soc_occupation`, `hierarchy_level == 1`, `metric_id == pct`, latest `date_start`.
+
 - O*NET 30.3 Occupation Data
   - Local path: `data/raw/anthropic/Occupation_Data_30_3.xlsx`
   - URL used by code: <https://www.onetcenter.org/dl_files/database/db_30_3_excel/Occupation%20Data.xlsx>
@@ -447,11 +453,12 @@ py -3 main.py --analysis-only --run-all-analyses --rscript "C:\Users\dgonzalez\A
 
 Available analysis flags:
 
+- `--run-claude-country-job-table`: generate Spain-US Claude usage by SOC major job group CSV and LaTeX table.
 - `--run-sepe-econometrics`: OLS and TWFE event studies.
 - `--run-sdid`: Stata synthetic difference-in-differences estimates and diagnostic figures using `sdid` and `sdid_event`.
 - `--run-contdid`: continuous-treatment `contdid` event-study and dose-aggregation estimates.
 - `--run-unemployment-source-check`: generate a quarterly data-quality figure comparing EPA unemployed persons with scraped SEPE registered unemployment. Requires `--ine-manifest`.
-- `--run-all-analyses`: run all SEPE analysis modules plus the unemployment source check when `--ine-manifest` is provided.
+- `--run-all-analyses`: run all analysis/table modules plus the unemployment source check when `--ine-manifest` is provided.
 - `--analysis-only`: skip the exposure build and run only requested analysis modules. With no specific analysis flag, this runs all analysis modules.
 - `--stata-exe`: optional path to StataMP for `--run-sdid`. Defaults to `STATA_EXE`, `PATH`, or common StataNow install paths.
 - `--sdid-reps`: bootstrap replications for Stata `sdid` and `sdid_event`; default is `100`.
@@ -506,6 +513,19 @@ AIReF-style event-study figures are split by outcome:
 - `analysis/econometrics_outputs/Graficos/contracts/`
 
 Each figure folder contains SVG, PDF, PNG, and XLSX source-data exports for each event-study specification.
+
+Claude country job-group table:
+
+```powershell
+py -3 main.py --analysis-only --run-claude-country-job-table
+```
+
+Outputs:
+
+- `analysis/econometrics_outputs/tables/claude_country_job_usage_spain_us.csv`
+- `analysis/econometrics_outputs/tables/claude_country_job_usage_spain_us.tex`
+
+The LaTeX file is a bare `tabular` with `booktabs` rules, intended to be called from a larger Prism/main TeX document.
 
 Additional DiD outputs:
 

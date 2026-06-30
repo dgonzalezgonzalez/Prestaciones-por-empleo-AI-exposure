@@ -79,9 +79,14 @@ def parse_args() -> argparse.Namespace:
         help="Generate EPA-vs-SEPE quarterly unemployment source-check figure.",
     )
     parser.add_argument(
+        "--run-claude-country-job-table",
+        action="store_true",
+        help="Generate Spain-US Claude usage by SOC major job group CSV and LaTeX table.",
+    )
+    parser.add_argument(
         "--run-all-analyses",
         action="store_true",
-        help="Run all SEPE analysis scripts after the exposure build, or by themselves with --analysis-only.",
+        help="Run all analysis/table scripts after the exposure build, or by themselves with --analysis-only.",
     )
     parser.add_argument(
         "--rscript",
@@ -170,17 +175,24 @@ def _run_requested_analyses(args: argparse.Namespace) -> None:
     run_sdid = args.run_sdid or args.run_all_analyses
     run_contdid = args.run_contdid or args.run_all_analyses
     run_source_check = args.run_unemployment_source_check or args.run_all_analyses
+    run_claude_country_job_table = args.run_claude_country_job_table or args.run_all_analyses
 
-    if args.analysis_only and not any([run_sepe, run_sdid, run_contdid, run_source_check]):
+    if args.analysis_only and not any([run_sepe, run_sdid, run_contdid, run_source_check, run_claude_country_job_table]):
         run_sepe = True
         run_sdid = True
         run_contdid = True
         run_source_check = True
+        run_claude_country_job_table = True
 
-    if not any([run_sepe, run_sdid, run_contdid, run_source_check]):
+    if not any([run_sepe, run_sdid, run_contdid, run_source_check, run_claude_country_job_table]):
         return
 
     root = Path(__file__).resolve().parent
+    if run_claude_country_job_table:
+        command = [sys.executable, "scripts/build_claude_country_job_usage_table.py"]
+        if args.refresh:
+            command.append("--refresh")
+        _run_checked(command, root)
     if run_source_check:
         if args.ine_manifest is None:
             if args.run_unemployment_source_check:

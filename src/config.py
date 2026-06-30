@@ -43,6 +43,10 @@ ANTHROPIC_JOB_EXPOSURE_URL = (
     "labor_market_impacts/job_exposure.csv"
 )
 
+ANTHROPIC_ECON_INDEX_RELEASE_URL = (
+    "https://economic-research.anthropic.com/releases/econ-index/release-2026-06-26.zip"
+)
+
 INE_EPA_MICRODATA_PAGE = (
     "https://ine.es/dyngs/INEbase/es/operacion.htm?"
     "c=Estadistica_C&cid=1254736176918&menu=resultados&"

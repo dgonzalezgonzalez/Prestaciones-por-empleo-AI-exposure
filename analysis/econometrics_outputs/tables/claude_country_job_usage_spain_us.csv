@@ -1,0 +1,23 @@
+soc_major_group,job_group,date_start,date_end,spain_usage_pct,us_usage_pct,spain_minus_us_pct
+11,Management,2026-05-01,2026-06-01,5.91,5.85,0.06
+13,Business and Financial Operations,2026-05-01,2026-06-01,6.19,6.27,-0.08
+15,Computer and Mathematical,2026-05-01,2026-06-01,23.92,21.13,2.79
+17,Architecture and Engineering,2026-05-01,2026-06-01,3.67,2.91,0.76
+19,"Life, Physical, and Social Science",2026-05-01,2026-06-01,3.99,4.23,-0.24
+21,Community and Social Service,2026-05-01,2026-06-01,2.07,3.2,-1.13
+23,Legal,2026-05-01,2026-06-01,1.22,1.04,0.18
+25,Educational Instruction and Library,2026-05-01,2026-06-01,13.83,11.92,1.91
+27,"Arts, Design, Entertainment, Sports, and Media",2026-05-01,2026-06-01,12.75,12.91,-0.16
+29,Healthcare Practitioners and Technical,2026-05-01,2026-06-01,3.36,4.33,-0.97
+31,Healthcare Support,2026-05-01,2026-06-01,0.62,0.68,-0.06
+33,Protective Service,2026-05-01,2026-06-01,0.34,0.41,-0.07
+35,Food Preparation and Serving Related,2026-05-01,2026-06-01,0.56,0.64,-0.08
+37,Building and Grounds Cleaning and Maintenance,2026-05-01,2026-06-01,0.1,0.17,-0.07
+39,Personal Care and Service,2026-05-01,2026-06-01,1.17,1.27,-0.1
+41,Sales and Related,2026-05-01,2026-06-01,9.14,11.6,-2.46
+43,Office and Administrative Support,2026-05-01,2026-06-01,8.01,7.64,0.37
+45,"Farming, Fishing, and Forestry",2026-05-01,2026-06-01,0.03,0.05,-0.02
+47,Construction and Extraction,2026-05-01,2026-06-01,0.08,0.14,-0.06
+49,"Installation, Maintenance, and Repair",2026-05-01,2026-06-01,0.61,0.81,-0.2
+51,Production,2026-05-01,2026-06-01,1.01,1.08,-0.07
+53,Transportation and Material Moving,2026-05-01,2026-06-01,0.33,0.39,-0.06
