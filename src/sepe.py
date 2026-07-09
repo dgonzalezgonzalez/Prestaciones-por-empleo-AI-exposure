@@ -61,12 +61,14 @@ def build_sepe_dataset_from_cached_reports(
     progress: Callable[[str], None] | None = None,
     progress_every: int = 250,
     batch_size: int = 50,
+    resume: bool = False,
 ) -> pd.DataFrame:
     config.ensure_dirs()
     raw_reports = config.raw_dir / "sepe" / "reports"
     output_path = output_path or config.processed_dir / "sepe_cno4_monthly_ai_exposure.csv"
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.unlink(missing_ok=True)
+    if not resume:
+        output_path.unlink(missing_ok=True)
 
     _progress(progress, "Loading CNO4 AI exposure measures...")
     exposure = load_cno4_exposure_measures(
@@ -77,6 +79,9 @@ def build_sepe_dataset_from_cached_reports(
     ).rename(columns={"occupation_title": "exposure_occupation_title"})
 
     files = sorted(raw_reports.glob("*.html"))
+    if resume:
+        completed = _completed_report_keys(output_path)
+        files = [path for path in files if _cached_report_key(path) not in completed]
     if not files:
         raise FileNotFoundError(f"No SEPE cached report HTML files found in {raw_reports}")
     _progress(progress, f"Parsing {len(files):,} cached SEPE report files with {workers} workers...")
@@ -109,6 +114,12 @@ def _append_compact_batch(path: Path, chunks: list[pd.DataFrame], exposure: pd.D
     batch = batch.merge(exposure, on="cno4", how="left")
     _append_csv(path, batch)
 
+
+def _cached_report_key(path: Path) -> tuple[str, str]:
+    match = re.match(r"^(\d{4})_(\d{4}-\d{2})\.html$", path.name)
+    if not match:
+        return "", ""
+    return match.group(1), match.group(2)
 
 def _parse_cached_report_file(path: Path) -> tuple[Path, list[dict[str, object]]]:
     match = re.match(r"^(\d{4})_(\d{4}-\d{2})\.html$", path.name)
@@ -364,9 +375,8 @@ def parse_sepe_report_html(html: str, source_url: str = "") -> list[dict[str, ob
     cno4, title, period = _report_identity(soup, source_url)
     rows: list[dict[str, object]] = []
 
-    persons = _parse_banner_persons(soup)
-    if persons is not None:
-        rows.append(_row(cno4, title, period, "personas", "total", "Total", persons, source_url))
+    for measure, value in _parse_banner_totals(soup).items():
+        rows.append(_row(cno4, title, period, measure, "total", "Total", value, source_url))
 
     for table in soup.find_all("table"):
         caption = normalize_text(table.find("caption").get_text(" ", strip=True) if table.find("caption") else "")
@@ -575,21 +585,39 @@ def _parse_mobility_gender_script(soup, cno4: str, title: str, period: str, sour
     return rows
 
 
-def _parse_banner_persons(soup) -> float | None:
-    banner = None
+def _parse_banner_totals(soup) -> dict[str, float]:
+    totals: dict[str, float] = {}
     for title in soup.find_all("h4", class_="se-databanner--title"):
-        if "contratos en esta ocupación" in normalize_text(title.get_text(" ", strip=True)).lower():
-            banner = title.find_parent(class_="se-databanner")
-            break
-    if banner is None:
-        return None
-    figures = banner.find_all("p", class_="se-databanner--figure")
-    for figure in figures:
-        if "personas" in normalize_text(figure.get_text(" ", strip=True)).lower():
-            digit = figure.find(class_="se-databanner--digit")
-            return parse_number(digit.get_text(" ", strip=True) if digit else "")
-    return None
+        title_text = normalize_text(title.get_text(" ", strip=True)).lower()
+        banner = title.find_parent(class_="se-databanner")
+        if banner is None:
+            continue
+        figures = banner.find_all("p", class_="se-databanner--figure")
+        if "parados" in title_text:
+            value = _first_banner_figure_value(figures)
+            if value is not None:
+                totals["parados"] = value
+        elif "contratos" in title_text:
+            for figure in figures:
+                figure_text = normalize_text(figure.get_text(" ", strip=True)).lower()
+                digit = figure.find(class_="se-databanner--digit")
+                value = parse_number(digit.get_text(" ", strip=True) if digit else "")
+                if value is None:
+                    continue
+                if "personas" in figure_text:
+                    totals["personas"] = value
+                elif "contratos" in figure_text:
+                    totals["contratos"] = value
+    return totals
 
+
+def _first_banner_figure_value(figures) -> float | None:
+    for figure in figures:
+        digit = figure.find(class_="se-databanner--digit")
+        value = parse_number(digit.get_text(" ", strip=True) if digit else "")
+        if value is not None:
+            return value
+    return None
 
 def _report_identity(soup, source_url: str) -> tuple[str, str, str]:
     heading = ""
@@ -672,3 +700,4 @@ def _normalize_exposure_frame(df: pd.DataFrame) -> pd.DataFrame:
         out = out.rename(columns={"spanish_title": "occupation_title"})
     keep = ["cno4", "occupation_title", *[column for column in EXPOSURE_COLUMNS if column in out.columns]]
     return out[keep].drop_duplicates(subset=["cno4"])
+

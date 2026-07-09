@@ -48,6 +48,7 @@ def main() -> None:
             progress=lambda message: print(message, flush=True),
             progress_every=args.progress_every,
             batch_size=args.batch_size,
+            resume=args.resume,
         )
         print(
             f"Summary: {int(summary.loc[0, 'rows']):,} rows, {int(summary.loc[0, 'reports']):,} reports.",

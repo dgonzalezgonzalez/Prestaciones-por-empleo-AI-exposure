@@ -51,7 +51,22 @@ function drawStuffMovilidad() {
 </html>
 """
 
-
+BANNER_ONLY_REPORT_HTML = """
+<html>
+<body>
+<h2>CNO-2210: Profesores de universidades Septiembre 2023</h2>
+<div class="se-databanner">
+  <h4 class="se-databanner--title">Parados (1) en esta ocupacion</h4>
+  <p class="se-databanner--figure"><span class="se-databanner--digit">1.165</span><span>-9,83%</span></p>
+</div>
+<div class="se-databanner">
+  <h4 class="se-databanner--title">Contratos en esta ocupacion</h4>
+  <p class="se-databanner--figure"><span class="se-databanner--digit">9.056</span><span>contratos</span></p>
+  <p class="se-databanner--figure"><span class="se-databanner--digit">8.679</span><span>personas</span></p>
+</div>
+</body>
+</html>
+"""
 class SepeTests(TestCase):
     def test_parse_report_links_from_listing_keeps_monthly_links(self):
         html = """
@@ -89,6 +104,19 @@ class SepeTests(TestCase):
             (df["dimension"] == "geographic_mobility") & (df["category"] == "Se mueven") & (df["gender"] == "Mujer")
         ].iloc[0]
         self.assertEqual(mobility_women["value"], 2)
+
+
+    def test_banner_only_report_outputs_total_levels(self):
+        rows = parse_sepe_report_html(
+            BANNER_ONLY_REPORT_HTML,
+            "https://example.test/_mensuales_2023_09_2210-x.html",
+        )
+        wide = sepe_long_to_compact_wide(pd.DataFrame(rows))
+
+        total = wide[wide["dimension"] == "total"].iloc[0]
+        self.assertEqual(total["parados"], 1165)
+        self.assertEqual(total["contratos"], 9056)
+        self.assertEqual(total["personas"], 8679)
 
     def test_compact_wide_keeps_single_total_row(self):
         rows = parse_sepe_report_html(REPORT_HTML, "https://example.test/_mensuales_2025_12_1111-x.html")
