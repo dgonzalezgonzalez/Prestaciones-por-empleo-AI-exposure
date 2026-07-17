@@ -433,6 +433,8 @@ does not retrain the exposure model.
 
 ## SEPE CNO4 Econometric Analysis
 
+The paper-clean output allowlist is recorded in `docs/paper_outputs_manifest.json`. The deterministic renderer `scripts/build_paper_tables.py` formats the frozen Prism values without re-estimating any model; generated artifacts under `analysis/econometrics_outputs/` are ignored.
+
 The SEPE econometric analysis is run from one script:
 
 ```powershell
@@ -453,7 +455,7 @@ py -3 main.py --analysis-only --run-all-analyses --rscript "C:\Users\dgonzalez\A
 
 Available analysis flags:
 
-- `--run-claude-country-job-table`: generate Spain-US Claude usage by SOC major job group CSV and LaTeX table.
+- `--run-anthropic-country-figure`: generate Spain-US Anthropic usage by SOC major job group figure.
 - `--run-sepe-econometrics`: OLS and TWFE event studies.
 - `--run-sdid`: Stata synthetic difference-in-differences estimates and diagnostic figures using `sdid` and `sdid_event`.
 - `--run-contdid`: continuous-treatment `contdid` event-study and dose-aggregation estimates.
@@ -514,18 +516,17 @@ AIReF-style event-study figures are split by outcome:
 
 Each figure folder contains SVG, PDF, PNG, and XLSX source-data exports for each event-study specification.
 
-Claude country job-group table:
+Anthropic country job-group figure:
 
 ```powershell
-py -3 main.py --analysis-only --run-claude-country-job-table
+py -3 main.py --analysis-only --run-anthropic-country-figure
 ```
 
 Outputs:
 
-- `analysis/econometrics_outputs/tables/claude_country_job_usage_spain_us.csv`
-- `analysis/econometrics_outputs/tables/claude_country_job_usage_spain_us.tex`
+- `analysis/econometrics_outputs/Graficos/figure_anthropic_country_soc_major_group_spain_us_may2026.png`
 
-The LaTeX file is a bare `tabular` with `booktabs` rules, intended to be called from a larger Prism/main TeX document.
+The figure is generated from the cached Anthropic release; generated outputs remain local and ignored.
 
 Additional DiD outputs:
 

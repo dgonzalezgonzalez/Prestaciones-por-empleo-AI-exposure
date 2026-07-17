@@ -1,0 +1,33 @@
+{
+  "project": "Spain AI Exposure",
+  "prism_project": "Spain-AI-exposure - Prism",
+  "source_of_truth": "Prism main.tex includegraphics/input references",
+  "figures": [
+    {"file": "figure_anthropic_country_soc_major_group_spain_us_may2026.png", "group": "anthropic", "generator": "scripts/build_claude_country_job_usage_figure.py"},
+    {"file": "figure_ai_exposure_distribution_us_vs_spain.png", "group": "anthropic", "generator": "Prism-only source; generator reconciliation pending"},
+    {"file": "figure_memo_v2_indexed_total_all_ln_parados.png", "group": "descriptive", "generator": "Prism-only source; generator reconciliation pending"},
+    {"file": "figure_memo_v2_indexed_total_all_ln_contratos.png", "group": "descriptive", "generator": "Prism-only source; generator reconciliation pending"},
+    {"file": "figure_contdid_eventstudy_total_cno4_all.png", "group": "continuous-did", "generator": "scripts/run_contdid_analysis.R"},
+    {"file": "figure_contdid_dose_response_total_cno4_all.png", "group": "continuous-did", "generator": "scripts/run_contdid_analysis.R"},
+    {"file": "figure_synthetic_total_ocup4d.png", "group": "sdid", "generator": "scripts/run_sdid_estimates.do"},
+    {"file": "sdid_event_focused_sdid_total_cno4_ln_parados.png", "group": "sdid", "generator": "scripts/run_sdid_estimates.do"},
+    {"file": "figure_04_event_study_high_vs_zero_sep2022.png", "group": "twfe", "generator": "scripts/run_ai_exposure_econometrics.py"},
+    {"file": "figure_07_v1_cno2_month_fe_event_study.png", "group": "twfe", "generator": "scripts/run_ai_exposure_econometrics.py"},
+    {"file": "figure_09_recommended_honestdid_smoothness_original.png", "group": "twfe", "generator": "Prism-only source; generator reconciliation pending"},
+    {"file": "figure_memo_v2_twfe_event_age3_30_39.png", "group": "age", "generator": "scripts/run_ai_exposure_econometrics.py"},
+    {"file": "figure_contdid_eventstudy_age3_cno4_30_39.png", "group": "age", "generator": "scripts/run_contdid_analysis.R"},
+    {"file": "sdid_event_focused_sdid_age3_30_39_ln_parados.png", "group": "age", "generator": "scripts/run_sdid_estimates.do"},
+    {"file": "epa_vs_sepe_unemployment_quarterly.png", "group": "validation", "generator": "scripts/compare_epa_sepe_unemployment.py"}
+  ],
+  "tables": [
+    {"file": "summary_statistics.tex", "group": "summary", "generator": "scripts/build_paper_tables.py"},
+    {"file": "table_top_bottom_exposure_appendix.tex", "group": "appendix", "generator": "Prism-only source; generator reconciliation pending"}
+  ],
+  "inline_tables": [
+    {"label": "tab:contdid", "generator": "scripts/build_paper_tables.py"},
+    {"label": "tab:sdid", "generator": "scripts/build_paper_tables.py"},
+    {"label": "tab:twfe", "generator": "scripts/build_paper_tables.py"}
+  ]
+}
+
+

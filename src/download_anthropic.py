@@ -118,4 +118,8 @@ def load_country_job_usage(zip_path: Path, date_start: str | None = None) -> pd.
             "us_usage_pct",
             "spain_minus_us_pct",
         ]
-    ].sort_values("soc_major_group", kind="stable")
+    ].sort_values(
+        ["spain_usage_pct", "soc_major_group"],
+        ascending=[False, True],
+        kind="stable",
+    ).reset_index(drop=True)

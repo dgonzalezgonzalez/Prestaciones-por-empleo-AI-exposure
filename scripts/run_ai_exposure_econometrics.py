@@ -277,6 +277,7 @@ def write_ols_latex(results: dict[str, RegressionResult], sample: pd.DataFrame) 
         r"\begin{tabular}{lccc}",
         r"\toprule",
         " & " + " & ".join(f"({i})" for i in range(1, 4)) + r" \\",
+        "Dependent variable & " + " & ".join(["Avg. monthly log growth"] * 3) + r" \\",
         " & " + " & ".join(latex_escape(label) for label in labels) + r" \\",
         r"\midrule",
         "AI exposure & " + " & ".join(exposure_cells) + r" \\",
@@ -523,7 +524,6 @@ def plot_event_study(result: pd.DataFrame, outcome: EventOutcome, spec_name: str
         markersize=3.2,
         linewidth=1.6,
     )
-    ax.set_title("")
     ax.set_xlabel(f"Months relative to {INTERVENTION_PERIOD} (baseline = {BASE_EVENT_PERIOD})")
     ax.set_ylabel(outcome.ylabel)
     ax.tick_params(axis="both", colors=AIREF_COLORS["text"], direction="out", length=3, width=1.0)

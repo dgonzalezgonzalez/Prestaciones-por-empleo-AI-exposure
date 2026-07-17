@@ -21,3 +21,4 @@ models/
 data/processed/sepe_cno4_monthly_ai_exposure.csv
 
 !.gitkeep
+analysis/econometrics_outputs/
