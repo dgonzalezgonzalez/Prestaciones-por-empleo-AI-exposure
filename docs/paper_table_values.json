@@ -1,0 +1,34 @@
+{
+  "summary_statistics": [
+    {"label": "Registered unemployed (in levels)", "kind": "level", "mean": 5693.240, "sd": 25338.023, "min": 0.000, "max": 467292.000, "obs": 31626},
+    {"label": "New registered contracts (in levels)", "kind": "level", "mean": 2776.130, "sd": 11080.937, "min": 0.000, "max": 216727.000, "obs": 31626},
+    {"label": "Registered unemployed (in logs)", "kind": "log", "mean": 6.718, "sd": 1.944, "min": 0.000, "max": 13.055, "obs": 31624},
+    {"label": "New registered contracts (in logs)", "kind": "log", "mean": 5.871, "sd": 2.088, "min": 0.000, "max": 12.286, "obs": 31284},
+    {"label": "AI index - cosine similarity", "kind": "index", "mean": 0.084, "sd": 0.136, "min": 0.000, "max": 0.745, "obs": 31626},
+    {"label": "AI index - cosine-weighted", "kind": "index", "mean": 0.084, "sd": 0.128, "min": 0.000, "max": 0.628, "obs": 31626},
+    {"label": "AI index - random forest", "kind": "index", "mean": 0.086, "sd": 0.055, "min": 0.009, "max": 0.315, "obs": 31626}
+  ],
+  "continuous_did": [
+    {"panel": "Total CNO4", "subgroup": "All", "biters": 50, "outcome": "log(parados)", "att": 0.039, "se": 0.009, "acrt": 0.020},
+    {"panel": "Province CNO4", "subgroup": "All", "biters": 20, "outcome": "log(parados+1)", "att": 0.015, "se": 0.004, "acrt": 0.010},
+    {"panel": "Age CNO4", "subgroup": "<18 to 29", "biters": 50, "outcome": "log(parados)", "att": 0.038, "se": 0.025, "acrt": 0.039},
+    {"panel": "Age CNO4", "subgroup": "30--39", "biters": 50, "outcome": "log(parados)", "att": 0.070, "se": 0.026, "acrt": 0.040},
+    {"panel": "Age CNO4", "subgroup": "40 and older", "biters": 50, "outcome": "log(parados)", "att": 0.026, "se": 0.013, "acrt": 0.016}
+  ],
+  "sdid": [
+    {"design": "Total CNO4", "outcome": "log(parados)", "sdid_att": 0.072, "sc_att": 0.099, "uniform_did": 0.091},
+    {"design": "Province CNO4", "outcome": "log(parados+1)", "sdid_att": 0.113, "sc_att": 0.110, "uniform_did": 0.052},
+    {"design": "Age 30--39 CNO4", "outcome": "log(parados)", "sdid_att": 0.125, "sc_att": 0.092, "uniform_did": 0.169}
+  ],
+  "twfe": [
+    {"specification": "Main DiD", "outcome": "log(parados)", "estimate": 0.089, "se": 0.021, "interpretation": "+9.3 percent"},
+    {"specification": "CNO4 trends", "outcome": "log(parados)", "estimate": -0.003, "se": 0.012, "interpretation": "Effect disappears"},
+    {"specification": "Log outcome robustness", "outcome": "log(parados+1)", "estimate": 0.094, "se": 0.021, "interpretation": "Similar baseline"},
+    {"specification": "Weighted by pre parados", "outcome": "log(parados)", "estimate": 0.043, "se": 0.026, "interpretation": "Smaller"},
+    {"specification": "Event Nov. 2022", "outcome": "log(parados)", "estimate": 0.091, "se": 0.021, "interpretation": "Timing robust"},
+    {"specification": "Top decile", "outcome": "log(parados)", "estimate": 0.080, "se": 0.031, "interpretation": "Positive, noisier"},
+    {"specification": "Continuous exposure", "outcome": "log(parados)", "estimate": 0.027, "se": 0.007, "interpretation": "Per 10pp exposure"},
+    {"specification": "Contracts outcome", "outcome": "log(contratos+1)", "estimate": 0.123, "se": 0.030, "interpretation": "Contracts also rise"}
+  ]
+}
+

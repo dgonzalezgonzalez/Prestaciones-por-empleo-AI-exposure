@@ -242,9 +242,9 @@ use "analysis/econometrics_outputs/sdid/sdid_estimates.dta", clear
 export delimited using "analysis/econometrics_outputs/sdid/sdid_estimates.csv", replace
 
 file open tex using "analysis/econometrics_outputs/sdid/sdid_estimates.tex", write replace
-file write tex "\begin{tabular}{llrrrr}" _n
+file write tex "\begin{tabular}{llccc}" _n
 file write tex "\toprule" _n
-file write tex "Outcome & Specification & ATT & SE & Treated & Control \\" _n
+file write tex "Outcome & Specification & ATT & Treated & Control \\" _n
 file write tex "\midrule" _n
 quietly {
     forvalues i = 1/`=_N' {
@@ -254,13 +254,19 @@ quietly {
         local se = string(std_error[`i'], "%9.3f")
         local nt = string(n_treated[`i'], "%9.0f")
         local nc = string(n_control[`i'], "%9.0f")
-        file write tex "`outcome' & `spec' & `att' & `se' & `nt' & `nc' \\" _n
+        local p = p_value[`i']
+        local stars ""
+        if `p' < 0.10 local stars "*"
+        if `p' < 0.05 local stars "**"
+        if `p' < 0.01 local stars "***"
+        file write tex "`outcome' & `spec' & `att'`stars' & `nt' & `nc' \\" _n
+        file write tex " &  & (`se') &  &  \\" _n
     }
 }
 file write tex "\bottomrule" _n
+file write tex "\multicolumn{5}{l}{\footnotesize Notes: Standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.10.} \\" _n
 file write tex "\end{tabular}" _n
 file close tex
-
 if `have_events' == 1 {
     use `event_master', clear
     sort outcome exposure_measure mode event_time

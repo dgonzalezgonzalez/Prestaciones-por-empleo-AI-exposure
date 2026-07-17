@@ -34,7 +34,29 @@ class AnthropicCountryUsageTests(TestCase):
 
         out = load_country_job_usage(path)
 
-        self.assertEqual(out["soc_major_group"].tolist(), ["11", "15"])
+        self.assertEqual(out["soc_major_group"].tolist(), ["15", "11"])
         self.assertEqual(out.loc[0, "date_start"], "2026-05-01")
         self.assertAlmostEqual(out.loc[out["soc_major_group"] == "11", "spain_minus_us_pct"].iloc[0], 0.06)
         self.assertAlmostEqual(out.loc[out["soc_major_group"] == "15", "spain_minus_us_pct"].iloc[0], 2.79)
+
+    def test_sort_is_descending_by_spain_usage_with_code_tie_break(self):
+        path = self._tmp_zip()
+        csv = "\n".join(
+            [
+                "date_start,date_end,geo_id,geo_level,category_name,hierarchy_level,metric_id,value,node_name,node_external_id",
+                "2026-05-01,2026-06-01,ESP,country,soc_occupation,1,pct,10.0,Later,20",
+                "2026-05-01,2026-06-01,USA,country,soc_occupation,1,pct,9.0,Later,20",
+                "2026-05-01,2026-06-01,ESP,country,soc_occupation,1,pct,10.0,Earlier,10",
+                "2026-05-01,2026-06-01,USA,country,soc_occupation,1,pct,8.0,Earlier,10",
+                "2026-05-01,2026-06-01,ESP,country,soc_occupation,1,pct,2.0,Bottom,30",
+                "2026-05-01,2026-06-01,USA,country,soc_occupation,1,pct,3.0,Bottom,30",
+            ]
+        )
+        with ZipFile(path, "w") as archive:
+            archive.writestr(ECON_INDEX_CLAUDE_AI_MEMBER, csv)
+
+        out = load_country_job_usage(path)
+
+        self.assertEqual(out["soc_major_group"].tolist(), ["10", "20", "30"])
+        self.assertEqual(out["spain_usage_pct"].tolist(), [10.0, 10.0, 2.0])
+

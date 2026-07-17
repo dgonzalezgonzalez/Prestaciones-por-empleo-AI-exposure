@@ -79,9 +79,14 @@ def parse_args() -> argparse.Namespace:
         help="Generate EPA-vs-SEPE quarterly unemployment source-check figure.",
     )
     parser.add_argument(
-        "--run-claude-country-job-table",
+        "--run-anthropic-country-figure",
         action="store_true",
-        help="Generate Spain-US Claude usage by SOC major job group CSV and LaTeX table.",
+        help="Generate the retained Spain-US Anthropic usage figure by SOC major job group.",
+    )
+    parser.add_argument(
+        "--run-paper-tables",
+        action="store_true",
+        help="Render the frozen paper summary and econometric tables without re-estimating models.",
     )
     parser.add_argument(
         "--run-all-analyses",
@@ -175,24 +180,26 @@ def _run_requested_analyses(args: argparse.Namespace) -> None:
     run_sdid = args.run_sdid or args.run_all_analyses
     run_contdid = args.run_contdid or args.run_all_analyses
     run_source_check = args.run_unemployment_source_check or args.run_all_analyses
-    run_claude_country_job_table = args.run_claude_country_job_table or args.run_all_analyses
+    run_anthropic_country_figure = args.run_anthropic_country_figure or args.run_all_analyses
+    run_paper_tables = args.run_paper_tables or args.run_all_analyses
 
-    if args.analysis_only and not any([run_sepe, run_sdid, run_contdid, run_source_check, run_claude_country_job_table]):
+    if args.analysis_only and not any([run_sepe, run_sdid, run_contdid, run_source_check, run_anthropic_country_figure, run_paper_tables]):
         run_sepe = True
         run_sdid = True
         run_contdid = True
         run_source_check = True
-        run_claude_country_job_table = True
+        run_anthropic_country_figure = True
+        run_paper_tables = True
 
-    if not any([run_sepe, run_sdid, run_contdid, run_source_check, run_claude_country_job_table]):
+    if not any([run_sepe, run_sdid, run_contdid, run_source_check, run_anthropic_country_figure, run_paper_tables]):
         return
 
     root = Path(__file__).resolve().parent
-    if run_claude_country_job_table:
-        command = [sys.executable, "scripts/build_claude_country_job_usage_table.py"]
-        if args.refresh:
-            command.append("--refresh")
+    if run_anthropic_country_figure:
+        command = [sys.executable, "scripts/build_claude_country_job_usage_figure.py"]
         _run_checked(command, root)
+    if run_paper_tables:
+        _run_checked([sys.executable, "scripts/build_paper_tables.py"], root)
     if run_source_check:
         if args.ine_manifest is None:
             if args.run_unemployment_source_check:

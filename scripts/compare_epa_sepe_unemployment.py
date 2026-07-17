@@ -147,7 +147,6 @@ def save_outputs(comparison: pd.DataFrame, output_dir: Path) -> dict[str, Path]:
     )
     ax.set_ylabel("Millions of persons", color=AIREF_COLORS["axis_label"])
     ax.set_xlabel("")
-    ax.set_title("EPA vs scraped SEPE unemployment", color=AIREF_COLORS["text"], loc="left", pad=8)
     ax.grid(True, axis="y", color=AIREF_COLORS["grid"], linewidth=0.7, alpha=0.6)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
